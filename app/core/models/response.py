@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Optional, List
 from pydantic import BaseModel
 
 
@@ -10,3 +11,4 @@ class ResponseType(Enum):
 class Response(BaseModel):
     type: ResponseType
     value: str
+    options: Optional[List[str]]
