@@ -1,7 +1,7 @@
-from app.controller import controller
+from app.cli_app import cli_app
 
 def main():
-    controller()
+    cli_app()
 
 
 if __name__ == "__main__":

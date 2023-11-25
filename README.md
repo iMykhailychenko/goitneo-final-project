@@ -1,5 +1,7 @@
 # GoitNeo Python Project
 
+![Architecture](/docs/architecture.png)
+
 ### To run the project
 
 ```bash
