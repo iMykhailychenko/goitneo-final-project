@@ -1,6 +1,6 @@
-from app.core.models import Response
-from app.core.misc import Actions
-
+from core.misc import Actions, validation
+from core.models import Response
+from core.services import parse_input
 
 services_map = {
     Actions.ADD.value: lambda *args: None,
@@ -17,5 +17,7 @@ services_map = {
 }
 
 
+@validation
 def controller(user_input: str) -> Response:
-    return services_map.get(user_input, lambda *_: "Invalid command.")(user_input)
+    cmd, *args = parse_input(user_input)
+    return services_map.get(cmd, lambda *_: "Invalid command.")(args)

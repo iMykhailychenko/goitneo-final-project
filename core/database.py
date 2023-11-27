@@ -1,16 +1,16 @@
 import csv
-
 from pathlib import Path
+
 
 class Database:
     __instance = None
-    __filepath = Path(__file__).parent.parent.joinpath("database.db")
-    
+    __filepath = Path(__file__).parent.joinpath("database.db")
+
     def __new__(cls, *args, **kwargs):
         if cls.__instance is None:
             cls.__instance = super(Database, cls).__new__(cls, *args, **kwargs)
         return cls.__instance
-    
+
     def get_data():
         if not Database.__filepath.exists():
             return None
