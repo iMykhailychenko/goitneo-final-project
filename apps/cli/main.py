@@ -1,7 +1,7 @@
 from core.controller import controller
 
 
-def cli_app():
+def main():
     while True:
         print("\nEnter a command: ")
         user_input = input()
@@ -12,3 +12,7 @@ def cli_app():
             break
 
         print(result)
+
+
+if __name__ == "__main__":
+    main()

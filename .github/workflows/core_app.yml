@@ -23,11 +23,12 @@ jobs:
 
       - name: Install dependencies
         run: |
+          cd ./core
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Run unittests
-        run: pytest --doctest-modules
+        run: cd ./core && pytest --doctest-modules
 
       - name: Lint with Black
-        run: python -m black **/*.py --check
+        run: cd ./core && python -m black **/*.py --check
