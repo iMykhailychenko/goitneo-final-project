@@ -1,4 +1,4 @@
-from app import controller
+from core import controller
 
 
 class TestCoreController:

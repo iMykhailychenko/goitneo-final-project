@@ -1,6 +1,6 @@
-from app.misc import Actions, validation
-from app.models import Response
-from app.services import parse_input
+from core.misc import Actions, validation
+from core.models import Response
+from core.services import parse_input
 
 services_map = {
     Actions.ADD.value: lambda *args: None,

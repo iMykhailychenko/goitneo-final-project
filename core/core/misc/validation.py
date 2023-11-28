@@ -1,6 +1,6 @@
 from functools import wraps
 
-from app.misc.exeptions import InvalidBirthdayError, InvalidNameError, InvalidPhoneError
+from core.misc.exeptions import InvalidBirthdayError, InvalidNameError, InvalidPhoneError
 
 
 def validation(func):
