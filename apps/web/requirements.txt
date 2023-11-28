@@ -1,8 +1,7 @@
+-e ../../core
 annotated-types==0.6.0
 black==23.11.0
--e git+ssh://git@github.com/iMykhailychenko/goitneo-final-project.git@b6d94b5515e015047f24bbff40e6edd8123e2c1b#egg=bot_core&subdirectory=core
 click==8.1.7
--e git+ssh://git@github.com/iMykhailychenko/goitneo-final-project.git@b6d94b5515e015047f24bbff40e6edd8123e2c1b#egg=core&subdirectory=core
 mypy-extensions==1.0.0
 packaging==23.2
 pathspec==0.11.2
