@@ -7,14 +7,14 @@ from core.misc.exeptions import DatabaseError
 
 class Database:
     __instance = None
-    __filename = 'db.csv'
+    __filename = "db.csv"
     __path = Path(DB_FOLDER_PATH)
 
     def __new__(cls, *args, **kwargs):
         if cls.__instance is None:
             cls.__instance = super(Database, cls).__new__(cls, *args, **kwargs)
         return cls.__instance
-    
+
     def get_file_path() -> Path:
         db_file = Database.__path / Database.__filename
         if not Database.__path.exists():

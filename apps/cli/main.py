@@ -1,10 +1,11 @@
-from core import controller, Database
+from core import Database, controller
 
 db = Database()
 
+
 def main():
     db.connect()
-    
+
     while True:
         print("\nEnter a command: ")
         user_input = input()
