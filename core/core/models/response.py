@@ -9,6 +9,6 @@ class ResponseType(Enum):
 
 
 class Response(BaseModel):
-    type: ResponseType
-    value: str
-    options: Optional[List[str]]
+    type: ResponseType = ResponseType.ERROR
+    value: str = ""
+    options: Optional[List[str]] = []
