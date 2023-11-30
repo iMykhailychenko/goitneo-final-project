@@ -18,6 +18,6 @@ services_map = {
 
 
 @validation
-def controller(user_input: str) -> Response:
+def controller(user_input: str) -> Response:    
     cmd, *args = parse_input(user_input)
     return services_map.get(cmd, lambda *_: "Invalid command.")(args)

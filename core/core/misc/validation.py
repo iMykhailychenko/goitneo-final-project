@@ -1,6 +1,6 @@
 from functools import wraps
 
-from core.misc.exeptions import InvalidBirthdayError, InvalidNameError, InvalidPhoneError
+from core.misc.exeptions import InvalidBirthdayError, InvalidNameError, InvalidPhoneError, DatabaseError
 
 
 def validation(func):
@@ -20,7 +20,10 @@ def validation(func):
             return "Invalid name."
         except InvalidBirthdayError:
             return "Date of birth must be in DD.MM.YYYY format."
-        except:
-            return "Invalid command."
+        except DatabaseError:
+            return "Database error. Check if path correct."
+        except Exception as e:
+            print(e)
+            return "Unknown error."
 
     return inner
