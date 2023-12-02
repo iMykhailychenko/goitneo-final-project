@@ -23,7 +23,6 @@ def validation(func):
         except DatabaseError:
             return "Database error. Check if path correct."
         except Exception as e:
-            print(e)
             return "Unknown error."
 
     return inner

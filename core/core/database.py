@@ -1,8 +1,10 @@
 import csv
+from functools import wraps
 from pathlib import Path
 from typing import Optional
 
 from core.misc import DatabaseError
+from core.models import Record, Response
 
 DB_FOLDER_PATH = Path("/tmp/goit-bot")
 
@@ -27,7 +29,7 @@ class Database:
             r = csv.DictReader(f)
             print(r)
 
-    def set_data(self, data: dict) -> None:
+    def set_data(self, data: Record) -> None:
         self.validate()
         with open(Database.__path, "w") as f:
             writer = csv.writer(f)
@@ -41,3 +43,17 @@ class Database:
             Database.__path.touch()
 
         print(f"Connected to database: {Database.__path}")
+
+
+def persist_data(message: str = "Contact created"):
+    bd = Database()
+
+    def wrapper(func):
+        @wraps(func)
+        def inner(*args, **kwargs):
+            result = func(*args, **kwargs)
+            bd.set_data(result)
+            return Response(value=message)
+        return inner
+
+    return wrapper

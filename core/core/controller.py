@@ -1,10 +1,11 @@
-from typing import List
+from typing import List, Optional
 
 from core.misc import Actions, validation
 from core.models import Response, ResponseType
+from core.services import add_contact
 
 services_map = {
-    Actions.ADD.value: lambda *args: None,
+    Actions.ADD.value: add_contact,
     Actions.CHANGE.value: lambda *args: None,
     Actions.PHONE.value: lambda *args: None,
     Actions.ALL.value: lambda *args: None,
@@ -19,8 +20,8 @@ services_map = {
 
 
 @validation
-def controller(user_input: List[str]) -> Response:
+def controller(user_input: List[str]) -> Optional[Response]:
     cmd, *args = user_input
     return services_map.get(
         cmd, lambda *_: Response(value="Invalid command.", type=ResponseType.SUCCESS)
-    )(args)
+    )(*args)
