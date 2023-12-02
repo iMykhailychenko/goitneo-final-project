@@ -1,6 +1,7 @@
+from typing import List
+
 from core.misc import Actions, validation
-from core.models import Response
-from core.services import parse_input
+from core.models import Response, ResponseType
 
 services_map = {
     Actions.ADD.value: lambda *args: None,
@@ -18,6 +19,8 @@ services_map = {
 
 
 @validation
-def controller(user_input: str) -> Response:
-    cmd, *args = parse_input(user_input)
-    return services_map.get(cmd, lambda *_: Response(value="Invalid command."))(args)
+def controller(user_input: List[str]) -> Response:
+    cmd, *args = user_input
+    return services_map.get(
+        cmd, lambda *_: Response(value="Invalid command.", type=ResponseType.SUCCESS)
+    )(args)

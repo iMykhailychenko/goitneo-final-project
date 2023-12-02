@@ -12,3 +12,7 @@ class InvalidBirthdayError(Exception):
 
 class DatabaseError(Exception):
     pass
+
+
+class InvalidEmailError(Exception):
+    pass
