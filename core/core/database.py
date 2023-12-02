@@ -54,6 +54,7 @@ def persist_data(message: str = "Contact created"):
             result = func(*args, **kwargs)
             bd.set_data(result)
             return Response(value=message)
+
         return inner
 
     return wrapper
