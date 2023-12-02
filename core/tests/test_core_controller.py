@@ -1,10 +1,13 @@
 from core import Actions, Database, controller
+from pathlib import Path
+
+DB_FOLDER_PATH = Path("./tmp")
 
 
 class TestCoreController:
     def test_add_contact(self):
         db = Database()
-        db.connect()
+        db.connect(DB_FOLDER_PATH)
 
         # Add new contact by name.
         controller([Actions.ADD.value, "Joe"])
