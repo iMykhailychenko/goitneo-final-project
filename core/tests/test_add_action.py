@@ -59,7 +59,8 @@ def test_add_all(mocker):
     # )
     # assert result.value == "Contact created"
     assert True
-    
+
+
 def test_add_in_another_order(mocker):
     # set_data = get_mock_db(mocker)
     # result = controller(
