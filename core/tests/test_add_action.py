@@ -1,9 +1,5 @@
-from core import Actions, Database, Record, controller
-
-
-def get_mock_db(mocker):
-    db = Database()
-    return mocker.patch.object(db, "set_data")
+from core import Actions, Record, controller
+from tests.utils import get_mock_db
 
 
 def test_add_name(mocker):

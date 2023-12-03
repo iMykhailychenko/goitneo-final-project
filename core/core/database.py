@@ -41,7 +41,6 @@ class Database:
         if not path.exists():
             path.mkdir()
             Database.__path.touch()
-
         print(f"Connected to database: {Database.__path}")
 
 

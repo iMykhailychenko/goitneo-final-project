@@ -1,28 +1,33 @@
 from functools import wraps
 
-from core.misc.exeptions import InvalidBirthdayError, InvalidNameError, InvalidPhoneError, DatabaseError
+from core.misc.exeptions import InvalidBirthdayError, InvalidNameError, InvalidPhoneError, InvalidEmailError, DatabaseError
+from core.models import Response, ResponseType
 
 
 def validation(func):
     @wraps(func)
     def inner(*args, **kwargs):
+        message = ""
         try:
             return func(*args, **kwargs)
         except ValueError:
-            return "Invalid command."
+            message = "Invalid command." 
         except KeyError:
-            return "User do not exist."
+            message = "User do not exist."
         except IndexError:
-            return "Give me name and phone please."
+            message = "Give me name and phone please."
         except InvalidPhoneError:
-            return "Phone number must be 10 digits long."
+            message = "Phone number must be 10 digits long."
         except InvalidNameError:
-            return "Invalid name."
+            message = "Invalid name."
+        except InvalidEmailError:
+            message = "Invalid email."
         except InvalidBirthdayError:
-            return "Date of birth must be in DD.MM.YYYY format."
+            message = "Date of birth must be in DD.MM.YYYY format."
         except DatabaseError:
-            return "Database error. Check if path correct."
-        except Exception as e:
-            return "Unknown error."
+            message = "Database error. Check if path correct."
+        except Exception:
+            message = "Unknown error."
+        return Response(value=message, type=ResponseType.ERROR)
 
     return inner
