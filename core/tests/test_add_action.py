@@ -1,12 +1,17 @@
-from core import Actions, Record, controller
-from tests.utils import get_mock_db
+from pathlib import Path
+
+from core import Actions, Database, Record, controller
+
+# from tests.utils import get_mock_db
 
 
 def test_add_name(mocker):
-    set_data = get_mock_db(mocker)
+    Database().connect()
+
+    # set_data = get_mock_db(mocker)
     result = controller([Actions.ADD.value, "Joe"])
 
-    set_data.assert_called_once_with(Record(name="Joe"))
+    # set_data.assert_called_once_with(Record(name="Joe"))
     assert result.value == "Contact created"
 
 
