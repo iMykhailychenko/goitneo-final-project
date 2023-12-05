@@ -1,8 +1,7 @@
 from core import Actions, Record, controller
 
 
-def test_invalid_phone_number(mocker):
-    # get_mock_db(mocker)
+def test_invalid_phone_number():
     # result = controller([Actions.ADD.value, "Joe", "1234"]) # to short
     # assert result.value == "Phone number must be 10 digits long."
 
@@ -11,8 +10,7 @@ def test_invalid_phone_number(mocker):
     assert True
 
 
-def test_invalid_email(mocker):
-    # get_mock_db(mocker)
+def test_invalid_email():
     # result = controller([Actions.ADD.value, "Joe", "email@example"])
     # assert result.value == "Invalid email."
 
@@ -30,8 +28,7 @@ def test_invalid_email(mocker):
     assert True
 
 
-def test_invalid_date(mocker):
-    # get_mock_db(mocker)
+def test_invalid_date():
     # result = controller([Actions.ADD.value, "Joe", "02.20.1990"])
     # assert result.value == "Date of birth must be in DD.MM.YYYY format."
 
