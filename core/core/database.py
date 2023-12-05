@@ -3,7 +3,7 @@ from datetime import datetime
 from enum import Enum
 from functools import wraps
 from pathlib import Path
-from typing import List, Optional, Any
+from typing import Any, List, Optional
 
 from core.misc import DatabaseError
 from core.models import FIELDS, Record, Response
