@@ -11,7 +11,7 @@ def validation(func):
         try:
             return func(*args, **kwargs)
         except ValueError:
-            message = "Invalid command." 
+            message = "Invalid action." 
         except KeyError:
             message = "User do not exist."
         except IndexError:

@@ -2,17 +2,19 @@ from pathlib import Path
 
 from core import Actions, Database, Record, controller
 
-# from tests.utils import get_mock_db
+db = Database()
+
+db.connect()
 
 
-def test_add_name(mocker):
-    Database().connect()
+def test_add_name():
+    db.drop()
 
-    # set_data = get_mock_db(mocker)
     result = controller([Actions.ADD.value, "Joe"])
-
-    # set_data.assert_called_once_with(Record(name="Joe"))
     assert result.value == "Contact created"
+
+    stored_data = db.get()
+    assert len(stored_data) == 1
 
 
 def test_add_phone(mocker):
@@ -53,7 +55,7 @@ def test_add_all(mocker):
     # set_data.assert_called_once_with(
     #     Record(
     #         name="Joe",
-    #         phone="1234567890",
+    #         phones=set("1234567890"),
     #         email="email@example.com",
     #         birthday=datetime.strptime("20.11.1990", "%d.%m.%Y"),
     #     )
@@ -71,7 +73,7 @@ def test_add_in_another_order(mocker):
     # set_data.assert_called_once_with(
     #     Record(
     #         name="Joe",
-    #         phone="1234567890",
+    #         phones=set("1234567890"),
     #         email="email@example.com",
     #         birthday=datetime.strptime("20.11.1990", "%d.%m.%Y"),
     #     )

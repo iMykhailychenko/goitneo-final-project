@@ -1,9 +1,9 @@
 from typing import List
 
-from core.database import persist_data
+from core.database import OperationType, store_data
 from core.models import Record
 
 
-@persist_data()
+@store_data(type=OperationType.APPEND)
 def add_contact(*args: List[str]) -> Record:
     return Record(name=args[0])
