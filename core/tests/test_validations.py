@@ -1,5 +1,4 @@
 from core import Actions, Record, controller
-from tests.utils import get_mock_db
 
 
 def test_invalid_phone_number(mocker):
