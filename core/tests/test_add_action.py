@@ -2,14 +2,10 @@ from pathlib import Path
 
 from core import Actions, Database, Record, controller
 
-db = Database()
-
-db.connect()
+db = Database().connect().drop()
 
 
 def test_add_name():
-    db.drop()
-
     result = controller([Actions.ADD.value, "Joe"])
     assert result.value == "Contact created"
 

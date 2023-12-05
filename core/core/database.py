@@ -74,11 +74,12 @@ class Database:
             for record in records:
                 self.__write_row(record, writer)
 
-    def drop(self) -> None:
+    def drop(self) -> "Database":
         self.validate()
         with open(Database.__path, "w") as f:
             writer = csv.DictWriter(f, fieldnames=FIELDS)
             writer.writeheader()
+        return self
 
     def __write_row(self, record: Record, writer: csv.DictWriter[str]) -> None:
         writer.writerow(
@@ -91,12 +92,13 @@ class Database:
             }
         )
 
-    def connect(self, path: Path = DB_FOLDER_PATH) -> None:
+    def connect(self, path: Path = DB_FOLDER_PATH) -> "Database":
         Database.__path = path / Database.__filename
         if not path.exists():
             path.mkdir()
             Database.__path.touch()
         print(f"Connected to database: {Database.__path}")
+        return self
 
 
 class OperationType(Enum):
