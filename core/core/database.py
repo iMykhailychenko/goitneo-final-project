@@ -3,7 +3,7 @@ from datetime import datetime
 from enum import Enum
 from functools import wraps
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Any
 
 from core.misc import DatabaseError
 from core.models import FIELDS, Record, Response
@@ -81,7 +81,7 @@ class Database:
             writer.writeheader()
         return self
 
-    def __write_row(self, record: Record, writer: csv.DictWriter[str]) -> None:
+    def __write_row(self, record: Record, writer: Any) -> None:
         writer.writerow(
             {
                 "name": record.name,
