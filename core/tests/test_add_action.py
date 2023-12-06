@@ -1,78 +1,80 @@
-from pathlib import Path
+import pytest
 
 from core import Actions, Database, Record, controller
 
-db = Database().connect().drop()
+db = Database().connect()
 
 
-def test_add_name():
+# Define a fixture to run code before each test
+@pytest.fixture
+def setup_before_each_test():
+    print("\nCleaning database...")
+    db.drop()
+    yield
+
+
+def test_add_name(setup_before_each_test):
     result = controller([Actions.ADD.value, "Joe"])
     assert result.value == "Contact created"
 
-    stored_data = db.get()
-    assert len(stored_data) == 1
+    (record,) = db.get()
+    assert record == Record(name="Joe")
 
 
-def test_add_phone(mocker):
-    # set_data = get_mock_db(mocker)
+def test_add_phone(setup_before_each_test):
     # result = controller([Actions.ADD.value, "Joe", "1234567890"])
-
-    # set_data.assert_called_once_with(Record(name="Joe", phone="1234567890"))
     # assert result.value == "Contact created"
+
+    # (record,) = db.get()
+    # assert record == Record(name="Joe", phones=set("1234567890"))
     assert True
 
 
-def test_add_email(mocker):
-    # set_data = get_mock_db(mocker)
+def test_add_email(setup_before_each_test):
     # result = controller([Actions.ADD.value, "Joe", "email@example.com"])
-
-    # set_data.assert_called_once_with(Record(name="Joe", email="email@example.com"))
     # assert result.value == "Contact created"
+
+    # (record,) = db.get()
+    # assert record == Record(name="Joe", email="email@example.com")
     assert True
 
 
-def test_add_birthday(mocker):
-    # set_data = get_mock_db(mocker)
+def test_add_birthday(setup_before_each_test):
     # result = controller([Actions.ADD.value, "Joe", "20.11.1990"])
-
-    # set_data.assert_called_once_with(
-    #     Record(name="Joe", birthday=datetime.strptime("20.11.1990", "%d.%m.%Y"))
-    # )
     # assert result.value == "Contact created"
+
+    # (record,) = db.get()
+    # assert record == Record(name="Joe", birthday=datetime.strptime("20.11.1990", "%d.%m.%Y"))
     assert True
 
 
-def test_add_all(mocker):
-    # set_data = get_mock_db(mocker)
+def test_add_all(setup_before_each_test):
     # result = controller(
     #     [Actions.ADD.value, "Joe", "1234567890", "email@example.com", "20.11.1990"]
     # )
-
-    # set_data.assert_called_once_with(
-    #     Record(
-    #         name="Joe",
-    #         phones=set("1234567890"),
-    #         email="email@example.com",
-    #         birthday=datetime.strptime("20.11.1990", "%d.%m.%Y"),
-    #     )
-    # )
     # assert result.value == "Contact created"
+
+    # (record,) = db.get()
+    # assert record == Record(
+    #     name="Joe",
+    #     phones=set("1234567890"),
+    #     email="email@example.com",
+    #     birthday=datetime.strptime("20.11.1990", "%d.%m.%Y"),
+    # )
     assert True
 
 
-def test_add_in_another_order(mocker):
-    # set_data = get_mock_db(mocker)
+def test_add_in_another_order(setup_before_each_test):
     # result = controller(
     #     [Actions.ADD.value, "Joe", "email@example.com", "1234567890", "20.11.1990"]
     # )
-
-    # set_data.assert_called_once_with(
-    #     Record(
-    #         name="Joe",
-    #         phones=set("1234567890"),
-    #         email="email@example.com",
-    #         birthday=datetime.strptime("20.11.1990", "%d.%m.%Y"),
-    #     )
-    # )
     # assert result.value == "Contact created"
+
+    # (record,) = db.get()
+    # assert record == Record(
+    #     name="Joe",
+    #     phones=set("1234567890"),
+    #     email="email@example.com",
+    #     birthday=datetime.strptime("20.11.1990", "%d.%m.%Y"),
+    # )
     assert True

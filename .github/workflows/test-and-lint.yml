@@ -47,15 +47,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd ./apps/cli
+          cd ./apps/web
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       # - name: Run unittests
-      #   run: cd ./apps/cli && pytest --doctest-modules
+      #   run: cd ./apps/web && pytest --doctest-modules
 
       - name: Lint with Black
-        run: cd ./apps/cli && python -m black *.py --check
+        run: cd ./apps/web && python -m black *.py --check
 
   cli:
     runs-on: ubuntu-latest
