@@ -10,7 +10,7 @@ def validation(func):
         message = ""
         try:
             return func(*args, **kwargs)
-        except ValueError:
+        except ValueError as e:
             message = "Invalid action." 
         except KeyError:
             message = "User do not exist."
@@ -26,7 +26,8 @@ def validation(func):
             message = "Date of birth must be in DD.MM.YYYY format."
         except DatabaseError:
             message = "Database error. Check if path correct."
-        except Exception:
+        except Exception as e:
+            print(e)
             message = "Unknown error."
         return Response(value=message, type=ResponseType.ERROR)
 

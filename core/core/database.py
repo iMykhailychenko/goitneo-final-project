@@ -38,7 +38,7 @@ class Database:
                         set(row["phones"].split("|")) if row.get("phones") else set()
                     )
                     birthday = (
-                        datetime.strptime(row["birthday"], "%d.%m.%Y").date
+                        datetime.strptime(row["birthday"], "%Y-%m-%d").date()
                         if row.get("birthday")
                         else None
                     )
@@ -107,7 +107,7 @@ class OperationType(Enum):
 
 
 def store_data(
-    message: str = "Contact created", type: OperationType = OperationType.APPEND
+    message: str = "Contact created.", type: OperationType = OperationType.APPEND
 ):
     bd = Database()
 
