@@ -1,5 +1,5 @@
 from core.controller import controller
-from core.database import Database, OperationType, store_data
+from core.database import Database, store_data
 from core.misc import Actions
 from core.models import Input, Record, Response
 

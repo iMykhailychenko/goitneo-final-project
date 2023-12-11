@@ -3,7 +3,7 @@ from datetime import datetime
 from enum import Enum
 from functools import wraps
 from pathlib import Path
-from typing import Any, List, Optional
+from typing import Dict, List, Optional
 
 from core.misc import DatabaseError
 from core.models import FIELDS, Record, Response
@@ -15,19 +15,36 @@ class Database:
     __instance = None
     __filename = "db.csv"
     __path: Optional[Path] = None
+    __records: Dict[str, Record] = {}
 
     def __new__(cls, *args, **kwargs):
         if cls.__instance is None:
             cls.__instance = super(Database, cls).__new__(cls, *args, **kwargs)
         return cls.__instance
 
+    def __setitem__(self, key: str, value: Record):
+        self.__records[key] = value
+        self.__write(self.__records)
+
+    def __getitem__(self, key: str) -> Record:
+        if not self.__records:
+            self.__read()
+        return self.__records.get(key)
+
+    def __delete__(self, key: str):
+        if key in self.__records:
+            del self.__records[key]
+            self.__write(self.__records)
+
+    def all(self) -> Dict[str, Record]:
+        return self.__records
+
     def validate(self) -> Path:
         if not Database.__path or not Database.__path.exists():
             raise DatabaseError()
 
-    def get(self) -> List[Record]:
+    def __read(self) -> None:
         self.validate()
-        records_list = []
 
         try:
             with open(Database.__path, "r") as f:
@@ -43,36 +60,32 @@ class Database:
                         else None
                     )
 
-                    records_list.append(
-                        Record(
-                            name=row.get("name"),
-                            email=row.get("email"),
-                            birthday=birthday,
-                            phones=phones,
-                            tags=tags,
-                        )
+                    self.__records[row.get("name")] = Record(
+                        name=row.get("name"),
+                        email=row.get("email"),
+                        birthday=birthday,
+                        phones=phones,
+                        tags=tags,
                     )
-        finally:
-            return records_list
+        except Exception:
+            print(f"Failed to read data from file: {Database.__path}")
 
-    def append(self, record: Record) -> None:
-        self.validate()
-        with open(Database.__path, "a") as f:
-            writer = csv.DictWriter(f, fieldnames=FIELDS)
-
-            if f.tell() == 0:
-                writer.writeheader()
-
-            self.__write_row(record, writer)
-
-    def override(self, records: List[Record]) -> None:
+    def __write(self, records: Dict[str, Record]) -> None:
         self.validate()
         with open(Database.__path, "w") as f:
             writer = csv.DictWriter(f, fieldnames=FIELDS)
             writer.writeheader()
 
-            for record in records:
-                self.__write_row(record, writer)
+            for record in records.values():
+                writer.writerow(
+                    {
+                        "name": record.name,
+                        "email": record.email,
+                        "phones": "|".join(record.phones),
+                        "birthday": record.birthday,
+                        "tags": "|".join(record.tags),
+                    }
+                )
 
     def drop(self) -> "Database":
         self.validate()
@@ -80,17 +93,6 @@ class Database:
             writer = csv.DictWriter(f, fieldnames=FIELDS)
             writer.writeheader()
         return self
-
-    def __write_row(self, record: Record, writer: Any) -> None:
-        writer.writerow(
-            {
-                "name": record.name,
-                "email": record.email,
-                "phones": "|".join(record.phones),
-                "birthday": record.birthday,
-                "tags": "|".join(record.tags),
-            }
-        )
 
     def connect(self, path: Path = DB_FOLDER_PATH) -> "Database":
         Database.__path = path / Database.__filename
@@ -101,23 +103,29 @@ class Database:
         return self
 
 
-class OperationType(Enum):
-    APPEND = "append"
-    OVERRIDE = "override"
-
-
-def store_data(
-    message: str = "Contact created.", type: OperationType = OperationType.APPEND
-):
+def store_data(message: str = "Contact created."):
     bd = Database()
-
-    operations = {OperationType.APPEND: bd.append, OperationType.OVERRIDE: bd.override}
 
     def wrapper(func):
         @wraps(func)
         def inner(*args, **kwargs):
             result = func(*args, **kwargs)
-            operations[type](result)
+            bd[result.name] = result
+            return Response(value=message)
+
+        return inner
+
+    return wrapper
+
+
+def delete_data(message: str = "Contact deleted."):
+    bd = Database()
+
+    def wrapper(func):
+        @wraps(func)
+        def inner(*args, **kwargs):
+            result = func(*args, **kwargs)
+            del bd[result.name]
             return Response(value=message)
 
         return inner

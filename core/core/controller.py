@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 from core.misc import Actions, validation
 from core.models import Input, Response, ResponseType
