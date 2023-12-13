@@ -6,8 +6,8 @@ FIELDS = ["name", "email", "phones", "birthday", "tags", "note"]
 
 class Record(BaseModel):
     name: str
-    email: str = ''
+    email: str = ""
     phones: Set[str] = set()
     birthday: Optional[date] = None
     tags: Set[str] = set()
-    note: str = ''
+    note: str = ""

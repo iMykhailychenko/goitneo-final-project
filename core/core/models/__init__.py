@@ -1,5 +1,5 @@
 from core.models.record import Record, FIELDS
-from core.models.response import Response, ResponseType
-from core.models.input import Input
+from core.models.response import Response, ResponseType, response
+from core.models.payload import Payload, ContactPayload, BirthdayPayload, PhonePayload, TagPayload
 
-__all__ = ['Record', 'FIELDS', 'Response', 'ResponseType', 'Input']
+__all__ = ['Record', 'FIELDS', 'Response', 'ResponseType', 'Payload', 'ContactPayload', 'BirthdayPayload', 'PhonePayload', 'TagPayload', 'response']

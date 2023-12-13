@@ -1,9 +1,8 @@
 import csv
 from datetime import datetime
-from enum import Enum
 from functools import wraps
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 from core.misc import DatabaseError
 from core.models import FIELDS, Record, Response
@@ -89,9 +88,8 @@ class Database:
 
     def drop(self) -> "Database":
         self.validate()
-        with open(Database.__path, "w") as f:
-            writer = csv.DictWriter(f, fieldnames=FIELDS)
-            writer.writeheader()
+        self.__write({})
+        self.__records.clear()
         return self
 
     def connect(self, path: Path = DB_FOLDER_PATH) -> "Database":
@@ -103,31 +101,25 @@ class Database:
         return self
 
 
-def store_data(message: str = "Contact created."):
+def write_data(func):
     bd = Database()
 
-    def wrapper(func):
-        @wraps(func)
-        def inner(*args, **kwargs):
-            result = func(*args, **kwargs)
-            bd[result.name] = result
-            return Response(value=message)
+    @wraps(func)
+    def inner(*args, **kwargs):
+        result = func(*args, **kwargs)
+        bd[result.name] = result
+        return result
 
-        return inner
-
-    return wrapper
+    return inner
 
 
-def delete_data(message: str = "Contact deleted."):
+def delete_data(func):
     bd = Database()
 
-    def wrapper(func):
-        @wraps(func)
-        def inner(*args, **kwargs):
-            result = func(*args, **kwargs)
-            del bd[result.name]
-            return Response(value=message)
+    @wraps(func)
+    def inner(*args, **kwargs):
+        result = func(*args, **kwargs)
+        del bd[result.name]
+        return result
 
-        return inner
-
-    return wrapper
+    return inner

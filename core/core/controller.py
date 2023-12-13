@@ -1,12 +1,12 @@
 from typing import Optional
 
 from core.misc import Actions, validation
-from core.models import Input, Response, ResponseType
-from core.services import add_contact
+from core.models import Payload, Response, ResponseType
+from core.services import add_contact, get_birthdays_this_week
 
 services_map = {
     # Base
-    Actions.HELLO.value: lambda _: Response(value="How can I help you?"),
+    Actions.HELLO.value: lambda _: Response(message="How can I help you?"),
     Actions.HELP.value: lambda _: None,
     Actions.EXIT.value: lambda _: None,
     Actions.CLOSE.value: lambda _: None,
@@ -24,17 +24,16 @@ services_map = {
     Actions.GET_BIRTHDAY.value: lambda _: None,
     Actions.DELETE_BIRTHDAY.value: lambda _: None,
     Actions.UPDATE_BIRTHDAY.value: lambda _: None,
-    Actions.BIRTHDAYS.value: lambda _: None,
+    Actions.BIRTHDAYS.value: get_birthdays_this_week,
     # Notes
     Actions.ADD_NOTE.value: lambda _: None,
     Actions.DELETE_NOTE.value: lambda _: None,
     Actions.UPDATE_NOTE.value: lambda _: None,
 }
 
+default_response = Response(message="Invalid command.", type=ResponseType.ERROR)
+
 
 @validation
-def controller(input: Input) -> Optional[Response]:
-    return services_map.get(
-        input.command.value,
-        lambda *_: Response(value="Invalid command.", type=ResponseType.SUCCESS),
-    )(input)
+def controller(cmd: Actions, payload: Optional[Payload] = None) -> Optional[Response]:
+    return services_map.get(cmd.value, lambda *_: default_response)(payload)

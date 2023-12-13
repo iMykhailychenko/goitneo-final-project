@@ -7,28 +7,29 @@ from core.models import Response, ResponseType
 def validation(func):
     @wraps(func)
     def inner(*args, **kwargs):
-        message = ""
+        error_message = ""
         try:
             return func(*args, **kwargs)
         except ValueError as e:
-            message = "Invalid action." 
+            print(e)
+            error_message = "Invalid action." 
         except KeyError:
-            message = "User do not exist."
+            error_message = "User do not exist."
         except IndexError:
-            message = "Give me name and phone please."
+            error_message = "Give me name and phone please."
         except InvalidPhoneError:
-            message = "Phone number must be 10 digits long."
+            error_message = "Phone number must be 10 digits long."
         except InvalidNameError:
-            message = "Invalid name."
+            error_message = "Invalid name."
         except InvalidEmailError:
-            message = "Invalid email."
+            error_message = "Invalid email."
         except InvalidBirthdayError:
-            message = "Date of birth must be in DD.MM.YYYY format."
+            error_message = "Date of birth must be in DD.MM.YYYY format."
         except DatabaseError:
-            message = "Database error. Check if path correct."
+            error_message = "Database error. Check if path correct."
         except Exception as e:
             print(e)
-            message = "Unknown error."
-        return Response(value=message, type=ResponseType.ERROR)
+            error_message = "Unknown error."
+        return Response(message=error_message, type=ResponseType.ERROR)
 
     return inner
