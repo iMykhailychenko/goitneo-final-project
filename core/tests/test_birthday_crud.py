@@ -69,7 +69,10 @@ def test_update_birthday(setup_db):
     pass
 
 
-def test_get_birthdays_this_week(setup_db):
+def test_get_birthdays_this_week(mocker, setup_db):
+    # fixed_date = date(2023, 6, 7)
+    # mocker.patch('core.services.birthday.date', mocker.Mock(today=lambda: fixed_date))
+
     # # Current week - should be shown
     # controller(
     #     Actions.ADD,
@@ -87,75 +90,30 @@ def test_get_birthdays_this_week(setup_db):
     # )
 
     # result = controller(Actions.BIRTHDAYS)
+
+    # assert len(result) == 1
+    # assert result[0].birthday == date(2023, 6, 7)
     pass
 
 
-# @patch("app.services.datetime")
-# def test_birthdays_this_week(self, mock_date):
-#     """Returns records with birthdays in upcoming week"""
+def test_get_birthdays_with_leap_year(mocker, setup_db):
+    # fixed_date = date(2023, 6, 7)
+    # mocker.patch('core.services.birthday.date', mocker.Mock(today=lambda: fixed_date))
 
-#     mock_date.today.return_value.date.return_value = self.mock_date
+    # # Leap year
+    # controller(
+    #     Actions.ADD,
+    #     ContactPayload(name="Joe", birthday="07.06.1992"),
+    # )
+    # # Not leap year
+    # controller(
+    #     Actions.ADD,
+    #     ContactPayload(name="Bob", birthday="08.06.2001"),
+    # )
 
-#     record1, record2 = get_records()
-#     record1.add_birthday("07.06.2023")  # Should be shown
-#     record2.add_birthday("01.01.2023")  # Should be hidden
+    # result = controller(Actions.BIRTHDAYS)
 
-#     contacts = AddressBook()
-#     contacts.add_contact(record1)
-#     contacts.add_contact(record2)
-
-#     result = controller("birthdays", contacts)
-#     self.assertEqual(
-#         result,
-#         "Wednesday: Contact name: Ivan, phones: 1234567890, birthday: 07.06.2023",
-#     )
-
-# @patch("app.services.datetime")
-# def test_birthdays_in_leap_year(self, mock_date):
-#     """Handles leap years properly"""
-
-#     mock_date.today.return_value.date.return_value = self.mock_date
-
-#     record1, record2 = get_records()
-#     record1.add_birthday("07.06.1992")  # Leap year
-#     record2.add_birthday("08.06.2001")  # Not leap year
-
-#     contacts = AddressBook()
-#     contacts.add_contact(record1)
-#     contacts.add_contact(record2)
-
-#     result = controller("birthdays", contacts)
-#     self.assertEqual(
-#         result,
-#         "Wednesday: Contact name: Ivan, phones: 1234567890, birthday: 07.06.1992\n"
-#         "Thursday: Contact name: Taras, phones: 0987654321, birthday: 08.06.2001",
-#     )
-
-# @patch("app.services.datetime")
-# def test_multiple_birthdays(self, mock_date):
-#     """Returns records with birthdays in upcoming week"""
-
-#     mock_date.today.return_value.date.return_value = self.mock_date
-
-#     record1, record2 = get_records()
-#     record1.add_birthday("07.06.2023")
-#     record2.add_birthday("07.06.2023")
-
-#     contacts = AddressBook()
-#     contacts.add_contact(record1)
-#     contacts.add_contact(record2)
-
-#     result = controller("birthdays", contacts)
-#     self.assertEqual(
-#         result,
-#         "Wednesday: Contact name: Ivan, phones: 1234567890, birthday: 07.06.2023; "
-#         "Contact name: Taras, phones: 0987654321, birthday: 07.06.2023",
-#     )
-
-#     record2.add_birthday("08.06.2023")
-#     result = controller("birthdays", contacts)
-#     self.assertEqual(
-#         result,
-#         "Wednesday: Contact name: Ivan, phones: 1234567890, birthday: 07.06.2023"
-#         "\nThursday: Contact name: Taras, phones: 0987654321, birthday: 08.06.2023",
-#     )
+    # assert len(result) == 2
+    # assert result[0].birthday == date(1992, 6, 7)
+    # assert result[1].birthday == date(2001, 6, 8)
+    pass

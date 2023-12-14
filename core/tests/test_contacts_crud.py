@@ -59,14 +59,14 @@ def test_add_tags(setup_db):
     assert db["Joe"] == Record(name="Joe", tags=tags)
 
 
-def test_add_notes(setup_db):
+def test_add_note(setup_db):
     result = controller(
         Actions.ADD,
-        ContactPayload(name="Joe", notes="Hello World"),
+        ContactPayload(name="Joe", note="Hello World"),
     )
 
     assert result.message == "Contact created."
-    assert db["Joe"] == Record(name="Joe", notes="Hello World")
+    assert db["Joe"] == Record(name="Joe", note="Hello World")
 
 
 def test_add_all(setup_db):
@@ -78,7 +78,7 @@ def test_add_all(setup_db):
             phones={"1234567890"},
             email="email@example.com",
             birthday="20.11.1990",
-            notes="Hello World",
+            note="Hello World",
         ),
     )
     assert result.message == "Contact created."
@@ -88,7 +88,7 @@ def test_add_all(setup_db):
         phones={"1234567890"},
         email="email@example.com",
         birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date(),
-        notes="Hello World",
+        note="Hello World",
     )
 
 
