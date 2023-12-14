@@ -9,8 +9,8 @@ from core.models import (
     PhonePayload,
     Record,
     Response,
+    SearchPayload,
     TagPayload,
-    SearchPayload
 )
 
 __all__ = [

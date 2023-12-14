@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from core import Actions, SearchPayload, Database, Record, controller
+from core import Actions, Database, Record, SearchPayload, controller
 from tests.utils import setup_test_user
 
 db = Database().connect()
