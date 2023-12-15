@@ -1,6 +1,8 @@
 from functools import wraps
 
-from core.misc.exeptions import InvalidBirthdayError, InvalidNameError, InvalidPhoneError, InvalidEmailError, DatabaseError
+from core.misc.exeptions import (InvalidBirthdayError, InvalidNameError, InvalidPhoneError, InvalidPhoneLengthError,
+                                InvalidEmailError, DatabaseError)
+from core.misc.constants import ValidationMessages
 from core.models import Response, ResponseType
 
 
@@ -12,24 +14,28 @@ def validation(func):
             return func(*args, **kwargs)
         except ValueError as e:
             print(e)
-            error_message = "Invalid action." 
+            error_message = ValidationMessages.INVALID_INPUT
         except KeyError:
-            error_message = "User do not exist."
+            error_message = ValidationMessages.CONTACT_NOT_EXIST
         except IndexError:
-            error_message = "Give me name and phone please."
+            error_message = ValidationMessages.INVALID_PARAMETERS
+        except InvalidPhoneLengthError:
+            error_message = ValidationMessages.PHONE_NUMBER_LENGTH
         except InvalidPhoneError:
-            error_message = "Phone number must be 10 digits long."
+            return ValidationMessages.PHONE_NUMBER_VALUE
         except InvalidNameError:
-            error_message = "Invalid name."
+            error_message = ValidationMessages.INVALID_NAME
         except InvalidEmailError:
-            error_message = "Invalid email."
+            error_message = ValidationMessages.INVALID_EMAIL
         except InvalidBirthdayError:
-            error_message = "Date of birth must be in DD.MM.YYYY format."
+            error_message = ValidationMessages.INVALID_BIRTHDAY
         except DatabaseError:
-            error_message = "Database error. Check if path correct."
+            error_message = ValidationMessages.DATABASE_FILE_NOT_FOUND
+        except EOFError:
+            return ValidationMessages.EOF_ERROR
         except Exception as e:
             print(e)
-            error_message = "Unknown error."
+            error_message = ValidationMessages.UNKNOWN_ERROR
         return Response(message=error_message, type=ResponseType.ERROR)
 
     return inner
