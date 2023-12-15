@@ -67,7 +67,7 @@ def test_add_note(setup_db):
     )
 
     assert result.message == InfoMessages.CONTACT_CREATED.value
-    assert db["Joe"] == Record(name="Joe", notes="Hello World")
+    assert db["Joe"] == Record(name="Joe", note="Hello World")
 
 
 def test_add_all(setup_db):
