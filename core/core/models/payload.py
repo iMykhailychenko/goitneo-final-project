@@ -5,7 +5,7 @@ from typing import Optional, Union
 class ContactPayload(BaseModel):
     name: str
     email: Optional[str] = ''
-    notes: Optional[str] = ''
+    note: Optional[str] = ''
     birthday: Optional[str] = ''
     phones: set[str] = set()
     tags: set[str] = set()
@@ -28,4 +28,13 @@ class TagPayload(BaseModel):
     old_tag: Optional[str] = None
 
 
-Payload = Union[ContactPayload, BirthdayPayload, PhonePayload, TagPayload, None]
+class NotePayload(BaseModel):
+    name: str
+    note: str
+
+
+class SearchPayload(BaseModel):
+    value: str
+
+
+Payload = Union[ContactPayload, BirthdayPayload, PhonePayload, TagPayload, NotePayload, SearchPayload, None]

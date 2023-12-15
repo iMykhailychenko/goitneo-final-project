@@ -4,10 +4,12 @@ from core.misc import Actions
 from core.models import (
     BirthdayPayload,
     ContactPayload,
+    NotePayload,
     Payload,
     PhonePayload,
     Record,
     Response,
+    SearchPayload,
     TagPayload,
 )
 
@@ -21,4 +23,6 @@ __all__ = [
     "Payload",
     "ContactPayload",
     "BirthdayPayload",
+    "NotePayload",
+    "SearchPayload",
 ]
