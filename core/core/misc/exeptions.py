@@ -6,6 +6,10 @@ class InvalidPhoneError(Exception):
     pass
 
 
+class InvalidPhoneLengthError(Exception):
+    pass
+
+
 class InvalidBirthdayError(Exception):
     pass
 

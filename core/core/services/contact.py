@@ -3,9 +3,9 @@ from datetime import datetime
 from core.database import write_data
 from core.models import ContactPayload, Record
 from core.models import response
+from core.misc.constants import Constants
 
-
-@response('Contact created.')
+@response(Constants.CONTACT_ADDED)
 @write_data
 def add_contact(payload: ContactPayload) -> Record:
     birthday = (
