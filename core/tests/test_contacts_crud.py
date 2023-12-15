@@ -13,7 +13,7 @@ def test_add_name(setup_db):
         ContactPayload(name="Joe"),
     )
 
-    assert result.message == InfoMessages.CONTACT_CREATED
+    assert result.message == InfoMessages.CONTACT_CREATED.value
     assert db["Joe"] == Record(name="Joe")
 
 
@@ -23,7 +23,7 @@ def test_add_phone(setup_db):
         ContactPayload(name="Joe", phones={"1234567890"}),
     )
 
-    assert result.message == InfoMessages.CONTACT_CREATED
+    assert result.message == InfoMessages.CONTACT_CREATED.value
     assert db["Joe"] == Record(name="Joe", phones={"1234567890"})
 
 
@@ -33,7 +33,7 @@ def test_add_email(setup_db):
         ContactPayload(name="Joe", email="email@example.com"),
     )
 
-    assert result.message == InfoMessages.CONTACT_CREATED
+    assert result.message == InfoMessages.CONTACT_CREATED.value
     assert db["Joe"] == Record(name="Joe", email="email@example.com")
 
 
@@ -43,7 +43,7 @@ def test_add_birthday(setup_db):
         ContactPayload(name="Joe", birthday="20.11.1990"),
     )
 
-    assert result.message == InfoMessages.CONTACT_CREATED
+    assert result.message == InfoMessages.CONTACT_CREATED.value
     assert db["Joe"] == Record(
         name="Joe", birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date()
     )
@@ -56,7 +56,7 @@ def test_add_tags(setup_db):
         ContactPayload(name="Joe", tags=tags),
     )
 
-    assert result.message == InfoMessages.CONTACT_CREATED
+    assert result.message == InfoMessages.CONTACT_CREATED.value
     assert db["Joe"] == Record(name="Joe", tags=tags)
 
 
@@ -66,7 +66,7 @@ def test_add_note(setup_db):
         ContactPayload(name="Joe", note="Hello World"),
     )
 
-    assert result.message == InfoMessages.CONTACT_CREATED
+    assert result.message == InfoMessages.CONTACT_CREATED.value
     assert db["Joe"] == Record(name="Joe", notes="Hello World")
 
 
@@ -82,7 +82,7 @@ def test_add_all(setup_db):
             note="Hello World",
         ),
     )
-    assert result.message == InfoMessages.CONTACT_CREATED
+    assert result.message == InfoMessages.CONTACT_CREATED.value
 
     assert db["Joe"] == Record(
         name="Joe",
@@ -98,13 +98,13 @@ def test_duplicates(setup_db):
         Actions.ADD,
         ContactPayload(name="Joe"),
     )
-    assert result.message == InfoMessages.CONTACT_CREATED
+    assert result.message == InfoMessages.CONTACT_CREATED.value
 
     result = controller(
         Actions.ADD,
         ContactPayload(name="Joe", phones={"1234567890"}),
     )
-    assert result.message == InfoMessages.CONTACT_CREATED
+    assert result.message == InfoMessages.CONTACT_CREATED.value
 
     records = db.all()
     assert len(records.values()) == 1
