@@ -16,6 +16,6 @@ def add_contact(payload: ContactPayload) -> Record:
         email=payload.email,
         phones=payload.phones,
         tags=payload.tags,
-        notes=payload.notes,
+        note=payload.note,
         birthday=birthday,
     )
