@@ -3,7 +3,7 @@ from datetime import datetime
 from core.database import write_data
 from core.models import ContactPayload, Record
 from core.models import response
-from core.misc.constants import InfoMessages
+from core.misc import InfoMessages
 
 @response(InfoMessages.CONTACT_CREATED)
 @write_data

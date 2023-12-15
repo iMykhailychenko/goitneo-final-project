@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from core import Actions, ContactPayload, Database, Record, controller
-from core.misc.constants import InfoMessages
+from core.misc import InfoMessages
 from tests.utils import setup_db
 
 db = Database().connect()
