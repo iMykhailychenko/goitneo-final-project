@@ -1,6 +1,6 @@
 from typing import Optional
 
-from core.misc import Actions, CommandMessages, validation, ValidationMessages
+from core.misc import Actions, CommandMessages, ValidationMessages, validation
 from core.models import Payload, Response, ResponseType
 from core.services import add_contact, get_birthdays_this_week
 
@@ -31,7 +31,9 @@ services_map = {
     Actions.UPDATE_NOTE.value: lambda _: None,
 }
 
-default_response = Response(message=ValidationMessages.INVALID_COMMAND, type=ResponseType.ERROR)
+default_response = Response(
+    message=ValidationMessages.INVALID_COMMAND, type=ResponseType.ERROR
+)
 
 
 @validation

@@ -1,6 +1,7 @@
 from core import Actions, ContactPayload, Record, controller
 from core.misc import InfoMessages, ValidationMessages
 
+
 def test_invalid_phone_number():
     # result = controller(
     #     Actions.ADD,
