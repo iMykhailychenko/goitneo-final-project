@@ -13,7 +13,7 @@ Activate virtual environment
 ```bash
 python -m  venv venv
 # and then
-./venv/bin/activate
+source ./venv/bin/activate
 ```
 
 After that instal all the packages from requirements.txt
