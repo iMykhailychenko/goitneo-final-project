@@ -1,2 +1,15 @@
 ../../core
 annotated-types==0.6.0
+black==23.11.0
+click==8.1.7
+isort==5.12.0
+mypy-extensions==1.0.0
+packaging==23.2
+pathspec==0.11.2
+platformdirs==4.0.0
+prompt-toolkit==3.0.36
+pydantic==2.5.2
+pydantic_core==2.14.5
+questionary==2.0.1
+typing_extensions==4.8.0
+wcwidth==0.2.12
