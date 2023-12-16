@@ -79,4 +79,7 @@ jobs:
       #   run: cd ./apps/cli && pytest --doctest-modules
 
       - name: Lint with Black
-        run: cd ./apps/cli && python -m black *.py --check
+        run: |
+          cd ./apps/cli
+          ls
+          python -m black *.py --check
