@@ -2,8 +2,6 @@ from enum import Enum
 
 
 class Actions(Enum):
-    HELLO = "hello"
-    HELP = "help"
     EXIT = "exit"
     CLOSE = "close"
     SEARCH = "search"
@@ -25,6 +23,10 @@ class Actions(Enum):
     ADD_NOTE = 'add_note'
     DELETE_NOTE = 'delete_note'
     UPDATE_NOTE = 'update_note'
+    
+    ADD_TAG = 'add_tag'
+    DELETE_TAG = 'delete_tag'
+    UPDATE_TAG = 'update_tag'
 
 
 class CommandMessages(Enum):
@@ -62,4 +64,3 @@ class ValidationMessages(Enum):
     PHONE_NUMBER_NOT_EXIST = "There is no phone number for this contact in the AddressBook."
     PHONE_NUMBER_VALUE = "Phone number must have only digits and '+' or '-' symbols."
     UNKNOWN_ERROR = "Unknown error."   
-   

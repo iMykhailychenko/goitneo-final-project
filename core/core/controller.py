@@ -6,8 +6,6 @@ from core.services import add_contact, get_birthdays_this_week
 
 services_map = {
     # Base
-    Actions.HELLO.value: lambda _: Response(message=CommandMessages.HELP_QUESTION),
-    Actions.HELP.value: lambda _: None,
     Actions.EXIT.value: lambda _: None,
     Actions.CLOSE.value: lambda _: None,
     Actions.SEARCH.value: lambda _: None,
@@ -29,6 +27,10 @@ services_map = {
     Actions.ADD_NOTE.value: lambda _: None,
     Actions.DELETE_NOTE.value: lambda _: None,
     Actions.UPDATE_NOTE.value: lambda _: None,
+    # Tags
+    Actions.ADD_TAG.value: lambda _: None,
+    Actions.DELETE_TAG.value: lambda _: None,
+    Actions.UPDATE_TAG.value: lambda _: None,
 }
 
 default_response = Response(

@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from core import Actions, Database, NotePayload, controller
 from tests.utils import setup_test_user
 
