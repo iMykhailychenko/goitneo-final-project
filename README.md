@@ -1,29 +1,12 @@
 # GoitNeo Python Project
 
+
+### Overall architecture
+
 ![Architecture](/docs/architecture.png)
 
-### To run the project
+**This application consist of the following services:**
 
-```bash
-pip install -r requirements.txt
-python main.py
-```
-
-###  To run the tests
-```bash
-make test
-```
-or
-```bash
-pytest
-```
-
-### To run linter
-```bash
-make lint
-```
-or 
-```bash
-python -m isort **/*.py
-python -m black **/*.py
-```
+- [core](./core/) - the main part of the application contains all the logic and persists data in the file system.
+- [cli](./apps/cli/) - command line application which handle user input and render output from **core** service
+- [web](./apps/web/) - TBD
