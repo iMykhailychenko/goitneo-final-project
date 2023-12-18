@@ -1,9 +1,63 @@
 from typing import Any
-from datetime import date
+from datetime import date, datetime, timedelta
 from core.models import response, Record
+from core.database import write_data, Database
+
+database = Database()
 
 
 @response()
-def get_birthdays_this_week(_: Any):
-    birthday = date.today()
-    return [Record(name="Ttt-1", birthday=birthday)]
+def get_birthdays_by_week(_: Any):
+    records = database.all()
+    today = date.today()
+    records_with_this_week_birthday: list[Record] = []
+
+    for contact in records.values():
+        if contact.birthday:
+            birthday = contact.birthday
+            birthday_this_year = birthday.replace(year=today.year)
+
+            if today <= birthday_this_year and birthday_this_year <= today + timedelta(days=7):
+                records_with_this_week_birthday.append(contact)
+
+    return sorted(records_with_this_week_birthday, key=lambda x: x.birthday)
+
+
+@response()
+@write_data
+def add_birthday(payload):
+    record = database[payload.name]
+    birthday = get_valid_birthday(payload.birthday)
+
+    return set_birthday(payload, record, birthday)
+
+
+@response()
+@write_data
+def delete_birthday(payload):
+    record = database[payload.name]
+    record.birthday = None
+    return None
+
+
+@response()
+@write_data
+def update_birthday(payload):
+    record = database[payload.name]
+    birthday = get_valid_birthday(payload.birthday)
+
+    return set_birthday(payload, record, birthday)
+
+
+def get_valid_birthday(birthday: str)-> date:
+    birthday = datetime.strptime(birthday, "%d.%m.%Y").date() if birthday else None
+
+    return birthday
+
+
+def set_birthday(payload, record: Record, birthday_value: date) -> Record:
+    if record:
+        record.birthday = birthday_value
+        return record
+    else:
+        return Record(name=payload.name, birthday=birthday_value)
