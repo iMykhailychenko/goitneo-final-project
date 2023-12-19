@@ -52,9 +52,10 @@ class InfoMessages(Enum):
     CONTACT_NOT_FOUND = "Contact not found."
     CONTACTS_REMOVED = "Contacts were removed from AddressBook."
     NOTE_ADDED = "Note for contact added."
-    PHONE_NUMBER_REMOVED = "Phone number removed."
+    PHONE_NUMBER_ADDED = 'Phone number for contact added.'
+    PHONE_NUMBER_DELETED = "Phone number for contact removed."
     PHONE_NUMBER_FOUND = "Phone number found."
-    PHONE_NUMBER_ADDED = 'Phone number added.'
+    PHONE_NUMBER_UPDATED = '"Phone number for contact updated.'
     
     
 class ValidationMessages(Enum):
