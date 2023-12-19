@@ -16,6 +16,7 @@ def test_invalid_phone_number():
     # assert result.value == ValidationMessages.PHONE_NUMBER_VALUE.value
     assert True
 
+
 def test_invalid_email():
     # result = controller(
     #     Actions.ADD,

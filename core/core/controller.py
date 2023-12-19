@@ -5,11 +5,11 @@ from core.models import Payload, Response, ResponseType
 from core.services import (
     add_birthday,
     add_contact,
+    add_note,
     add_phone_number,
     delete_birthday,
     get_birthdays_by_duration,
     update_birthday,
-    add_note,
 )
 
 services_map = {
