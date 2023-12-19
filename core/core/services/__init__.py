@@ -14,7 +14,7 @@ from core.services.addresses import (
     add_address,
 )
 from core.services.phones import (
-        add_phone_number,
+    add_phone_number,
 )
 
 __all__ = [
