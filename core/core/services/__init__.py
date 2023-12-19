@@ -10,7 +10,7 @@ from core.services.birthday import (
     delete_birthday,
     update_birthday
 )
-from core.services.addresses import (
+from core.services.address import (
     add_address,
 )
 from core.services.phones import (

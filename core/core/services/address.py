@@ -15,9 +15,8 @@ def add_address(payload):
 
 def set_address(payload, record: Record) -> Record:
     if record:
-        if payload.phone not in record.phones:
-            record.phones.add(payload.phone)
+        record.address = payload.address
         return record
     else:
-        return Record(name=payload.name, phones=set([payload.phone]))
+        return Record(name=payload.name, address=payload.address)
 
