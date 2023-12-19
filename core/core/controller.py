@@ -3,12 +3,13 @@ from typing import Optional
 from core.misc import Actions, CommandMessages, ValidationMessages, validation
 from core.models import Payload, Response, ResponseType
 from core.services import (
+    add_address,
     add_birthday,
     add_contact,
+    add_note,
     delete_birthday,
     get_birthdays_by_duration,
     update_birthday,
-    add_note,
 )
 
 services_map = {
@@ -24,6 +25,10 @@ services_map = {
     Actions.ADD_PHONE.value: lambda _: None,
     Actions.UPDATE_PHONE.value: lambda _: None,
     Actions.DELETE_PHONE.value: lambda _: None,
+    # Address
+    Actions.ADD_ADDRESS.value: add_address,
+    Actions.DELETE_ADDRESS.value: lambda _: None,
+    Actions.UPDATE_ADDRESS.value: lambda _: None,
     # Birthday
     Actions.ADD_BIRTHDAY.value: add_birthday,
     Actions.DELETE_BIRTHDAY.value: delete_birthday,

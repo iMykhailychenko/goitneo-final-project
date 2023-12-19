@@ -2,6 +2,7 @@ from core.controller import controller
 from core.database import Database
 from core.misc import Actions
 from core.models import (
+    AddressPayload,
     AllBirthdaysPayload,
     BirthdayPayload,
     ContactPayload,
@@ -22,9 +23,10 @@ __all__ = [
     "OperationType",
     "Response",
     "Payload",
-    "ContactPayload",
+    "AddressPayload",
     "AllBirthdaysPayload",
     "BirthdayPayload",
+    "ContactPayload",
     "NotePayload",
     "SearchPayload",
 ]
