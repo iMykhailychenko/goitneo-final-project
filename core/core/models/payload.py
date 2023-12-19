@@ -19,7 +19,7 @@ class BirthdayPayload(BaseModel):
    
 class AddressPayload(BaseModel):
     name: str
-    address: str
+    address: Optional[str] = ''
     
         
 class AllBirthdaysPayload(BaseModel):
