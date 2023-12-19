@@ -7,7 +7,7 @@ from typing import Dict, Optional
 from core.misc import DatabaseError
 from core.models import FIELDS, Record, Response
 
-DB_FOLDER_PATH = Path("/tmp/goit-bot")
+DB_FOLDER_PATH = Path(__file__).resolve().parent.parent.parent / "tmp"
 
 
 class Database:
