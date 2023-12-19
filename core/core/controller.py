@@ -2,12 +2,17 @@ from typing import Optional
 
 from core.misc import Actions, CommandMessages, ValidationMessages, validation
 from core.models import Payload, Response, ResponseType
-from core.services import add_contact, get_birthdays_this_week
+from core.services import (
+    add_birthday,
+    add_contact,
+    delete_birthday,
+    get_birthdays_by_duration,
+    update_birthday,
+    add_note,
+)
 
 services_map = {
     # Base
-    Actions.HELLO.value: lambda _: Response(message=CommandMessages.HELP_QUESTION),
-    Actions.HELP.value: lambda _: None,
     Actions.EXIT.value: lambda _: None,
     Actions.CLOSE.value: lambda _: None,
     Actions.SEARCH.value: lambda _: None,
@@ -20,15 +25,18 @@ services_map = {
     Actions.UPDATE_PHONE.value: lambda _: None,
     Actions.DELETE_PHONE.value: lambda _: None,
     # Birthday
-    Actions.ADD_BIRTHDAY.value: lambda _: None,
-    Actions.GET_BIRTHDAY.value: lambda _: None,
-    Actions.DELETE_BIRTHDAY.value: lambda _: None,
-    Actions.UPDATE_BIRTHDAY.value: lambda _: None,
-    Actions.BIRTHDAYS.value: get_birthdays_this_week,
+    Actions.ADD_BIRTHDAY.value: add_birthday,
+    Actions.DELETE_BIRTHDAY.value: delete_birthday,
+    Actions.UPDATE_BIRTHDAY.value: update_birthday,
+    Actions.BIRTHDAYS.value: get_birthdays_by_duration,
     # Notes
-    Actions.ADD_NOTE.value: lambda _: None,
+    Actions.ADD_NOTE.value: add_note,
     Actions.DELETE_NOTE.value: lambda _: None,
     Actions.UPDATE_NOTE.value: lambda _: None,
+    # Tags
+    Actions.ADD_TAG.value: lambda _: None,
+    Actions.DELETE_TAG.value: lambda _: None,
+    Actions.UPDATE_TAG.value: lambda _: None,
 }
 
 default_response = Response(

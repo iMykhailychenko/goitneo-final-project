@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main
+      - develop
   pull_request:
     branches:
       - main
+      - develop
 
 jobs:
   core:
@@ -28,7 +30,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run unittests
-        run: cd ./core && pytest --doctest-modules
+        run: cd ./core && pytest -v
 
       - name: Lint with Black
         run: cd ./core && python -m black **/*.py --check
