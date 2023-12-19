@@ -44,6 +44,7 @@ class InfoMessages(Enum):
     CONTACTS_REMOVED = "Contacts were removed from AddressBook."
     PHONE_NUMBER_REMOVED = "Phone number removed."
     PHONE_NUMBER_FOUND = "Phone number found."
+    NOTE_ADDED = "Note for contact added."
     
     
 class ValidationMessages(Enum):
