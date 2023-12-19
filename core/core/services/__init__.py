@@ -33,5 +33,5 @@ __all__ = [
     "delete_phone_number",
     "update_address",
     "update_birthday",
-    "update_phone_number"
+    "update_phone_number",
     ]
