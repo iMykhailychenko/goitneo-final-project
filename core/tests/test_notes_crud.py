@@ -17,7 +17,6 @@ def test_delete_note(setup_test_user):
 
 
 def test_update_note(setup_test_user):
-    # controller(Actions.ADD_NOTE, NotePayload(name="Joe", note="test note"))
-    # controller(Actions.UPDATE_NOTE, NotePayload(name="Joe", note="test note 2"))
-    # assert db["Joe"].note == "test note 2"
-    pass
+    controller(Actions.ADD_NOTE, NotePayload(name="Joe", note="test note"))
+    controller(Actions.UPDATE_NOTE, NotePayload(name="Joe", note="test note 2"))
+    assert db["Joe"].note == "test note 2"

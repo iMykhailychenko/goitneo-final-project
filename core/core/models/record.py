@@ -4,6 +4,7 @@ from typing import Optional, Set
 
 FIELDS = ["name", "email", "phones", "birthday", "tags", "note"]
 
+
 class Record(BaseModel):
     name: str
     email: str = ""

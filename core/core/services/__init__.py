@@ -4,7 +4,7 @@ from core.services.birthday import (
     get_birthdays_by_duration,
     add_birthday,
     delete_birthday,
-    update_birthday
+    update_birthday,
 )
 
 __all__ = [
