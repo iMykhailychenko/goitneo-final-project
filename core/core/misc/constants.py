@@ -42,14 +42,17 @@ class CommandMessages(Enum):
 class InfoMessages(Enum):    
     ADDRESS_ADDED = 'Address for contact added.'
     BIRTHDAY_ADDED = "Birthday for contact added."
+    BIRTHDAY_DELETED = 'Birthday for contact deleted.'
+    BIRTHDAY_UPDATTED = 'Birthday for contact updated.'
     CONTACT_CREATED = "Contact created."
     CONTACT_CHANGED = "Contact changed."
     CONTACT_DELETED = "Contact deleted."
     CONTACT_NOT_FOUND = "Contact not found."
     CONTACTS_REMOVED = "Contacts were removed from AddressBook."
+    NOTE_ADDED = "Note for contact added."
     PHONE_NUMBER_REMOVED = "Phone number removed."
     PHONE_NUMBER_FOUND = "Phone number found."
-    NOTE_ADDED = "Note for contact added."
+    PHONE_NUMBER_ADDED = 'Phone number added.'
     
     
 class ValidationMessages(Enum):
