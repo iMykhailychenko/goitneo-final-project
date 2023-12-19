@@ -2,11 +2,12 @@ from typing import Any
 from datetime import date, datetime, timedelta
 from core.models import response, Record
 from core.database import write_data, Database
+from core.misc import InfoMessages
 
 database = Database()
 
 
-@response()
+@response(InfoMessages.BIRTHDAY_ADDED)
 @write_data
 def add_birthday(payload):
     record = database[payload.name]
@@ -33,7 +34,7 @@ def get_birthdays_by_duration(payload):
     return sorted(records_with_this_week_birthday, key=lambda x: x.birthday)
 
 
-@response()
+@response(InfoMessages.BIRTHDAY_DELETED)
 @write_data
 def delete_birthday(payload):
     record = database[payload.name]
@@ -41,7 +42,7 @@ def delete_birthday(payload):
     return record
 
 
-@response()
+@response(InfoMessages.BIRTHDAY_UPDATTED)
 @write_data
 def update_birthday(payload):
     record = database[payload.name]
