@@ -52,13 +52,13 @@ class InfoMessages(Enum):
     CONTACT_NOT_FOUND = "Contact not found."
     CONTACTS_REMOVED = "Contacts were removed from AddressBook."
     NOTE_ADDED = "Note for contact added."
-    PHONE_NUMBER_REMOVED = "Phone number removed."
-    PHONE_NUMBER_FOUND = "Phone number found."
     NOTE_UPDATED = "Note for contact updated."
-
-    PHONE_NUMBER_ADDED = "Phone number added."
-
-
+    PHONE_NUMBER_ADDED = 'Phone number for contact added.'
+    PHONE_NUMBER_DELETED = "Phone number for contact deleted."
+    PHONE_NUMBER_FOUND = "Phone number found."
+    PHONE_NUMBER_UPDATED = '"Phone number for contact updated.'
+    
+    
 class ValidationMessages(Enum):
     ADDRESS_BOOK_EMPTY = "There is no contacts in the AddressBook to save."
     BIRTHDAY_NOT_EXIST = "There is no birthday for this contact in the AddressBook."
