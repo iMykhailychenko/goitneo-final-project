@@ -17,6 +17,8 @@ from core.services.address import (
 )
 from core.services.phones import (
     add_phone_number,
+    update_phone_number,
+    delete_phone_number
 )
 
 __all__ = [
@@ -28,6 +30,8 @@ __all__ = [
     "add_birthday",
     "delete_address",
     "delete_birthday",
+    "delete_phone_number",
     "update_address",
-    "update_birthday"
+    "update_birthday",
+    "update_phone_number"
     ]
