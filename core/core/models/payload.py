@@ -14,8 +14,12 @@ class ContactPayload(BaseModel):
 class BirthdayPayload(BaseModel):
     name: str
     birthday: Optional[str] = ''
-
-
+   
+    
+class AllBirthdaysPayload(BaseModel):
+    day_amount: Optional[str] = '7'
+    
+        
 class PhonePayload(BaseModel):
     name: str
     phone: str
@@ -37,4 +41,4 @@ class SearchPayload(BaseModel):
     value: str
 
 
-Payload = Union[ContactPayload, BirthdayPayload, PhonePayload, TagPayload, NotePayload, SearchPayload, None]
+Payload = Union[AllBirthdaysPayload, ContactPayload, BirthdayPayload, PhonePayload, TagPayload, NotePayload, SearchPayload, None]

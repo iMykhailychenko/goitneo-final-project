@@ -1,6 +1,13 @@
 from datetime import date
 
-from core import Actions, BirthdayPayload, ContactPayload, Database, controller
+from core import (
+    Actions,
+    AllBirthdaysPayload,
+    BirthdayPayload,
+    ContactPayload,
+    Database,
+    controller,
+)
 from tests.utils import setup_db, setup_test_user
 
 db = Database().connect()
@@ -50,31 +57,36 @@ def test_update_birthday(setup_db):
     assert db["Joe"].birthday == mock_new_day
 
 
-def test_get_birthdays_by_week(mocker, setup_db):
+def test_get_birthdays_by_duration(mocker, setup_db):
     fixed_date = date(2023, 6, 7)
     mocker.patch("core.services.birthday.date", mocker.Mock(today=lambda: fixed_date))
 
+    # Date in duratin days - should be shown
+    controller(
+        Actions.ADD,
+        ContactPayload(name="Bill", birthday="17.06.2023"),
+    )
     # Current week - should be shown
     controller(
         Actions.ADD,
-        ContactPayload(name="Joe", birthday="07.06.2023"),
+        ContactPayload(name="John", birthday="07.06.2023"),
+    )
+    # Date in 11 days - should be hidden
+    controller(
+        Actions.ADD,
+        ContactPayload(name="Joe", birthday="18.06.2023"),
     )
     # Date in past - should be hidden
     controller(
         Actions.ADD,
         ContactPayload(name="Bob", birthday="01.01.2023"),
     )
-    # Date in future - should be hidden
-    controller(
-        Actions.ADD,
-        ContactPayload(name="Bill", birthday="12.06.2023"),
-    )
 
-    result = controller(Actions.BIRTHDAYS)
+    result = controller(Actions.BIRTHDAYS, AllBirthdaysPayload(day_amount="10"))
 
     assert len(result.value) == 2
     assert result.value[0].birthday == date(2023, 6, 7)
-    assert result.value[1].birthday == date(2023, 6, 12)
+    assert result.value[1].birthday == date(2023, 6, 17)
 
 
 def test_get_birthdays_with_leap_year(mocker, setup_db):
@@ -92,7 +104,7 @@ def test_get_birthdays_with_leap_year(mocker, setup_db):
         ContactPayload(name="Bob", birthday="08.06.2001"),
     )
 
-    result = controller(Actions.BIRTHDAYS)
+    result = controller(Actions.BIRTHDAYS, AllBirthdaysPayload())
 
     assert len(result.value) == 2
     assert result.value[0].birthday == date(1992, 6, 7)

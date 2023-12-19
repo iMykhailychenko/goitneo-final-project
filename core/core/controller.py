@@ -2,7 +2,13 @@ from typing import Optional
 
 from core.misc import Actions, CommandMessages, ValidationMessages, validation
 from core.models import Payload, Response, ResponseType
-from core.services import add_contact, add_birthday, get_birthdays_by_week, delete_birthday, update_birthday
+from core.services import (
+    add_birthday,
+    add_contact,
+    delete_birthday,
+    get_birthdays_by_duration,
+    update_birthday,
+)
 
 services_map = {
     # Base
@@ -20,8 +26,8 @@ services_map = {
     # Birthday
     Actions.ADD_BIRTHDAY.value: add_birthday,
     Actions.DELETE_BIRTHDAY.value: delete_birthday,
-    Actions.UPDATE_BIRTHDAY.value: update_birthday, 
-    Actions.BIRTHDAYS.value: get_birthdays_by_week,
+    Actions.UPDATE_BIRTHDAY.value: update_birthday,
+    Actions.BIRTHDAYS.value: get_birthdays_by_duration,
     # Notes
     Actions.ADD_NOTE.value: lambda _: None,
     Actions.DELETE_NOTE.value: lambda _: None,

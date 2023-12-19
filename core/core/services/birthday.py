@@ -7,29 +7,31 @@ database = Database()
 
 
 @response()
-def get_birthdays_by_week(_: Any):
-    records = database.all()
-    today = date.today()
-    records_with_this_week_birthday: list[Record] = []
-
-    for contact in records.values():
-        if contact.birthday:
-            birthday = contact.birthday
-            birthday_this_year = birthday.replace(year=today.year)
-
-            if today <= birthday_this_year and birthday_this_year <= today + timedelta(days=7):
-                records_with_this_week_birthday.append(contact)
-
-    return sorted(records_with_this_week_birthday, key=lambda x: x.birthday)
-
-
-@response()
 @write_data
 def add_birthday(payload):
     record = database[payload.name]
     birthday = get_valid_birthday(payload.birthday)
 
     return set_birthday(payload, record, birthday)
+
+
+@response()
+def get_birthdays_by_duration(payload):
+    records = database.all()
+    today = date.today()
+    records_with_this_week_birthday: list[Record] = []
+    days = int(payload.day_amount)
+
+    for contact in records.values():
+        if contact.birthday:
+            birthday = contact.birthday
+            birthday_this_year = birthday.replace(year=today.year)
+            if today <= birthday_this_year and birthday_this_year <= today + timedelta(
+                days=days
+            ):
+                records_with_this_week_birthday.append(contact)
+
+    return sorted(records_with_this_week_birthday, key=lambda x: x.birthday)
 
 
 @response()
@@ -49,7 +51,7 @@ def update_birthday(payload):
     return set_birthday(payload, record, birthday)
 
 
-def get_valid_birthday(birthday: str)-> date:
+def get_valid_birthday(birthday: str) -> date:
     birthday = datetime.strptime(birthday, "%d.%m.%Y").date() if birthday else None
 
     return birthday
