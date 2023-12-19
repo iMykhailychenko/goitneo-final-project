@@ -26,11 +26,8 @@ def delete_phone_number(payload):
     record = database[payload.name]
 
     if record:
-        if payload.phone in record.phones:
-            record.phones.discard(payload.phone)
-    else:
-        record = Record(name=payload.name, phones={})
-    return record    
+        record.phones.discard(payload.phone)
+        return record    
     
     
 @response(InfoMessages.PHONE_NUMBER_UPDATED)
