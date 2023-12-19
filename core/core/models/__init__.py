@@ -1,6 +1,6 @@
 from core.models.record import Record, FIELDS
 from core.models.response import Response, ResponseType, response
-from core.models.payload import Payload, ContactPayload, BirthdayPayload, PhonePayload, TagPayload, NotePayload, SearchPayload
+from core.models.payload import Payload, AllBirthdaysPayload, ContactPayload, BirthdayPayload, PhonePayload, TagPayload, NotePayload, SearchPayload
 
 __all__ = [
     'Record', 
@@ -9,6 +9,7 @@ __all__ = [
     'ResponseType',
     'Payload',
     'ContactPayload',
+    'AllBirthdaysPayload',
     'BirthdayPayload',
     'PhonePayload',
     'TagPayload',
