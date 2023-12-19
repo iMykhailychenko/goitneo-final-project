@@ -3,12 +3,13 @@ from core.services.contact import (
 )
 from core.services.notes import (
     add_note,
+    update_note,
 )
 from core.services.birthday import (
     get_birthdays_by_duration,
     add_birthday,
     delete_birthday,
-    update_birthday
+    update_birthday,
 )
 from core.services.address import (
     add_address,
