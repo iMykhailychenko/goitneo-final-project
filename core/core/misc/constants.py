@@ -10,6 +10,10 @@ class Actions(Enum):
     DELETE = "delete_contact"
     ALL = "all_contacts"
     
+    ADD_ADDRESS = 'add_address'
+    DELETE_ADDRESS = 'delete_address'
+    UPDATE_ADDRESS = 'update_address'
+    
     ADD_PHONE = "add_phone"
     UPDATE_PHONE = "update_phone"
     DELETE_PHONE = "delete_phone"
@@ -36,6 +40,9 @@ class CommandMessages(Enum):
     
     
 class InfoMessages(Enum):    
+    ADDRESS_ADDED = 'Address for contact added.'
+    ADDRESS_UPDATTED = 'Address for contact updated.'
+    ADDRESS_DELETED = 'Address for contact deleted.'
     BIRTHDAY_ADDED = "Birthday for contact added."
     BIRTHDAY_DELETED = 'Birthday for contact deleted.'
     BIRTHDAY_UPDATTED = 'Birthday for contact updated.'
