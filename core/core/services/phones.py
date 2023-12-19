@@ -23,7 +23,11 @@ def add_phone_number(payload):
 @response(InfoMessages.PHONE_NUMBER_DELETED)
 @write_data
 def delete_phone_number(payload):
-    pass
+    record = database[payload.name]
+
+    if record:
+        record.phones.discard(payload.phone)
+        return record    
     
     
 @response(InfoMessages.PHONE_NUMBER_UPDATED)

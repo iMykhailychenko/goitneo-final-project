@@ -53,7 +53,7 @@ class InfoMessages(Enum):
     CONTACTS_REMOVED = "Contacts were removed from AddressBook."
     NOTE_ADDED = "Note for contact added."
     PHONE_NUMBER_ADDED = 'Phone number for contact added.'
-    PHONE_NUMBER_DELETED = "Phone number for contact removed."
+    PHONE_NUMBER_DELETED = "Phone number for contact deleted."
     PHONE_NUMBER_FOUND = "Phone number found."
     PHONE_NUMBER_UPDATED = '"Phone number for contact updated.'
     
