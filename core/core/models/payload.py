@@ -17,7 +17,7 @@ class BirthdayPayload(BaseModel):
    
     
 class AllBirthdaysPayload(BaseModel):
-    day_amount: Optional[str] = '7'
+    day_amount: Optional[int] = 7
     
         
 class PhonePayload(BaseModel):

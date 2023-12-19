@@ -39,7 +39,7 @@ def test_delete_birthday(setup_test_user):
         Actions.DELETE_BIRTHDAY,
         BirthdayPayload(name="Joe"),
     )
-    assert result.value is None
+    assert result.value.birthday is None
     assert db["Joe"].birthday is None
 
 
@@ -82,7 +82,7 @@ def test_get_birthdays_by_duration(mocker, setup_db):
         ContactPayload(name="Bob", birthday="01.01.2023"),
     )
 
-    result = controller(Actions.BIRTHDAYS, AllBirthdaysPayload(day_amount="10"))
+    result = controller(Actions.BIRTHDAYS, AllBirthdaysPayload(day_amount=10))
 
     assert len(result.value) == 2
     assert result.value[0].birthday == date(2023, 6, 7)

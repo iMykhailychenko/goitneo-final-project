@@ -20,14 +20,13 @@ def get_birthdays_by_duration(payload):
     records = database.all()
     today = date.today()
     records_with_this_week_birthday: list[Record] = []
-    days = int(payload.day_amount)
 
     for contact in records.values():
         if contact.birthday:
             birthday = contact.birthday
             birthday_this_year = birthday.replace(year=today.year)
             if today <= birthday_this_year and birthday_this_year <= today + timedelta(
-                days=days
+                days=payload.day_amount
             ):
                 records_with_this_week_birthday.append(contact)
 
