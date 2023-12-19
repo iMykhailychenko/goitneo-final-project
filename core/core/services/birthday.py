@@ -10,10 +10,7 @@ database = Database()
 @response(InfoMessages.BIRTHDAY_ADDED)
 @write_data
 def add_birthday(payload):
-    record = database[payload.name]
-    birthday = get_valid_birthday(payload.birthday)
-
-    return set_birthday(payload, record, birthday)
+    return set_birthday(payload)
 
 
 @response()
@@ -45,10 +42,7 @@ def delete_birthday(payload):
 @response(InfoMessages.BIRTHDAY_UPDATTED)
 @write_data
 def update_birthday(payload):
-    record = database[payload.name]
-    birthday = get_valid_birthday(payload.birthday)
-
-    return set_birthday(payload, record, birthday)
+    return set_birthday(payload)
 
 
 def get_valid_birthday(birthday: str) -> date:
@@ -57,9 +51,12 @@ def get_valid_birthday(birthday: str) -> date:
     return birthday
 
 
-def set_birthday(payload, record: Record, birthday_value: date) -> Record:
+def set_birthday(payload) -> Record:
+    birthday = get_valid_birthday(payload.birthday)
+    record = database[payload.name]
+    
     if record:
-        record.birthday = birthday_value
+        record.birthday = birthday
         return record
     else:
-        return Record(name=payload.name, birthday=birthday_value)
+        return Record(name=payload.name, birthday=birthday)

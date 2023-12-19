@@ -4,18 +4,24 @@ from typing import Optional, Union
 
 class ContactPayload(BaseModel):
     name: str
-    email: Optional[str] = ""
-    note: Optional[str] = ""
-    birthday: Optional[str] = ""
+    email: Optional[str] = ''
+    note: Optional[str] = ''
+    birthday: Optional[str] = ''
+    address: Optional[str] = ''
     phones: set[str] = set()
     tags: set[str] = set()
 
 
 class BirthdayPayload(BaseModel):
     name: str
-    birthday: Optional[str] = ""
-
-
+    birthday: Optional[str] = ''
+  
+   
+class AddressPayload(BaseModel):
+    name: str
+    address: Optional[str] = ''
+    
+        
 class AllBirthdaysPayload(BaseModel):
     day_amount: Optional[int] = 7
 
@@ -42,6 +48,7 @@ class SearchPayload(BaseModel):
 
 
 Payload = Union[
+    AddressPayload,
     AllBirthdaysPayload,
     ContactPayload,
     BirthdayPayload,
