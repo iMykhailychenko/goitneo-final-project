@@ -6,6 +6,6 @@ from core.misc import InfoMessages
 @write_data
 def add_note(payload: NotePayload) -> Record:
     db = Database().connect()
-    record = db.get(payload.name)
+    record = db[payload.name]
     record.note = payload.note
     return record
