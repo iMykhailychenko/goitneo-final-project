@@ -37,9 +37,10 @@ def validate_birthday(birthday):
     except ValueError:
         raise InvalidBirthdayError
 
+
 __all__ = [
     "validate_phone_number",
     "validate_name",
     "validate_email",
     "validate_birthday",
-    ]
+]
