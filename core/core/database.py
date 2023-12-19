@@ -62,6 +62,7 @@ class Database:
                     self.__records[row.get("name")] = Record(
                         name=row.get("name"),
                         email=row.get("email"),
+                        address=row.get("address"),
                         birthday=birthday,
                         phones=phones,
                         tags=tags,
@@ -80,6 +81,7 @@ class Database:
                     {
                         "name": record.name,
                         "email": record.email,
+                        "address": record.address,
                         "phones": "|".join(record.phones),
                         "birthday": record.birthday,
                         "tags": "|".join(record.tags),
