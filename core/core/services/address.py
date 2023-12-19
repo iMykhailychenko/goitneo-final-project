@@ -11,6 +11,14 @@ def add_address(payload):
     return set_address(payload)
 
 
+@response(InfoMessages.ADDRESS_DELETED)
+@write_data
+def delete_address(payload):
+    record = database[payload.name]
+    record.address = ''
+    return record
+
+
 @response(InfoMessages.ADDRESS_UPDATTED)
 @write_data
 def update_address(payload):

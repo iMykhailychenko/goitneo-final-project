@@ -42,6 +42,7 @@ class CommandMessages(Enum):
 class InfoMessages(Enum):    
     ADDRESS_ADDED = 'Address for contact added.'
     ADDRESS_UPDATTED = 'Address for contact updated.'
+    ADDRESS_DELETED = 'Address for contact deleted.'
     BIRTHDAY_ADDED = "Birthday for contact added."
     BIRTHDAY_DELETED = 'Birthday for contact deleted.'
     BIRTHDAY_UPDATTED = 'Birthday for contact updated.'
