@@ -37,6 +37,8 @@ class CommandMessages(Enum):
     
 class InfoMessages(Enum):    
     BIRTHDAY_ADDED = "Birthday for contact added."
+    BIRTHDAY_DELETED = 'Birthday for contact deleted.'
+    BIRTHDAY_UPDATTED = 'Birthday for contact updated.'
     CONTACT_CREATED = "Contact created."
     CONTACT_CHANGED = "Contact changed."
     CONTACT_DELETED = "Contact deleted."
@@ -44,6 +46,7 @@ class InfoMessages(Enum):
     CONTACTS_REMOVED = "Contacts were removed from AddressBook."
     PHONE_NUMBER_REMOVED = "Phone number removed."
     PHONE_NUMBER_FOUND = "Phone number found."
+    PHONE_NUMBER_ADDED = 'Phone number added.'
     
     
 class ValidationMessages(Enum):

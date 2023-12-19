@@ -25,7 +25,10 @@ class PhonePayload(BaseModel):
     phone: str
     old_phone: Optional[str] = None
 
-
+    def __init__(self):
+   #     validate_phone_number(self.phone)
+        pass
+        
 class TagPayload(BaseModel):
     name: str
     tag: str

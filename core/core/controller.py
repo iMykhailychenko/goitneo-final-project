@@ -5,6 +5,7 @@ from core.models import Payload, Response, ResponseType
 from core.services import (
     add_birthday,
     add_contact,
+    add_phone_number,
     delete_birthday,
     get_birthdays_by_duration,
     update_birthday,
@@ -20,7 +21,7 @@ services_map = {
     Actions.DELETE.value: lambda _: None,
     Actions.ALL.value: lambda _: None,
     # Phone
-    Actions.ADD_PHONE.value: lambda _: None,
+    Actions.ADD_PHONE.value: add_phone_number,
     Actions.UPDATE_PHONE.value: lambda _: None,
     Actions.DELETE_PHONE.value: lambda _: None,
     # Birthday
