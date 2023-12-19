@@ -17,12 +17,12 @@ def test_add_address(setup_test_user):
 
 
 def test_delete_address(setup_test_user):
-    # controller(Actions.ADD_ADDRESS, ContactPayload(name="Joe", address=address_value))
+    controller(Actions.ADD_ADDRESS, ContactPayload(name="Joe", address=address_value))
 
-    # result = controller(Actions.DELETE_ADDRESS, ContactPayload(name="Joe"))
-    # assert result.value.address is None
-    # assert db["Joe"].address is None
-    pass
+    result = controller(Actions.DELETE_ADDRESS, ContactPayload(name="Joe"))
+    assert result.message == InfoMessages.ADDRESS_DELETED.value
+    assert len(result.value.address) == 0
+    assert len(db["Joe"].address) == 0
 
 
 def test_update_address(setup_db):
