@@ -12,22 +12,31 @@ database = Database()
 def add_phone_number(payload):
     record = database[payload.name]
 
-    return set_phone_number(payload, record)
-
-
-def set_phone_number(payload, record: Record) -> Record:
     if record:
         record.phones.add(payload.phone)
+    else:
+        record = Record(name=payload.name, phones={payload.phone})
+
+    return record
+
+
+@response(InfoMessages.PHONE_NUMBER_DELETED)
+@write_data
+def delete_phone_number(payload):
+    pass
+    
+    
+@response(InfoMessages.PHONE_NUMBER_UPDATED)
+@write_data
+def update_phone_number(payload):
+    record = database[payload.name]
+
+    if record:
+        if payload.old_phone in record.phones:
+            record.phones.discard(payload.old_phone)
+            record.phones.add(payload.phone)
+        else:
+            record.phones.add(payload.phone)
         return record
     else:
         return Record(name=payload.name, phones={payload.phone})
-
-
-# This code is for the implementation of the US-19
-# def validate_phone_number(phone_number):
-#         pattern = re.compile(r'^[0-9+-]+$')
-
-#         if len(phone_number) != 10:
-#             raise InvalidPhoneLengthError()
-#         elif not pattern.match(phone_number):
-#             raise InvalidPhoneError()
