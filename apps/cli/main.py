@@ -1,26 +1,31 @@
-from pathlib import Path
+from time import sleep
 
-from core import Database, controller
+from core import Database
+from rich.console import Console
 
-from config import DB_FOLDER_PATH
+from app.controller import Controller
+from app.exeptions import ExitException
+from app.utils import clear
 
+controller = Controller()
+console = Console()
 db = Database()
-db_file = Path(DB_FOLDER_PATH)
 
 
 def main():
-    db.connect(db_file)
+    with console.status("Welcome!"):
+        db.connect()
+        sleep(0.5)
 
     while True:
-        print("\nEnter a command: ")
-        user_input = input()
+        clear()
 
-        result = controller(user_input)
-        if result is None:
-            print("\nGood bye!")
+        try:
+            controller()
+        except ExitException:
+            clear()
+            console.print("\nGoodbye!\n", style="white on red")
             break
-
-        print(result.value)
 
 
 if __name__ == "__main__":
