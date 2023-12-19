@@ -39,7 +39,7 @@ def get_birthdays_by_duration(payload):
 def delete_birthday(payload):
     record = database[payload.name]
     record.birthday = None
-    return None
+    return record
 
 
 @response()
