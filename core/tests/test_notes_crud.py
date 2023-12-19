@@ -5,9 +5,8 @@ db = Database().connect()
 
 
 def test_add_note(setup_test_user):
-    # controller(Actions.ADD_NOTE, NotePayload(name="Joe", note="test note"))
-    # assert db["Joe"].note == "test note"
-    pass
+    controller(Actions.ADD_NOTE, NotePayload(name="Joe", note="test note"))
+    assert db["Joe"].note == "test note"
 
 
 def test_delete_note(setup_test_user):

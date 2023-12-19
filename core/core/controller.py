@@ -9,6 +9,7 @@ from core.services import (
     delete_birthday,
     get_birthdays_by_duration,
     update_birthday,
+    add_note,
 )
 
 services_map = {
@@ -30,7 +31,7 @@ services_map = {
     Actions.UPDATE_BIRTHDAY.value: update_birthday,
     Actions.BIRTHDAYS.value: get_birthdays_by_duration,
     # Notes
-    Actions.ADD_NOTE.value: lambda _: None,
+    Actions.ADD_NOTE.value: add_note,
     Actions.DELETE_NOTE.value: lambda _: None,
     Actions.UPDATE_NOTE.value: lambda _: None,
     # Tags
