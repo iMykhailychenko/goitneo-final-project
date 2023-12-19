@@ -17,11 +17,10 @@ def add_phone_number(payload):
 
 def set_phone_number(payload, record: Record) -> Record:
     if record:
-        if payload.phone not in record.phones:
-            record.phones.add(payload.phone)
+        record.phones.add(payload.phone)
         return record
     else:
-        return Record(name=payload.name, phones=set([payload.phone]))
+        return Record(name=payload.name, phones={payload.phone})
 
 
 # This code is for the implementation of the US-19

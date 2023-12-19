@@ -11,6 +11,12 @@ def test_invalid_phone_number():
 
     # result = controller(
     #     Actions.ADD,
+    #     ContactPayload(name="Joe", phones={"12345678912345"}),
+    # )  # to long
+    # assert result.value == ValidationMessages.PHONE_NUMBER_LENGTH.value
+
+    # result = controller(
+    #     Actions.ADD,
     #     ContactPayload(name="Joe", phones={"testString123"}),
     # )  # unapropriate format
     # assert result.value == ValidationMessages.PHONE_NUMBER_VALUE.value
