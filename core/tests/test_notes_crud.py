@@ -7,8 +7,8 @@ db = Database().connect()
 
 
 def test_add_note(setup_test_user):
-    # controller(Actions.ADD_NOTE, NotePayload(name="Joe", note="test note"))
-    # assert db["Joe"].note == "test note"
+    controller(Actions.ADD_NOTE, NotePayload(name="Joe", note="test note"))
+    assert db["Joe"].note == "test note"
     pass
 
 
