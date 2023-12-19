@@ -8,12 +8,18 @@ database = Database()
 @response(InfoMessages.ADDRESS_ADDED)
 @write_data
 def add_address(payload):
+    return set_address(payload)
+
+
+@response(InfoMessages.ADDRESS_UPDATTED)
+@write_data
+def update_address(payload):
+    return set_address(payload)
+
+
+def set_address(payload) -> Record:
     record = database[payload.name]
-
-    return set_address(payload, record)
-
-
-def set_address(payload, record: Record) -> Record:
+    
     if record:
         record.address = payload.address
         return record

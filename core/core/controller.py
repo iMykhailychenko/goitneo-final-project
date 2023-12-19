@@ -10,6 +10,7 @@ from core.services import (
     add_phone_number,
     delete_birthday,
     get_birthdays_by_duration,
+    update_address,
     update_birthday,
 )
 
@@ -29,7 +30,7 @@ services_map = {
     # Address
     Actions.ADD_ADDRESS.value: add_address,
     Actions.DELETE_ADDRESS.value: lambda _: None,
-    Actions.UPDATE_ADDRESS.value: lambda _: None,
+    Actions.UPDATE_ADDRESS.value: update_address,
     # Birthday
     Actions.ADD_BIRTHDAY.value: add_birthday,
     Actions.DELETE_BIRTHDAY.value: delete_birthday,
