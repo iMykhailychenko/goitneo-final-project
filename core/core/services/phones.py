@@ -38,6 +38,5 @@ def update_phone_number(payload: PhonePayload):
             record.phones.add(payload.phone)
         else:
             record.phones.add(payload.phone)
-        return record
     else:
         return Contact(id=payload.name, phones={payload.phone})
