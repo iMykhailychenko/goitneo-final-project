@@ -1,6 +1,8 @@
 from pytest import fixture
 
-from core import Actions, ContactPayload, Database, controller
+from core import Actions, controller
+from core.database import Database
+from core.models import ContactPayload
 
 db = Database()
 

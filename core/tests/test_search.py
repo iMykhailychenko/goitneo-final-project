@@ -1,6 +1,7 @@
 from datetime import date
 
-from core import Actions, Database, Record, SearchPayload, controller
+from core import Actions, controller
+from core.database import Database
 from tests.utils import setup_db
 
 db = Database().connect()

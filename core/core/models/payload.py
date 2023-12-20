@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Optional, Set, Union
 
 from pydantic import BaseModel
 
@@ -6,25 +6,20 @@ from pydantic import BaseModel
 class ContactPayload(BaseModel):
     name: str
     email: Optional[str] = ""
-    note: Optional[str] = ""
     birthday: Optional[str] = ""
     address: Optional[str] = ""
     phones: set[str] = set()
-    tags: set[str] = set()
 
 
 class BirthdayPayload(BaseModel):
-    name: str
+    name: Optional[str] = ""
     birthday: Optional[str] = ""
+    day_amount: Optional[int] = 7
 
 
 class AddressPayload(BaseModel):
     name: str
     address: Optional[str] = ""
-
-
-class AllBirthdaysPayload(BaseModel):
-    day_amount: Optional[int] = 7
 
 
 class PhonePayload(BaseModel):
@@ -40,8 +35,9 @@ class TagPayload(BaseModel):
 
 
 class NotePayload(BaseModel):
-    name: str
-    note: str
+    id: Optional[str] = None
+    value: Optional[str] = None
+    tags: Set[str] = set()
 
 
 class SearchPayload(BaseModel):
@@ -50,7 +46,6 @@ class SearchPayload(BaseModel):
 
 Payload = Union[
     AddressPayload,
-    AllBirthdaysPayload,
     ContactPayload,
     BirthdayPayload,
     PhonePayload,

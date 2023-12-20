@@ -1,7 +1,9 @@
 from datetime import datetime
 
-from core import Actions, ContactPayload, Database, Record, controller
+from core import Actions, controller
+from core.database import Database, Entities
 from core.misc import InfoMessages
+from core.models import Contact, ContactPayload
 from tests.utils import setup_db
 
 db = Database().connect()
@@ -14,7 +16,7 @@ def test_add_name(setup_db):
     )
 
     assert result.message == InfoMessages.CONTACT_CREATED.value
-    assert db["Joe"] == Record(name="Joe")
+    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(id="Joe")
 
 
 def test_add_phone(setup_db):
@@ -24,7 +26,9 @@ def test_add_phone(setup_db):
     )
 
     assert result.message == InfoMessages.CONTACT_CREATED.value
-    assert db["Joe"] == Record(name="Joe", phones={"1234567890"})
+    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+        id="Joe", phones={"1234567890"}
+    )
 
 
 def test_add_email(setup_db):
@@ -34,7 +38,9 @@ def test_add_email(setup_db):
     )
 
     assert result.message == InfoMessages.CONTACT_CREATED.value
-    assert db["Joe"] == Record(name="Joe", email="email@example.com")
+    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+        id="Joe", email="email@example.com"
+    )
 
 
 def test_add_birthday(setup_db):
@@ -44,8 +50,8 @@ def test_add_birthday(setup_db):
     )
 
     assert result.message == InfoMessages.CONTACT_CREATED.value
-    assert db["Joe"] == Record(
-        name="Joe", birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date()
+    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+        id="Joe", birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date()
     )
 
 
@@ -57,7 +63,9 @@ def test_add_tags(setup_db):
     )
 
     assert result.message == InfoMessages.CONTACT_CREATED.value
-    assert db["Joe"] == Record(name="Joe", tags=tags)
+    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+        id="Joe", tags=tags
+    )
 
 
 def test_add_note(setup_db):
@@ -67,7 +75,9 @@ def test_add_note(setup_db):
     )
 
     assert result.message == InfoMessages.CONTACT_CREATED.value
-    assert db["Joe"] == Record(name="Joe", note="Hello World")
+    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+        id="Joe", note="Hello World"
+    )
 
 
 def test_add_all(setup_db):
@@ -84,8 +94,8 @@ def test_add_all(setup_db):
     )
     assert result.message == InfoMessages.CONTACT_CREATED.value
 
-    assert db["Joe"] == Record(
-        name="Joe",
+    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+        id="Joe",
         phones={"1234567890"},
         email="email@example.com",
         birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date(),
@@ -106,6 +116,8 @@ def test_duplicates(setup_db):
     )
     assert result.message == InfoMessages.CONTACT_CREATED.value
 
-    records = db.all()
-    assert len(records.values()) == 1
-    assert db["Joe"] == Record(name="Joe", phones={"1234567890"})
+    records = db.select(entity=Entities.CONTACTS, key="*")
+    assert len(records) == 1
+    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+        id="Joe", phones={"1234567890"}
+    )

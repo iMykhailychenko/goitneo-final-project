@@ -1,6 +1,6 @@
 from time import sleep
 
-from core import Database
+from core.database import Database
 from rich.console import Console
 
 from app.controller import Controller

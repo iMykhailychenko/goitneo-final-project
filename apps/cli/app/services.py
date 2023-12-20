@@ -1,5 +1,6 @@
 from beaupy import ValidationError, select
-from core import Actions, ContactPayload, ResponseType, controller
+from core import Actions, controller
+from core.models import ContactPayload, ResponseType
 from rich.console import Console
 
 from app.constants import BaseActions, base, contacts
@@ -34,11 +35,9 @@ def create_new_contact() -> None:
         optional=True,
     )
     birthday = prompt("Add birthday", error_message="Invalid birthday", optional=True)
-    note = prompt("Add note", optional=True)
-    tags = prompt_set(question="Add tag", question_next="Add extra tag", optional=True)
-
+   
     payload = ContactPayload(
-        name=name, phones=phones, birthday=birthday, email=email, note=note, tags=tags
+        name=name, phones=phones, birthday=birthday, email=email
     )
 
     result = controller(Actions.ADD, payload)

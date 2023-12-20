@@ -1,6 +1,7 @@
+from core.models.contact import Contact
+from core.models.note import Note
 from core.models.payload import (
     AddressPayload,
-    AllBirthdaysPayload,
     BirthdayPayload,
     ContactPayload,
     NotePayload,
@@ -9,18 +10,16 @@ from core.models.payload import (
     SearchPayload,
     TagPayload,
 )
-from core.models.record import FIELDS, Record
 from core.models.response import Response, ResponseType, response
 
 __all__ = [
-    "Record",
-    "FIELDS",
+    "Note",
+    "Contact",
     "Response",
     "ResponseType",
     "Payload",
     "ContactPayload",
     "AddressPayload",
-    "AllBirthdaysPayload",
     "BirthdayPayload",
     "PhonePayload",
     "TagPayload",
