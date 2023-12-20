@@ -41,4 +41,5 @@ def update_phone_number(payload):
             record.phones.add(payload.phone)
     else:
         record = Record(name=payload.name, phones={payload.phone})
-    return record        
+
+    return record
