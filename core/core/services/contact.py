@@ -46,5 +46,13 @@ def update_contact(payload: ContactPayload) -> Record:
         if payload.tags:
             record.tags = payload.tags
         return record
+
+    
+@response(InfoMessages.CONTACT_FOUND)
+def check_contact(payload):
+    record = database[payload.name]
+    print(record)
+    if record:    
+        return record
     else:
         raise KeyError
