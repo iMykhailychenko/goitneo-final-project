@@ -1,7 +1,10 @@
 ../../core
 annotated-types==0.6.0
+beaupy==3.7.1
 black==23.11.0
 click==8.1.7
+commonmark==0.9.1
+emoji==2.9.0
 isort==5.12.0
 mypy-extensions==1.0.0
 packaging==23.2
@@ -10,6 +13,9 @@ platformdirs==4.0.0
 prompt-toolkit==3.0.36
 pydantic==2.5.2
 pydantic_core==2.14.5
-questionary==2.0.1
+Pygments==2.17.2
+python-yakh==0.3.2
+questo==0.2.1
+rich==12.6.0
 typing_extensions==4.8.0
 wcwidth==0.2.12
