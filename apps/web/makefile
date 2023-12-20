@@ -1,5 +1,5 @@
 lint: 
-	python -m isort *.py && python -m black *.py
+	black . && isort .
 
 test:
 	pytest -v

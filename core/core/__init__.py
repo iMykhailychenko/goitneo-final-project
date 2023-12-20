@@ -11,6 +11,7 @@ from core.models import (
     PhonePayload,
     Record,
     Response,
+    ResponseType,
     SearchPayload,
     TagPayload,
 )
@@ -29,4 +30,5 @@ __all__ = [
     "ContactPayload",
     "NotePayload",
     "SearchPayload",
+    "ResponseType",
 ]

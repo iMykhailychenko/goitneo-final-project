@@ -1,8 +1,9 @@
-from typing import Any
 from datetime import date, datetime, timedelta
-from core.models import response, Record
-from core.database import write_data, Database
+from typing import Any
+
+from core.database import Database, write_data
 from core.misc import InfoMessages
+from core.models import Record, response
 
 database = Database()
 
@@ -54,7 +55,7 @@ def get_valid_birthday(birthday: str) -> date:
 def set_birthday(payload) -> Record:
     birthday = get_valid_birthday(payload.birthday)
     record = database[payload.name]
-    
+
     if record:
         record.birthday = birthday
         return record

@@ -1,6 +1,6 @@
-from core.models import response, Record
-from core.database import write_data, Database
+from core.database import Database, write_data
 from core.misc import InfoMessages
+from core.models import Record, response
 
 database = Database()
 
@@ -15,7 +15,7 @@ def add_address(payload):
 @write_data
 def delete_address(payload):
     record = database[payload.name]
-    record.address = ''
+    record.address = ""
     return record
 
 
@@ -27,10 +27,9 @@ def update_address(payload):
 
 def set_address(payload) -> Record:
     record = database[payload.name]
-    
+
     if record:
         record.address = payload.address
         return record
     else:
         return Record(name=payload.name, address=payload.address)
-
