@@ -9,10 +9,10 @@ class Actions(Enum):
     ADD = "add_contact"
     DELETE = "delete_contact"
     ALL = "all_contacts"
-    
-    ADD_ADDRESS = 'add_address'
-    DELETE_ADDRESS = 'delete_address'
-    UPDATE_ADDRESS = 'update_address'
+
+    ADD_ADDRESS = "add_address"
+    DELETE_ADDRESS = "delete_address"
+    UPDATE_ADDRESS = "update_address"
 
     ADD_PHONE = "add_phone"
     UPDATE_PHONE = "update_phone"
@@ -38,11 +38,11 @@ class CommandMessages(Enum):
     HELP_QUESTION = "How can I help you?"
     GOOD_BYE_MESSAGE = "Good bye!"
 
-        
-class InfoMessages(Enum):    
-    ADDRESS_ADDED = 'Address for contact added.'
-    ADDRESS_UPDATTED = 'Address for contact updated.'
-    ADDRESS_DELETED = 'Address for contact deleted.'
+
+class InfoMessages(Enum):
+    ADDRESS_ADDED = "Address for contact added."
+    ADDRESS_UPDATTED = "Address for contact updated."
+    ADDRESS_DELETED = "Address for contact deleted."
     BIRTHDAY_ADDED = "Birthday for contact added."
     BIRTHDAY_DELETED = "Birthday for contact deleted."
     BIRTHDAY_UPDATTED = "Birthday for contact updated."
@@ -53,12 +53,12 @@ class InfoMessages(Enum):
     CONTACTS_REMOVED = "Contacts were removed from AddressBook."
     NOTE_ADDED = "Note for contact added."
     NOTE_UPDATED = "Note for contact updated."
-    PHONE_NUMBER_ADDED = 'Phone number for contact added.'
+    PHONE_NUMBER_ADDED = "Phone number for contact added."
     PHONE_NUMBER_DELETED = "Phone number for contact deleted."
     PHONE_NUMBER_FOUND = "Phone number found."
     PHONE_NUMBER_UPDATED = '"Phone number for contact updated.'
-    
-    
+
+
 class ValidationMessages(Enum):
     ADDRESS_BOOK_EMPTY = "There is no contacts in the AddressBook to save."
     BIRTHDAY_NOT_EXIST = "There is no birthday for this contact in the AddressBook."

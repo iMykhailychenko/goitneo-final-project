@@ -1,8 +1,8 @@
 import re
-from core.models import response, Record
-from core.database import write_data, Database
-from core.misc import InfoMessages
 
+from core.database import Database, write_data
+from core.misc import InfoMessages
+from core.models import Record, response
 
 database = Database()
 
@@ -27,9 +27,9 @@ def delete_phone_number(payload):
 
     if record:
         record.phones.discard(payload.phone)
-        return record    
-    
-    
+        return record
+
+
 @response(InfoMessages.PHONE_NUMBER_UPDATED)
 @write_data
 def update_phone_number(payload):

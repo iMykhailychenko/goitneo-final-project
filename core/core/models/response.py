@@ -1,7 +1,8 @@
 from enum import Enum
-from typing import Optional, Union, List
-from pydantic import BaseModel
 from functools import wraps
+from typing import List, Optional, Union
+
+from pydantic import BaseModel
 
 from core.models.record import Record
 

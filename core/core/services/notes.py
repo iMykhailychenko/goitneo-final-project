@@ -1,6 +1,6 @@
-from core.database import write_data, Database
-from core.models import NotePayload, Record, response
+from core.database import Database, write_data
 from core.misc import InfoMessages
+from core.models import NotePayload, Record, response
 
 
 @response(InfoMessages.NOTE_ADDED)
