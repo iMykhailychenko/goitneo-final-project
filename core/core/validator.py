@@ -1,5 +1,6 @@
 import datetime
 import re
+from core.database import Database
 
 from core.misc import (
     InvalidBirthdayError,
@@ -10,6 +11,16 @@ from core.misc import (
 )
 
 
+def validate_existing_contact(name):
+    database = Database()
+    record = database[name]
+
+    if record:    
+        return record
+    else:
+        raise KeyError
+    
+    
 def validate_phone_number(phone_number):
     phone_number_pattern = re.compile(r"^[0-9+-]+$")
 
@@ -39,8 +50,9 @@ def validate_birthday(birthday):
 
 
 __all__ = [
-    "validate_phone_number",
-    "validate_name",
-    "validate_email",
     "validate_birthday",
+    "validate_email",
+    "validate_existing_contact",
+    "validate_name",
+    "validate_phone_number",
 ]

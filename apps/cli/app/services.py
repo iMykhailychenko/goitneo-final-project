@@ -72,7 +72,7 @@ def update_contact() -> None:
     payload = ContactPayload(name=name)
     result = controller(Actions.CHECK, payload)
     if result.type.value == ResponseType.ERROR.value:
-        console.print(f'{result.message} 😅️️️️️️' + "\n", end="\n." * 10)
+        console.print(f"{result.message} 😅️️️️️️" + "\n", end="\n." * 10)
         input("\n\nPress Enter to continue...")
 
     else:
@@ -87,7 +87,9 @@ def update_contact() -> None:
             "Update birthday", error_message="Invalid birthday", optional=True
         )
 
-        payload = ContactPayload(name=name, phones=phones, birthday=birthday, email=email)
+        payload = ContactPayload(
+            name=name, phones=phones, birthday=birthday, email=email
+        )
 
         result = controller(Actions.UPDATE, payload)
 
