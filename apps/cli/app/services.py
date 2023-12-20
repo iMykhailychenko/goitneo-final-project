@@ -51,28 +51,28 @@ def create_new_contact() -> None:
 
 
 def get_birthdays_by_duration() -> None:
-    day_duration = int(
-        prompt(
-            "Enter days duration from today",
-            error_message="Duration should be an Integer",
-            optional=True,
-        )
+    day_duration = prompt(
+        "Enter days duration from today",
+        error_message="Duration should be an Integer",
+        optional=True,
     )
 
-    payload = AllBirthdaysPayload(day_amount=day_duration)
+    day_amount = day_duration if type(day_duration) == int else 7
+    payload = AllBirthdaysPayload(day_amount=day_amount)
     result = controller(Actions.BIRTHDAYS, payload)
+    
     if result.type.value == ResponseType.ERROR.value:
         console.print(f"{result.message} 😅️️️️️️" + "\n", end="\n." * 10)
     else:
         if result.value:
             console.print(
-                f"The following users celebrate birthdays in the next {day_duration} days ",
+                f"The following users celebrate birthdays in the next {day_amount} days ",
                 style="white on blue",
             )
             display_weekly_calendar(result.value)
         else:
             console.print(
-                f"None from contacts celebrate their birthday in the next {day_duration} days 🫠",
+                f"None from contacts celebrate their birthday in the next {day_amount} days 🫠",
                 style="white on red",
             )
     input("\n\nPress Enter to continue...")

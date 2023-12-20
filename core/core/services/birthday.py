@@ -16,7 +16,6 @@ def add_birthday(payload):
 
 @response()
 def get_birthdays_by_duration(payload):
-    day_amount = payload.day_amount if type(payload.day_amount) == int else 7
     records = database.all()
     today = date.today()
     records_with_this_week_birthday: list[Record] = []
@@ -26,7 +25,7 @@ def get_birthdays_by_duration(payload):
             birthday = contact.birthday
             birthday_this_year = birthday.replace(year=today.year)
             if today <= birthday_this_year and birthday_this_year <= today + timedelta(
-                days=day_amount
+                days=payload.day_amount
             ):
                 records_with_this_week_birthday.append(contact)
 
