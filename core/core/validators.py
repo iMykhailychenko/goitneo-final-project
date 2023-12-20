@@ -1,5 +1,5 @@
-import datetime
 import re
+from datetime import datetime
 
 from core.misc import (
     InvalidBirthdayError,
