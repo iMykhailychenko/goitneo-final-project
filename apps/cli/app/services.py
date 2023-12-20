@@ -60,7 +60,7 @@ def get_birthdays_by_duration() -> None:
     day_amount = day_duration if type(day_duration) == int else 7
     payload = AllBirthdaysPayload(day_amount=day_amount)
     result = controller(Actions.BIRTHDAYS, payload)
-    
+
     if result.type.value == ResponseType.ERROR.value:
         console.print(f"{result.message} 😅️️️️️️" + "\n", end="\n." * 10)
     else:
