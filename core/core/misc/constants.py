@@ -9,6 +9,7 @@ class Actions(Enum):
     ADD = "add_contact"
     DELETE = "delete_contact"
     ALL = "all_contacts"
+    UPDATE = "update_contact"
 
     ADD_ADDRESS = "add_address"
     DELETE_ADDRESS = "delete_address"
@@ -46,8 +47,8 @@ class InfoMessages(Enum):
     BIRTHDAY_ADDED = "Birthday for contact added."
     BIRTHDAY_DELETED = "Birthday for contact deleted."
     BIRTHDAY_UPDATTED = "Birthday for contact updated."
-    CONTACT_CREATED = "Contact created."
-    CONTACT_CHANGED = "Contact changed."
+    CONTACT_ADDED = "Contact added."
+    CONTACT_UPDATED = "Contact updated."
     CONTACT_DELETED = "Contact deleted."
     CONTACT_NOT_FOUND = "Contact not found."
     CONTACTS_REMOVED = "Contacts were removed from AddressBook."
