@@ -1,26 +1,26 @@
 from datetime import date, datetime, timedelta
-from typing import Any
+from typing import List
 
-from core.database import Database, write_data
+from core.database import Database, Entities, write_data
 from core.misc import InfoMessages
-from core.models import Record, response
+from core.models import BirthdayPayload, Contact, response
 
 database = Database()
 
 
 @response(InfoMessages.BIRTHDAY_ADDED)
-@write_data
-def add_birthday(payload):
+@write_data(entity=Entities.CONTACTS)
+def add_birthday(payload: BirthdayPayload):
     return set_birthday(payload)
 
 
 @response()
-def get_birthdays_by_duration(payload):
-    records = database.all()
+def get_birthdays_by_duration(payload: BirthdayPayload):
+    records = database.select(Entities.CONTACTS, key="*")
     today = date.today()
-    records_with_this_week_birthday: list[Record] = []
+    records_with_this_week_birthday: List[Contact] = []
 
-    for contact in records.values():
+    for contact in records:
         if contact.birthday:
             birthday = contact.birthday
             birthday_this_year = birthday.replace(year=today.year)
@@ -33,31 +33,29 @@ def get_birthdays_by_duration(payload):
 
 
 @response(InfoMessages.BIRTHDAY_DELETED)
-@write_data
-def delete_birthday(payload):
-    record = database[payload.name]
+@write_data(entity=Entities.CONTACTS)
+def delete_birthday(payload: BirthdayPayload):
+    record = database.select(Entities.CONTACTS, key=payload.name)
     record.birthday = None
     return record
 
 
 @response(InfoMessages.BIRTHDAY_UPDATTED)
-@write_data
-def update_birthday(payload):
+@write_data(entity=Entities.CONTACTS)
+def update_birthday(payload: BirthdayPayload):
     return set_birthday(payload)
 
 
 def get_valid_birthday(birthday: str) -> date:
-    birthday = datetime.strptime(birthday, "%d.%m.%Y").date() if birthday else None
-
-    return birthday
+    return datetime.strptime(birthday, "%d.%m.%Y").date() if birthday else None
 
 
-def set_birthday(payload) -> Record:
+def set_birthday(payload: BirthdayPayload) -> Contact:
     birthday = get_valid_birthday(payload.birthday)
-    record = database[payload.name]
+    record = database.select(entity=Entities.CONTACTS, key=payload.name)
 
     if record:
         record.birthday = birthday
         return record
     else:
-        return Record(name=payload.name, birthday=birthday)
+        return Contact(id=payload.name, birthday=birthday)

@@ -1,7 +1,8 @@
 from beaupy import ValidationError, select
-from core import Actions, AllBirthdaysPayload, ContactPayload, ResponseType, controller
-from prettytable import PrettyTable
+from core import Actions, controller
+from core.models import BirthdayPayload, ContactPayload, ResponseType
 from rich.console import Console
+from prettytable import PrettyTable
 
 from app.constants import BaseActions, base, contacts
 from app.utils import prompt, prompt_set
@@ -35,12 +36,8 @@ def create_new_contact() -> None:
         optional=True,
     )
     birthday = prompt("Add birthday", error_message="Invalid birthday", optional=True)
-    note = prompt("Add note", optional=True)
-    tags = prompt_set(question="Add tag", question_next="Add extra tag", optional=True)
 
-    payload = ContactPayload(
-        name=name, phones=phones, birthday=birthday, email=email, note=note, tags=tags
-    )
+    payload = ContactPayload(name=name, phones=phones, birthday=birthday, email=email)
 
     result = controller(Actions.ADD, payload)
     if result.type.value == ResponseType.ERROR.value:
@@ -58,7 +55,7 @@ def get_birthdays_by_duration() -> None:
     )
 
     day_amount = day_duration if type(day_duration) == int else 7
-    payload = AllBirthdaysPayload(day_amount=day_amount)
+    payload = BirthdayPayload(day_amount=day_amount)
     result = controller(Actions.BIRTHDAYS, payload)
 
     if result.type.value == ResponseType.ERROR.value:

@@ -1,6 +1,6 @@
 from typing import Optional
 
-from core.misc import Actions, CommandMessages, ValidationMessages, validation
+from core.misc import Actions, ValidationMessages, validation
 from core.models import Payload, Response, ResponseType
 from core.services import (
     add_address,
@@ -19,9 +19,6 @@ from core.services import (
 )
 
 services_map = {
-    # Base
-    Actions.EXIT.value: lambda _: None,
-    Actions.CLOSE.value: lambda _: None,
     Actions.SEARCH.value: lambda _: None,
     # Contact
     Actions.ADD.value: add_contact,
