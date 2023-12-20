@@ -1,5 +1,3 @@
-import re
-
 from core.database import Database, write_data
 from core.misc import InfoMessages
 from core.models import Record, response
@@ -41,6 +39,7 @@ def update_phone_number(payload):
             record.phones.add(payload.phone)
         else:
             record.phones.add(payload.phone)
-        return record
     else:
-        return Record(name=payload.name, phones={payload.phone})
+        record = Record(name=payload.name, phones={payload.phone})
+
+    return record
