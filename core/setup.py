@@ -1,6 +1,6 @@
 from setuptools import find_namespace_packages, setup
 
-packages=find_namespace_packages()
+packages = find_namespace_packages()
 packages.append("core")
 
 setup(

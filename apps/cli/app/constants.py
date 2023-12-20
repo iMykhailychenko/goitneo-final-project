@@ -1,6 +1,5 @@
 from enum import Enum
 
-
 GO_BACK = "<-  Go back\n"
 CLOSE = "⛔️  Close\n"
 
@@ -16,7 +15,6 @@ class ContactActions(Enum):
     ADD = "➕  Create new contact\n"
     DELETE = "➖  Delete contact\n"
     UPDATE = "👥  Update contact\n"
-   
 
 
 class UpdateContactActions(Enum):

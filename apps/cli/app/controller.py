@@ -1,7 +1,13 @@
 from rich.console import Console
-from app.services import contacts_actions, base_action, create_new_contact, get_all_contacts
-from app.constants import BaseActions, CLOSE, ContactActions, GO_BACK
+
+from app.constants import CLOSE, GO_BACK, BaseActions, ContactActions
 from app.exeptions import ExitException
+from app.services import (
+    base_action,
+    contacts_actions,
+    create_new_contact,
+    get_all_contacts,
+)
 
 console = Console()
 current_action = None
@@ -28,6 +34,5 @@ class Controller:
             raise ExitException()
         elif self.__current_action == GO_BACK:
             self.__current_action = None
-        
-        self.__current_action = actions_map[self.__current_action]()
 
+        self.__current_action = actions_map[self.__current_action]()
