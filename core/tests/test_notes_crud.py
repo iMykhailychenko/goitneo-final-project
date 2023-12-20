@@ -3,7 +3,7 @@ from core.database import Database, Entities
 from core.models import NotePayload
 from tests.utils import setup_db
 
-db = Database().connect()
+db = Database()
 
 
 def test_add_note(setup_db):

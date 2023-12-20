@@ -4,7 +4,7 @@ from core.misc import InfoMessages
 from core.models import PhonePayload
 from tests.utils import setup_db, setup_test_user
 
-db = Database().connect()
+db = Database()
 phone_value = "1234567890"
 old_phone_value = "123-456-89"
 

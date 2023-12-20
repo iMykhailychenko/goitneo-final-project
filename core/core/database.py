@@ -68,7 +68,7 @@ class Database:
 
     def __read(self, entity: Entities) -> None:
         file = self.__get_file(entity)
-        
+
         with open(file, "r") as f:
             try:
                 data = json.load(f)

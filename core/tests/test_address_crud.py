@@ -4,7 +4,7 @@ from core.misc import InfoMessages
 from core.models import ContactPayload
 from tests.utils import setup_db, setup_test_user
 
-db = Database().connect()
+db = Database()
 address_value = "Main Street 15"
 new_address_value = "HauptStrasse 22"
 

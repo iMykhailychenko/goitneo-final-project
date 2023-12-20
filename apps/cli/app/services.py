@@ -35,10 +35,8 @@ def create_new_contact() -> None:
         optional=True,
     )
     birthday = prompt("Add birthday", error_message="Invalid birthday", optional=True)
-   
-    payload = ContactPayload(
-        name=name, phones=phones, birthday=birthday, email=email
-    )
+
+    payload = ContactPayload(name=name, phones=phones, birthday=birthday, email=email)
 
     result = controller(Actions.ADD, payload)
     if result.type.value == ResponseType.ERROR.value:

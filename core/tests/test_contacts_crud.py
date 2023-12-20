@@ -6,7 +6,7 @@ from core.misc import InfoMessages
 from core.models import Contact, ContactPayload
 from tests.utils import setup_db
 
-db = Database().connect()
+db = Database()
 
 
 def test_add_name(setup_db):

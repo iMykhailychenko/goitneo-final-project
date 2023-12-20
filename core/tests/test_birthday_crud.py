@@ -5,7 +5,7 @@ from core.database import Database, Entities
 from core.models import BirthdayPayload, ContactPayload
 from tests.utils import setup_db, setup_test_user
 
-db = Database().connect()
+db = Database()
 mock_today = date(2023, 6, 6)  # Tuesday, not a leap year
 mock_new_day = date.today()
 

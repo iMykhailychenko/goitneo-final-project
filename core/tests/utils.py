@@ -4,7 +4,7 @@ from core import Actions, controller
 from core.database import Database
 from core.models import ContactPayload
 
-db = Database()
+db = Database().connect()
 
 
 @fixture
