@@ -7,7 +7,7 @@ from typing import Dict, Optional
 from core.misc import DatabaseError
 from core.models import FIELDS, Record, Response
 
-DB_FOLDER_PATH = Path("/tmp/goit-bot")
+DB_FOLDER_PATH = Path(__file__).resolve().parent.parent.parent / "tmp"
 
 
 class Database:
@@ -62,6 +62,7 @@ class Database:
                     self.__records[row.get("name")] = Record(
                         name=row.get("name"),
                         email=row.get("email"),
+                        address=row.get("address"),
                         birthday=birthday,
                         phones=phones,
                         tags=tags,
@@ -80,6 +81,7 @@ class Database:
                     {
                         "name": record.name,
                         "email": record.email,
+                        "address": record.address,
                         "phones": "|".join(record.phones),
                         "birthday": record.birthday,
                         "tags": "|".join(record.tags),
