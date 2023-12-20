@@ -5,7 +5,6 @@ from core.misc.constants import (
     ValidationMessages,
 )
 from core.misc.exeptions import (
-    DatabaseError,
     InvalidBirthdayError,
     InvalidEmailError,
     InvalidNameError,
@@ -24,6 +23,5 @@ __all__ = [
     "InvalidNameError",
     "InvalidPhoneError",
     "InvalidPhoneLengthError",
-    "DatabaseError",
     "InvalidEmailError",
 ]

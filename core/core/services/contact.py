@@ -1,33 +1,32 @@
 from datetime import datetime
 
-from core.database import Database, write_data
+from core.database import Entities, Database, write_data
 from core.misc import InfoMessages
-from core.models import ContactPayload, Record, response
+from core.models import Contact, ContactPayload, response
 
 database = Database()
 
 
-@response(InfoMessages.CONTACT_ADDED)
-@write_data
-def add_contact(payload: ContactPayload) -> Record:
+@response(InfoMessages.CONTACT_CREATED)
+@write_data(entity=Entities.CONTACTS)
+def add_contact(payload: ContactPayload) -> Contact:
     birthday = (
         datetime.strptime(payload.birthday, "%d.%m.%Y").date()
         if payload.birthday
         else None
     )
-    return Record(
-        name=payload.name,
+    return Contact(
+        id=payload.name,
         email=payload.email,
         phones=payload.phones,
-        tags=payload.tags,
-        note=payload.note,
         birthday=birthday,
+        address=payload.address,
     )
 
 
-@response(InfoMessages.CONTACT_UPDATED)
-@write_data
-def update_contact(payload: ContactPayload) -> Record:
+@response()
+@write_data(entity=Entities.CONTACTS)
+def update_contact(payload: ContactPayload) -> Contact:
     record = database[payload.name]
 
     if record:
@@ -48,8 +47,8 @@ def update_contact(payload: ContactPayload) -> Record:
         return record
 
 
-@response(InfoMessages.CONTACT_FOUND)
-def check_contact(payload):
+@response()
+def get_contact(payload: ContactPayload) -> Contact:
     record = database[payload.name]
 
     if record:

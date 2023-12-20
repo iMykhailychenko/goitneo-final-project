@@ -2,7 +2,6 @@ from functools import wraps
 
 from core.misc.constants import ValidationMessages
 from core.misc.exeptions import (
-    DatabaseError,
     InvalidBirthdayError,
     InvalidEmailError,
     InvalidNameError,
@@ -18,8 +17,7 @@ def validation(func):
         error_message = ""
         try:
             return func(*args, **kwargs)
-        except ValueError as e:
-            print(e)
+        except ValueError:
             error_message = ValidationMessages.INVALID_INPUT
         except KeyError:
             error_message = ValidationMessages.CONTACT_NOT_EXIST
@@ -35,12 +33,9 @@ def validation(func):
             error_message = ValidationMessages.INVALID_EMAIL
         except InvalidBirthdayError:
             error_message = ValidationMessages.INVALID_BIRTHDAY
-        except DatabaseError:
-            error_message = ValidationMessages.DATABASE_FILE_NOT_FOUND
         except EOFError:
             return ValidationMessages.EOF_ERROR
-        except Exception as e:
-            print(e)
+        except Exception:
             error_message = ValidationMessages.UNKNOWN_ERROR
         return Response(message=error_message, type=ResponseType.ERROR)
 

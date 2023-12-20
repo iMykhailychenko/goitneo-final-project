@@ -1,5 +1,6 @@
 from beaupy import ValidationError, select
-from core import Actions, ContactPayload, ResponseType, controller
+from core import Actions, controller
+from core.models import ContactPayload, ResponseType
 from rich.console import Console
 
 from app.constants import BaseActions, base, contacts
@@ -25,7 +26,7 @@ def create_new_contact() -> None:
         validator=lambda value: len(value) > 0,
     )
     payload = ContactPayload(name=name)
-    result = controller(Actions.CHECK, payload)
+    result = controller(Actions.GET, payload)
 
     if result.value:
         console.print("The record already exists 😅️️️️️️" + "\n", end="\n." * 10)
@@ -47,12 +48,7 @@ def create_new_contact() -> None:
         )
 
         payload = ContactPayload(
-            name=name,
-            phones=phones,
-            birthday=birthday,
-            email=email,
-            note=note,
-            tags=tags,
+            name=name, phones=phones, birthday=birthday, email=email, note=note, tags=tags
         )
 
         result = controller(Actions.ADD, payload)
@@ -70,7 +66,7 @@ def update_contact() -> None:
         validator=lambda value: len(value) > 0,
     )
     payload = ContactPayload(name=name)
-    result = controller(Actions.CHECK, payload)
+    result = controller(Actions.GET, payload)
     if result.type.value == ResponseType.ERROR.value:
         console.print(f"{result.message} 😅️️️️️️" + "\n", end="\n." * 10)
         input("\n\nPress Enter to continue...")
