@@ -7,7 +7,7 @@ class Actions(Enum):
     SEARCH = "search"
 
     ADD = "add_contact"
-    CHECK = "check_contact"
+    GET = "get_contact"
     DELETE = "delete_contact"
     ALL = "all_contacts"
     UPDATE = "update_contact"

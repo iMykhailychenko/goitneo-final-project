@@ -48,7 +48,12 @@ def create_new_contact() -> None:
         )
 
         payload = ContactPayload(
-            name=name, phones=phones, birthday=birthday, email=email, note=note, tags=tags
+            name=name,
+            phones=phones,
+            birthday=birthday,
+            email=email,
+            note=note,
+            tags=tags,
         )
 
         result = controller(Actions.ADD, payload)
@@ -67,8 +72,8 @@ def update_contact() -> None:
     )
     payload = ContactPayload(name=name)
     result = controller(Actions.GET, payload)
-    if result.type.value == ResponseType.ERROR.value:
-        console.print(f"{result.message} 😅️️️️️️" + "\n", end="\n." * 10)
+    if not result.value:
+        console.print("Contact does not exist 😅️️️️️️" + "\n", end="\n." * 10)
         input("\n\nPress Enter to continue...")
 
     else:

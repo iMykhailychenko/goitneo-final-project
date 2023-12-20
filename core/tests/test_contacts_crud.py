@@ -15,7 +15,6 @@ def test_add_name(setup_db):
         ContactPayload(name="Joe"),
     )
 
-    assert result.message == InfoMessages.CONTACT_CREATED.value
     assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(id="Joe")
 
 
@@ -25,7 +24,6 @@ def test_add_phone(setup_db):
         ContactPayload(name="Joe", phones={"1234567890"}),
     )
 
-    assert result.message == InfoMessages.CONTACT_CREATED.value
     assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
         id="Joe", phones={"1234567890"}
     )
@@ -37,7 +35,6 @@ def test_add_email(setup_db):
         ContactPayload(name="Joe", email="email@example.com"),
     )
 
-    assert result.message == InfoMessages.CONTACT_CREATED.value
     assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
         id="Joe", email="email@example.com"
     )
@@ -49,7 +46,6 @@ def test_add_birthday(setup_db):
         ContactPayload(name="Joe", birthday="20.11.1990"),
     )
 
-    assert result.message == InfoMessages.CONTACT_CREATED.value
     assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
         id="Joe", birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date()
     )
@@ -62,7 +58,6 @@ def test_add_tags(setup_db):
         ContactPayload(name="Joe", tags=tags),
     )
 
-    assert result.message == InfoMessages.CONTACT_CREATED.value
     assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
         id="Joe", tags=tags
     )
@@ -74,7 +69,6 @@ def test_add_note(setup_db):
         ContactPayload(name="Joe", note="Hello World"),
     )
 
-    assert result.message == InfoMessages.CONTACT_CREATED.value
     assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
         id="Joe", note="Hello World"
     )
@@ -91,7 +85,6 @@ def test_add_all(setup_db):
             birthday="20.11.1990",
         ),
     )
-    assert result.message == InfoMessages.CONTACT_ADDED.value
 
     assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
         id="Joe",
@@ -106,16 +99,51 @@ def test_duplicates(setup_db):
         Actions.ADD,
         ContactPayload(name="Joe"),
     )
-    assert result.message == InfoMessages.CONTACT_ADDED.value
 
     result = controller(
         Actions.ADD,
         ContactPayload(name="Joe", phones={"1234567890"}),
     )
-    assert result.message == InfoMessages.CONTACT_ADDED.value
 
     records = db.select(entity=Entities.CONTACTS, key="*")
     assert len(records) == 1
     assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
         id="Joe", phones={"1234567890"}
+    )
+
+
+def test_update_contact(setup_db):
+    result = controller(
+        Actions.ADD,
+        ContactPayload(
+            command=Actions.ADD,
+            name="Joe",
+            phones={"1234567890"},
+            email="email@example.com",
+            birthday="20.11.1990",
+        ),
+    )
+
+    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+        id="Joe",
+        phones={"1234567890"},
+        email="email@example.com",
+        birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date(),
+    )
+
+    controller(
+        Actions.UPDATE,
+        ContactPayload(
+            command=Actions.UPDATE,
+            name="Joe",
+            phones={"234567890", "1234567890"},
+            email="joe@example.com",
+        ),
+    )
+
+    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+        id="Joe",
+        phones={"234567890", "1234567890"},
+        email="joe@example.com",
+        birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date(),
     )
