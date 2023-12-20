@@ -14,6 +14,7 @@ class Entities(Enum):
     CONTACTS = "contacts"
     NOTES = "notes"
 
+
 Record = Union[Contact, Note]
 Entity = Dict[str, Record]
 
@@ -21,6 +22,7 @@ records = {
     Entities.CONTACTS.value: Contact,
     Entities.NOTES.value: Note,
 }
+
 
 class Database:
     __instance = None
@@ -66,12 +68,15 @@ class Database:
 
     def __read(self, entity: Entities) -> None:
         file = self.__get_file(entity)
-
+        
         with open(file, "r") as f:
-            data = json.load(f)
-            self.__entities[entity] = {}
-            for key, record in data.items():
-                self.__entities[entity][key] = records[entity.value](**record)
+            try:
+                data = json.load(f)
+                self.__entities[entity.value] = {}
+                for key, record in data.items():
+                    self.__entities[entity.value][key] = records[entity.value](**record)
+            except json.JSONDecodeError:
+                pass
 
     def __write(self, entity: Entities) -> None:
         file = self.__get_file(entity)

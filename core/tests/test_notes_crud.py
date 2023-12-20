@@ -8,7 +8,7 @@ db = Database().connect()
 
 def test_add_note(setup_db):
     result = controller(Actions.ADD_NOTE, NotePayload(value="test note"))
-    print(result)
+
     assert db.select(entity=Entities.NOTES, key=result.value.id).value == "test note"
 
 

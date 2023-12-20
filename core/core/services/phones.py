@@ -33,10 +33,8 @@ def update_phone_number(payload: PhonePayload):
     record = database.select(entity=Entities.CONTACTS, key=payload.name)
 
     if record:
-        if payload.old_phone in record.phones:
-            record.phones.discard(payload.old_phone)
-            record.phones.add(payload.phone)
-        else:
-            record.phones.add(payload.phone)
+        record.phones.discard(payload.old_phone)
+        record.phones.add(payload.phone)
+        return record
     else:
         return Contact(id=payload.name, phones={payload.phone})

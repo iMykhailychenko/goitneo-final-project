@@ -27,7 +27,7 @@ def test_delete_phone_number(setup_test_user):
     assert len(db.select(entity=Entities.CONTACTS, key="Joe").phones) == 0
 
 
-def test_update_phone_number(setup_db):
+def test_update_phone_number(setup_test_user):
     result = controller(Actions.ADD_PHONE, PhonePayload(name="Joe", phone=phone_value))
     assert result.message == InfoMessages.PHONE_NUMBER_ADDED.value
     assert phone_value in result.value.phones
