@@ -7,6 +7,7 @@ class Actions(Enum):
     SEARCH = "search"
 
     ADD = "add_contact"
+    CHECK = "check_contact"
     DELETE = "delete_contact"
     ALL = "all_contacts"
     UPDATE = "update_contact"
@@ -50,7 +51,7 @@ class InfoMessages(Enum):
     CONTACT_ADDED = "Contact added."
     CONTACT_UPDATED = "Contact updated."
     CONTACT_DELETED = "Contact deleted."
-    CONTACT_NOT_FOUND = "Contact was not found."
+    CONTACT_FOUND = "Contact was found."
     CONTACTS_REMOVED = "Contacts were removed from AddressBook."
     NOTE_ADDED = "Note for contact added."
     NOTE_UPDATED = "Note for contact updated."

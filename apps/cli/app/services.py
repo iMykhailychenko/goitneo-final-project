@@ -26,7 +26,7 @@ def create_new_contact() -> None:
     )
     payload = ContactPayload(name=name)
     result = controller(Actions.CHECK, payload)
-    print(result)
+
     if result.value:
         console.print("The record already exists 😅️️️️️️" + "\n", end="\n." * 10)
         input("\n\nPress Enter to continue...")

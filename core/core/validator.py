@@ -1,7 +1,7 @@
 import datetime
 import re
-from core.database import Database
 
+from core.database import Database
 from core.misc import (
     InvalidBirthdayError,
     InvalidEmailError,
@@ -15,12 +15,12 @@ def validate_existing_contact(name):
     database = Database()
     record = database[name]
 
-    if record:    
+    if record:
         return record
     else:
         raise KeyError
-    
-    
+
+
 def validate_phone_number(phone_number):
     phone_number_pattern = re.compile(r"^[0-9+-]+$")
 
