@@ -53,7 +53,7 @@ def get_contact(payload: ContactPayload) -> Contact:
 
 
 @response()
-def all_contacts(*args) -> list[Contact]:
+def get_all_contacts(*args) -> list[Contact]:
     records = list(database.select(entity=Entities.CONTACTS, key="*"))
     if records:
         return records
