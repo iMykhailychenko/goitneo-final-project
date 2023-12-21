@@ -17,7 +17,9 @@ def test_get_note(setup_db):
 
 
 def test_delete_note(setup_db):
-    pass
+    result = controller(Actions.ADD_NOTE, NotePayload(value="test note"))
+    controller(Actions.DELETE_NOTE, NotePayload(id=result.value.id))
+    assert db.select(entity=Entities.NOTES, key=result.value.id) == None
 
 
 def test_update_note(setup_db):
