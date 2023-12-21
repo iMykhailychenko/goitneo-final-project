@@ -59,6 +59,7 @@ class InfoMessages(Enum):
     PHONE_NUMBER_DELETED = "Phone number for contact deleted."
     PHONE_NUMBER_FOUND = "Phone number found."
     PHONE_NUMBER_UPDATED = '"Phone number for contact updated.'
+    NOTE_DELETED = "Note for contact deleted."
 
 
 class ValidationMessages(Enum):

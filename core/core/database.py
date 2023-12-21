@@ -82,12 +82,11 @@ class Database:
         file = self.__get_file(entity)
         entities = self.__entities.get(entity.value)
 
-        if entities:
-            json_data = {}
-            with open(file, "w") as f:
-                for key, record in entities.items():
-                    json_data[key] = record.model_dump(mode="json")
-                json.dump(json_data, f, indent=2)
+        json_data = {}
+        with open(file, "w") as f:
+            for key, record in entities.items():
+                json_data[key] = record.model_dump(mode="json")
+            json.dump(json_data, f, indent=2)
 
     def drop(self) -> "Database":
         self.__entities.clear()

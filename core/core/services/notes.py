@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from core.database import Database, Entities, write_data
+from core.database import Database, Entities, delete_data, write_data
 from core.misc import InfoMessages
 from core.models import Note, NotePayload, response
 
@@ -25,3 +25,9 @@ def update_note(payload: NotePayload) -> Note:
     if len(payload.tags):
         record.tags = payload.tags
     return record
+
+
+@response(InfoMessages.NOTE_DELETED)
+@delete_data(entity=Entities.NOTES)
+def delete_note(payload: NotePayload) -> Note:
+    return db.select(entity=Entities.NOTES, key=payload.id)
