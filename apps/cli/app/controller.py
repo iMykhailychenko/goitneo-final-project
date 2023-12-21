@@ -7,6 +7,8 @@ from app.services import (
     contacts_actions,
     create_new_contact,
     get_all_contacts,
+    get_birthdays_by_duration,
+    update_contact,
 )
 
 console = Console()
@@ -16,12 +18,12 @@ current_action = None
 actions_map = {
     None: base_action,
     BaseActions.CONTACTS.value: contacts_actions,
-    BaseActions.BIRTHDAYS.value: lambda *_: None,
+    BaseActions.BIRTHDAYS.value: get_birthdays_by_duration,
     BaseActions.SEARCH.value: lambda *_: None,
     BaseActions.ALL.value: get_all_contacts,
     ContactActions.ADD.value: create_new_contact,
     ContactActions.DELETE.value: lambda *_: None,
-    ContactActions.UPDATE.value: lambda *_: None,
+    ContactActions.UPDATE.value: update_contact,
 }
 
 
