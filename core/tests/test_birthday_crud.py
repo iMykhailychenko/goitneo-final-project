@@ -1,8 +1,8 @@
 from datetime import date
 
 from core import Actions, controller
-from core.database import Database, Entities
-from core.models import BirthdayPayload, ContactPayload
+from core.database import Database
+from core.models import BirthdayPayload, ContactPayload, EntitiesType
 from tests.utils import setup_db, setup_test_user
 
 db = Database()
@@ -15,13 +15,13 @@ def get_date_str(value: date) -> str:
 
 
 def test_add_birthday(setup_test_user):
-    assert db.select(entity=Entities.CONTACTS, key="Joe").birthday is None
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe").birthday is None
 
     controller(
         Actions.ADD_BIRTHDAY,
         BirthdayPayload(name="Joe", birthday=get_date_str(mock_today)),
     )
-    assert db.select(entity=Entities.CONTACTS, key="Joe").birthday == mock_today
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe").birthday == mock_today
 
 
 def test_delete_birthday(setup_test_user):
@@ -35,7 +35,7 @@ def test_delete_birthday(setup_test_user):
         BirthdayPayload(name="Joe"),
     )
     assert result.value.birthday is None
-    assert db.select(entity=Entities.CONTACTS, key="Joe").birthday is None
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe").birthday is None
 
 
 def test_update_birthday(setup_db):
@@ -43,13 +43,13 @@ def test_update_birthday(setup_db):
         Actions.ADD,
         ContactPayload(name="Joe", birthday=get_date_str(mock_today)),
     )
-    assert db.select(entity=Entities.CONTACTS, key="Joe").birthday == mock_today
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe").birthday == mock_today
 
     controller(
         Actions.UPDATE_BIRTHDAY,
         BirthdayPayload(name="Joe", birthday=get_date_str(mock_new_day)),
     )
-    assert db.select(entity=Entities.CONTACTS, key="Joe").birthday == mock_new_day
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe").birthday == mock_new_day
 
 
 def test_get_birthdays_by_duration(mocker, setup_db):

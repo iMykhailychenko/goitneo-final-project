@@ -1,26 +1,43 @@
-from beaupy import ValidationError, select
+from typing import Tuple
+
+from beaupy import select
 from core import Actions, controller
-from core.models import BirthdayPayload, ContactPayload, ResponseType
-from prettytable import PrettyTable
+from core.models import (
+    BirthdayPayload,
+    Contact,
+    ContactPayload,
+    Entity,
+    ResponseType,
+    SearchPayload,
+)
 from rich.console import Console
 
-from app.constants import BaseActions, base, contacts
-from app.utils import prompt, prompt_set
+from app.constants import (
+    GO_BACK,
+    BaseActions,
+    base,
+    contacts,
+    entities_map,
+    search_entities,
+    single_contact,
+)
+from app.utils import make_entyties_list, prompt, prompt_set, with_confirmation
 
 console = Console()
 
 
-def base_action() -> str:
+def base_action(*_) -> Tuple[str, None]:
     console.print("\nHow can I help you?\n", style="white on blue")
-    return select(base, cursor=">>>", cursor_style="cyan")
+    return select(base, cursor=">>>", cursor_style="cyan"), None
 
 
-def contacts_actions() -> str:
+def contacts_actions(*_) -> Tuple[str, None]:
     console.print(BaseActions.CONTACTS.value, style="white on blue")
-    return select(contacts, cursor=">>>", cursor_style="cyan")
+    return select(contacts, cursor=">>>", cursor_style="cyan"), None
 
 
-def create_new_contact() -> None:
+@with_confirmation
+def create_new_contact(*_) -> None:
     name = prompt(
         "Enter contact name",
         error_message="Name is required!",
@@ -30,8 +47,7 @@ def create_new_contact() -> None:
     result = controller(Actions.GET, payload)
 
     if result.value:
-        console.print("The record already exists 😅️️️️️️" + "\n", end="\n." * 10)
-        input("\n\nPress Enter to continue...")
+        console.print("The record already exists 😅️️️️️️\n", end="\n." * 10)
     else:
         email = prompt("Add email", error_message="Invalid email", optional=True)
         phones = prompt_set(
@@ -43,66 +59,49 @@ def create_new_contact() -> None:
         birthday = prompt(
             "Add birthday", error_message="Invalid birthday", optional=True
         )
-        note = prompt("Add note", optional=True)
-        tags = prompt_set(
-            question="Add tag", question_next="Add extra tag", optional=True
+
+        result = controller(
+            Actions.ADD,
+            ContactPayload(
+                name=name,
+                phones=phones,
+                birthday=birthday,
+                email=email,
+            ),
         )
 
-        payload = ContactPayload(
-            name=name,
-            phones=phones,
-            birthday=birthday,
-            email=email,
-            note=note,
-            tags=tags,
-        )
-
-        result = controller(Actions.ADD, payload)
         if result.type.value == ResponseType.ERROR.value:
             console.print(result.message + "\n", end="\n." * 10)
         else:
             console.print("🎉  Contact created successfully!\n", end="\n." * 10)
-        input("\n\nPress Enter to continue...")
 
 
-def update_contact() -> None:
-    name = prompt(
-        "Enter contact name",
-        error_message="Name is required!",
-        validator=lambda value: len(value) > 0,
+@with_confirmation
+def update_contact(prev: Contact) -> None:
+    email = prompt("Update email", error_message="Invalid email", optional=True)
+    phones = prompt_set(
+        question="Update phone number",
+        question_next="Add extra phone number",
+        error_message="Invalid phone number",
+        optional=True,
     )
-    payload = ContactPayload(name=name)
-    result = controller(Actions.GET, payload)
-    if not result.value:
-        console.print("Contact does not exist 😅️️️️️️" + "\n", end="\n." * 10)
-        input("\n\nPress Enter to continue...")
+    birthday = prompt(
+        "Update birthday", error_message="Invalid birthday", optional=True
+    )
 
+    result = controller(
+        Actions.UPDATE,
+        ContactPayload(name=prev.id, phones=phones, birthday=birthday, email=email),
+    )
+
+    if result.type.value == ResponseType.ERROR.value:
+        console.print(result.message + "\n", end="\n." * 10)
     else:
-        email = prompt("Update email", error_message="Invalid email", optional=True)
-        phones = prompt_set(
-            question="Update phone number",
-            question_next="Add extra phone number",
-            error_message="Invalid phone number",
-            optional=True,
-        )
-        birthday = prompt(
-            "Update birthday", error_message="Invalid birthday", optional=True
-        )
-
-        payload = ContactPayload(
-            name=name, phones=phones, birthday=birthday, email=email
-        )
-
-        result = controller(Actions.UPDATE, payload)
-
-        if result.type.value == ResponseType.ERROR.value:
-            console.print(result.message + "\n", end="\n." * 10)
-        else:
-            console.print("🎉  Contact updated successfully!\n", end="\n." * 10)
-        input("\n\nPress Enter to continue...")
+        console.print("🎉  Contact updated successfully!\n", end="\n." * 10)
 
 
-def get_birthdays_by_duration() -> None:
+@with_confirmation
+def get_birthdays_by_duration(*_) -> None:
     day_duration = prompt(
         "Enter days duration from today",
         error_message="Duration should be an Integer",
@@ -114,32 +113,51 @@ def get_birthdays_by_duration() -> None:
     result = controller(Actions.BIRTHDAYS, payload)
 
     if result.type.value == ResponseType.ERROR.value:
-        console.print(f"{result.message} 😅️️️️️️" + "\n", end="\n." * 10)
+        console.print(f"{result.message} 😅️️️️️️\n", end="\n." * 10)
     else:
         if result.value:
             console.print(
-                f"The following users celebrate birthdays in the next {day_amount} days ",
+                f"The following users celebrate birthdays in the next {day_amount} days",
+                end="\n" * 3,
                 style="white on blue",
             )
-            display_weekly_calendar(result.value)
+            return make_entyties_list(result.value, single_contact)
         else:
             console.print(
                 f"None from contacts celebrate their birthday in the next {day_amount} days 🫠",
+                end="\n" * 3,
                 style="white on red",
             )
-    input("\n\nPress Enter to continue...")
 
 
-def get_all_contacts() -> None:
-    pass
+def get_all_contacts(*_) -> None:
+    result = controller(Actions.ALL)
+    if result.type.value == ResponseType.ERROR.value:
+        console.print(f"{result.message} 😅️️️️️️\n", end="\n." * 10)
+        input("\n\nPress Enter to continue...")
+        return
+    return make_entyties_list(result.value, single_contact)
 
 
-def display_weekly_calendar(contacts):
-    table = PrettyTable()
-    table.field_names = ["Name", "Birthday", "Weekday"]
+def search(*_) -> Tuple[str, Entity]:
+    entity_key = select(search_entities, cursor=">>>", cursor_style="cyan")
 
-    for contact in contacts:
-        birthday_date = contact.birthday
-        table.add_row([contact.id, birthday_date, birthday_date.strftime("%A")])
+    if entity_key == GO_BACK:
+        return None
 
-    print(table)
+    query = prompt("Enter search value...")
+    result = controller(
+        Actions.SEARCH, SearchPayload(entity=entities_map[entity_key], query=query)
+    )
+
+    if result.type.value == ResponseType.ERROR.value:
+        console.print(f"{result.message} 😅️", end="\n." * 10)
+        input("\n\nPress Enter to continue...")
+        return
+    
+    if not len(result.value):
+        console.print(f"No results for the search query - {query}", end="\n." * 10, style="white on red")
+        input("\n\nPress Enter to continue...")
+        return
+
+    return make_entyties_list(result.value, single_contact)

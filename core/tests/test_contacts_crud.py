@@ -1,9 +1,8 @@
 from datetime import datetime
 
 from core import Actions, controller
-from core.database import Database, Entities
-from core.misc import InfoMessages
-from core.models import Contact, ContactPayload
+from core.database import Database
+from core.models import Contact, ContactPayload, EntitiesType
 from tests.utils import setup_db
 
 db = Database()
@@ -15,7 +14,7 @@ def test_add_name(setup_db):
         ContactPayload(name="Joe"),
     )
 
-    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(id="Joe")
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(id="Joe")
 
 
 def test_add_phone(setup_db):
@@ -24,7 +23,7 @@ def test_add_phone(setup_db):
         ContactPayload(name="Joe", phones={"1234567890"}),
     )
 
-    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
         id="Joe", phones={"1234567890"}
     )
 
@@ -35,7 +34,7 @@ def test_add_email(setup_db):
         ContactPayload(name="Joe", email="email@example.com"),
     )
 
-    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
         id="Joe", email="email@example.com"
     )
 
@@ -46,7 +45,7 @@ def test_add_birthday(setup_db):
         ContactPayload(name="Joe", birthday="20.11.1990"),
     )
 
-    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
         id="Joe", birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date()
     )
 
@@ -58,7 +57,7 @@ def test_add_tags(setup_db):
         ContactPayload(name="Joe", tags=tags),
     )
 
-    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
         id="Joe", tags=tags
     )
 
@@ -69,7 +68,7 @@ def test_add_note(setup_db):
         ContactPayload(name="Joe", note="Hello World"),
     )
 
-    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
         id="Joe", note="Hello World"
     )
 
@@ -86,7 +85,7 @@ def test_add_all(setup_db):
         ),
     )
 
-    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
         id="Joe",
         phones={"1234567890"},
         email="email@example.com",
@@ -105,9 +104,9 @@ def test_duplicates(setup_db):
         ContactPayload(name="Joe", phones={"1234567890"}),
     )
 
-    records = db.select(entity=Entities.CONTACTS, key="*")
+    records = db.select(entity=EntitiesType.CONTACTS, key="*")
     assert len(records) == 1
-    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
         id="Joe", phones={"1234567890"}
     )
 
@@ -124,7 +123,7 @@ def test_update_contact(setup_db):
         ),
     )
 
-    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
         id="Joe",
         phones={"1234567890"},
         email="email@example.com",
@@ -141,7 +140,7 @@ def test_update_contact(setup_db):
         ),
     )
 
-    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
         id="Joe",
         phones={"234567890", "1234567890"},
         email="joe@example.com",

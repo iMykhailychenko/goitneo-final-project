@@ -1,4 +1,5 @@
 from core.models.contact import Contact
+from core.models.entities import EntitiesType, Entity, entities 
 from core.models.note import Note
 from core.models.payload import (
     AddressPayload,
@@ -15,8 +16,6 @@ from core.models.response import Response, ResponseType, response
 __all__ = [
     "Note",
     "Contact",
-    "Response",
-    "ResponseType",
     "Payload",
     "ContactPayload",
     "AddressPayload",
@@ -25,5 +24,10 @@ __all__ = [
     "TagPayload",
     "NotePayload",
     "SearchPayload",
+    "Response",
+    "ResponseType",
     "response",
+    "EntitiesType",
+    "Entity",
+    "entities",
 ]

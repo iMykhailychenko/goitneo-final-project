@@ -1,7 +1,7 @@
 from core import Actions, controller
-from core.database import Database, Entities
+from core.database import Database
 from core.misc import InfoMessages
-from core.models import PhonePayload
+from core.models import EntitiesType, PhonePayload
 from tests.utils import setup_db, setup_test_user
 
 db = Database()
@@ -13,7 +13,7 @@ def test_add_phone_number(setup_test_user):
     result = controller(Actions.ADD_PHONE, PhonePayload(name="Joe", phone=phone_value))
     assert result.message == InfoMessages.PHONE_NUMBER_ADDED.value
     assert phone_value in result.value.phones
-    assert phone_value in db.select(entity=Entities.CONTACTS, key="Joe").phones
+    assert phone_value in db.select(entity=EntitiesType.CONTACTS, key="Joe").phones
 
 
 def test_delete_phone_number(setup_test_user):
@@ -24,14 +24,14 @@ def test_delete_phone_number(setup_test_user):
     )
     assert result.message == InfoMessages.PHONE_NUMBER_DELETED.value
     assert phone_value not in result.value.phones
-    assert len(db.select(entity=Entities.CONTACTS, key="Joe").phones) == 0
+    assert len(db.select(entity=EntitiesType.CONTACTS, key="Joe").phones) == 0
 
 
 def test_update_phone_number(setup_test_user):
     result = controller(Actions.ADD_PHONE, PhonePayload(name="Joe", phone=phone_value))
     assert result.message == InfoMessages.PHONE_NUMBER_ADDED.value
     assert phone_value in result.value.phones
-    assert phone_value in db.select(entity=Entities.CONTACTS, key="Joe").phones
+    assert phone_value in db.select(entity=EntitiesType.CONTACTS, key="Joe").phones
 
     result = controller(
         Actions.UPDATE_PHONE,
@@ -41,6 +41,6 @@ def test_update_phone_number(setup_test_user):
     assert phone_value in result.value.phones
     assert old_phone_value not in result.value.phones
 
-    record = db.select(entity=Entities.CONTACTS, key="Joe")
+    record = db.select(entity=EntitiesType.CONTACTS, key="Joe")
     assert phone_value in record.phones
     assert old_phone_value not in record.phones
