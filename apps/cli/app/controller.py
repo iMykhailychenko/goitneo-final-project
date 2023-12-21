@@ -7,6 +7,7 @@ from app.services import (
     contacts_actions,
     create_new_contact,
     get_all_contacts,
+    get_birthdays_by_duration,
     update_contact,
 )
 
@@ -17,7 +18,7 @@ current_action = None
 actions_map = {
     None: base_action,
     BaseActions.CONTACTS.value: contacts_actions,
-    BaseActions.BIRTHDAYS.value: lambda *_: None,
+    BaseActions.BIRTHDAYS.value: get_birthdays_by_duration,
     BaseActions.SEARCH.value: lambda *_: None,
     BaseActions.ALL.value: get_all_contacts,
     ContactActions.ADD.value: create_new_contact,
