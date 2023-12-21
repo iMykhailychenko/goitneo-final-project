@@ -26,6 +26,9 @@ def add_contact(payload: ContactPayload) -> Contact:
 
 @response()
 @write_data(entity=Entities.CONTACTS)
+
+
+
 def update_contact(payload: ContactPayload) -> Contact:
     record = database.select(entity=Entities.CONTACTS, key=payload.name)
     if record:
@@ -50,3 +53,9 @@ def get_contact(payload: ContactPayload) -> Contact:
         return record
     else:
         return None
+
+
+@response()
+@write_data(entity=Entities.CONTACTS)
+def delete_contact(payload: ContactPayload) -> bool:
+    return database.delete(entity=Entities.CONTACTS, key=payload.name)
