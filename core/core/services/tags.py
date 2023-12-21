@@ -28,6 +28,7 @@ def update_tag(payload: NotePayload) -> Note:
 def delete_tag(payload: NotePayload) -> Note:
     record = db.select(entity=Entities.NOTES, key=payload.id)
     record.tags.clear()
+    return record
 
 
 @response()
