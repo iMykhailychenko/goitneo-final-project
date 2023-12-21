@@ -56,6 +56,6 @@ def get_contact(payload: ContactPayload) -> Contact:
 
 
 @response()
-@write_data(entity=Entities.CONTACTS)
-def delete_contact(payload: ContactPayload) -> bool:
-    return database.delete(entity=Entities.CONTACTS, key=payload.name)
+@delete_data(entity=Entities.CONTACTS)
+def delete_contact(payload: ContactPayload) -> Contact:
+    return database.select(entity=Entities.CONTACTS, key=payload.name)
