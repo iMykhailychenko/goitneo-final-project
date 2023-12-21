@@ -26,25 +26,80 @@ def create_new_contact() -> None:
         error_message="Name is required!",
         validator=lambda value: len(value) > 0,
     )
-    # TODO - show error if name already exists
+    payload = ContactPayload(name=name)
+    result = controller(Actions.GET, payload)
 
-    email = prompt("Add email", error_message="Invalid email", optional=True)
-    phones = prompt_set(
-        question="Add phone number",
-        question_next="Add extra phone number",
-        error_message="Invalid phone number",
-        optional=True,
-    )
-    birthday = prompt("Add birthday", error_message="Invalid birthday", optional=True)
-
-    payload = ContactPayload(name=name, phones=phones, birthday=birthday, email=email)
-
-    result = controller(Actions.ADD, payload)
-    if result.type.value == ResponseType.ERROR.value:
-        console.print(result.message + "\n", end="\n." * 10)
+    if result.value:
+        console.print("The record already exists 😅️️️️️️" + "\n", end="\n." * 10)
+        input("\n\nPress Enter to continue...")
     else:
-        console.print("🎉  Contact created successfully!\n", end="\n." * 10)
-    input("\n\nPress Enter to continue...")
+        email = prompt("Add email", error_message="Invalid email", optional=True)
+        phones = prompt_set(
+            question="Add phone number",
+            question_next="Add extra phone number",
+            error_message="Invalid phone number",
+            optional=True,
+        )
+        birthday = prompt(
+            "Add birthday", error_message="Invalid birthday", optional=True
+        )
+        note = prompt("Add note", optional=True)
+        tags = prompt_set(
+            question="Add tag", question_next="Add extra tag", optional=True
+        )
+
+        payload = ContactPayload(
+            name=name,
+            phones=phones,
+            birthday=birthday,
+            email=email,
+            note=note,
+            tags=tags,
+        )
+
+        result = controller(Actions.ADD, payload)
+        if result.type.value == ResponseType.ERROR.value:
+            console.print(result.message + "\n", end="\n." * 10)
+        else:
+            console.print("🎉  Contact created successfully!\n", end="\n." * 10)
+        input("\n\nPress Enter to continue...")
+
+
+def update_contact() -> None:
+    name = prompt(
+        "Enter contact name",
+        error_message="Name is required!",
+        validator=lambda value: len(value) > 0,
+    )
+    payload = ContactPayload(name=name)
+    result = controller(Actions.GET, payload)
+    if not result.value:
+        console.print("Contact does not exist 😅️️️️️️" + "\n", end="\n." * 10)
+        input("\n\nPress Enter to continue...")
+
+    else:
+        email = prompt("Update email", error_message="Invalid email", optional=True)
+        phones = prompt_set(
+            question="Update phone number",
+            question_next="Add extra phone number",
+            error_message="Invalid phone number",
+            optional=True,
+        )
+        birthday = prompt(
+            "Update birthday", error_message="Invalid birthday", optional=True
+        )
+
+        payload = ContactPayload(
+            name=name, phones=phones, birthday=birthday, email=email
+        )
+
+        result = controller(Actions.UPDATE, payload)
+
+        if result.type.value == ResponseType.ERROR.value:
+            console.print(result.message + "\n", end="\n." * 10)
+        else:
+            console.print("🎉  Contact updated successfully!\n", end="\n." * 10)
+        input("\n\nPress Enter to continue...")
 
 
 def get_birthdays_by_duration() -> None:
