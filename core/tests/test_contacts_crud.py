@@ -147,3 +147,10 @@ def test_update_contact(setup_db):
         email="joe@example.com",
         birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date(),
     )
+
+
+def test_all_contacts(setup_db):
+    controller(Actions.ADD, ContactPayload(name="Joe", phones={"1234567890"}))
+    controller(Actions.ADD, ContactPayload(name="Jane", phones={"09876543210"}))
+    final = controller(Actions.ALL).value
+    assert len(final) == 2
