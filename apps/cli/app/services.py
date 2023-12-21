@@ -1,8 +1,8 @@
 from beaupy import ValidationError, select
 from core import Actions, controller
 from core.models import BirthdayPayload, ContactPayload, ResponseType
-from prettytable import PrettyTable
 from rich.console import Console
+from rich.table import Table
 
 from app.constants import BaseActions, base, contacts
 from app.utils import prompt, prompt_set
@@ -40,6 +40,7 @@ def create_new_contact() -> None:
             error_message="Invalid phone number",
             optional=True,
         )
+        phones.remove("")
         birthday = prompt(
             "Add birthday", error_message="Invalid birthday", optional=True
         )
@@ -85,6 +86,7 @@ def update_contact() -> None:
             error_message="Invalid phone number",
             optional=True,
         )
+        phones.remove("")
         birthday = prompt(
             "Update birthday", error_message="Invalid birthday", optional=True
         )
@@ -108,8 +110,11 @@ def get_birthdays_by_duration() -> None:
         error_message="Duration should be an Integer",
         optional=True,
     )
+    try:
+        day_amount = int(day_duration)
+    except:
+        day_amount = 7
 
-    day_amount = day_duration if type(day_duration) == int else 7
     payload = BirthdayPayload(day_amount=day_amount)
     result = controller(Actions.BIRTHDAYS, payload)
 
@@ -118,10 +123,11 @@ def get_birthdays_by_duration() -> None:
     else:
         if result.value:
             console.print(
-                f"The following users celebrate birthdays in the next {day_amount} days ",
+                f"The following contact(s) celebrate birthdays in the next {day_amount} days \n",
                 style="white on blue",
             )
-            display_weekly_calendar(result.value)
+            title = "🎉️️️️️️ List of birthday people 🎉️️️️️️"
+            display_data_table(result.value, title)
         else:
             console.print(
                 f"None from contacts celebrate their birthday in the next {day_amount} days 🫠",
@@ -131,15 +137,53 @@ def get_birthdays_by_duration() -> None:
 
 
 def get_all_contacts() -> None:
-    pass
+    result = controller(Actions.ALL, None)
+
+    if result.type.value == ResponseType.ERROR.value:
+        console.print(f"{result.message} 😅️️️️️️" + "\n", end="\n." * 10)
+    else:
+        if result.value:
+            console.print(
+                f"The following contact(s) are in the AddressBook \n",
+                style="white on blue",
+            )
+            title = "💃 List of contacts 🕺"
+            display_data_table(result.value, title)
+        else:
+            console.print(
+                """Contacts have not been added yet 🫠. To add a contact, please enter the following command: 
+    'add contactName phone', where contactName is the name of contact, and phone is a contact phone number.""",
+                style="white on red",
+            )
+    input("\n\nPress Enter to continue...")
 
 
-def display_weekly_calendar(contacts):
-    table = PrettyTable()
-    table.field_names = ["Name", "Birthday", "Weekday"]
+def display_data_table(contacts, title):
+    table = Table(
+        title=title, show_header=True, header_style="bold blue", show_lines=True
+    )
 
+    table.add_column("Name", justify="center", min_width=20)
+    table.add_column("Birthday", justify="center", min_width=20, style="green")
+    table.add_column("Email", justify="center", min_width=20)
+    table.add_column("Address", justify="center", min_width=20)
+    table.add_column("Phone Numbers", justify="center", max_width=35)
     for contact in contacts:
         birthday_date = contact.birthday
-        table.add_row([contact.id, birthday_date, birthday_date.strftime("%A")])
+        phone_values = (
+            str(contact.phones.pop())
+            if len(contact.phones) == 1
+            else "; ".join(contact.phones)
+            if len(contact.phones) > 1
+            else "----"
+        )
 
-    print(table)
+        table.add_row(
+            contact.id,
+            birthday_date.strftime("%d.%m.%Y") if contact.birthday else "----",
+            contact.email if contact.email else "----",
+            contact.address if contact.birthday else "----",
+            phone_values,
+        )
+
+    console.print(table)
