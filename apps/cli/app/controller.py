@@ -8,7 +8,7 @@ from app.services import (
     create_new_contact,
     get_all_contacts,
     get_birthdays_by_duration,
-    update_contact
+    update_contact,
 )
 
 console = Console()
