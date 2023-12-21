@@ -1,7 +1,13 @@
 from functools import wraps
 
-from core.misc.exeptions import (InvalidBirthdayError, InvalidNameError, InvalidPhoneError, InvalidPhoneLengthError,
-                                InvalidEmailError, DatabaseError)
+from core.misc.exeptions import (
+    InvalidBirthdayError,
+    InvalidNameError,
+    InvalidPhoneError,
+    InvalidPhoneLengthError,
+    InvalidEmailError,
+    DatabaseError,
+)
 from core.misc.constants import ValidationMessages
 from core.models import Response, ResponseType
 

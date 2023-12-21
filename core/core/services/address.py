@@ -19,4 +19,3 @@ def set_address(payload, record: Record) -> Record:
         return record
     else:
         return Record(name=payload.name, address=payload.address)
-
