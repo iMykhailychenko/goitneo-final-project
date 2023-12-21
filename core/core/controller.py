@@ -8,6 +8,7 @@ from core.services import (
     add_contact,
     add_note,
     add_phone_number,
+    get_all_contacts,
     delete_address,
     delete_birthday,
     delete_note,

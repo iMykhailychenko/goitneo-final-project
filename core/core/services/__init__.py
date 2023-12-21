@@ -23,7 +23,7 @@ __all__ = [
     "add_birthday",
     "add_contact",
     "add_note",
-    "add_phone_number",
+    "add_phone_number"
     "delete_address",
     "delete_birthday",
     "delete_note",
