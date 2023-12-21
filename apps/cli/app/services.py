@@ -154,9 +154,13 @@ def search(*_) -> Tuple[str, Entity]:
         console.print(f"{result.message} 😅️", end="\n." * 10)
         input("\n\nPress Enter to continue...")
         return
-    
+
     if not len(result.value):
-        console.print(f"No results for the search query - {query}", end="\n." * 10, style="white on red")
+        console.print(
+            f"No results for the search query - {query}",
+            end="\n." * 10,
+            style="white on red",
+        )
         input("\n\nPress Enter to continue...")
         return
 
