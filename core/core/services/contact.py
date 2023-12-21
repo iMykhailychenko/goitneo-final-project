@@ -50,3 +50,12 @@ def get_contact(payload: ContactPayload) -> Contact:
         return record
     else:
         return None
+
+
+@response()
+def all_contacts(*args) -> list[Contact]:
+    records = list(database.select(entity=Entities.CONTACTS, key="*"))
+    if records:
+        return records
+    else:
+        return []

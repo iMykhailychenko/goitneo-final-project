@@ -147,3 +147,13 @@ def test_update_contact(setup_db):
         email="joe@example.com",
         birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date(),
     )
+
+
+def test_all_contacts(setup_db):
+    initial = controller(Actions.ALL).value
+    controller(Actions.ADD, ContactPayload(name="Joe", phones={"1234567890"}))
+    final = controller(Actions.ALL).value
+    assert initial != final
+    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
+        id="Joe", phones={"1234567890"}
+    )

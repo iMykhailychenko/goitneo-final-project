@@ -5,7 +5,7 @@ from core.services.birthday import (
     get_birthdays_by_duration,
     update_birthday,
 )
-from core.services.contact import add_contact, get_contact, update_contact
+from core.services.contact import add_contact, get_contact, update_contact, all_contacts
 from core.services.notes import add_note, update_note
 from core.services.phones import (
     add_phone_number,
@@ -19,6 +19,7 @@ __all__ = [
     "add_contact",
     "add_note",
     "add_phone_number",
+    "all_contacts",
     "delete_address",
     "delete_birthday",
     "delete_phone_number",
