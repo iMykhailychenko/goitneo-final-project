@@ -1,8 +1,8 @@
 from beaupy import ValidationError, select
 from core import Actions, controller
 from core.models import BirthdayPayload, ContactPayload, ResponseType
-from rich.console import Console
 from prettytable import PrettyTable
+from rich.console import Console
 
 from app.constants import BaseActions, base, contacts
 from app.utils import prompt, prompt_set
@@ -85,6 +85,6 @@ def display_weekly_calendar(contacts):
 
     for contact in contacts:
         birthday_date = contact.birthday
-        table.add_row([contact.name, birthday_date, birthday_date.strftime("%A")])
+        table.add_row([contact.id, birthday_date, birthday_date.strftime("%A")])
 
     print(table)
