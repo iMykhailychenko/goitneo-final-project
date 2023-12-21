@@ -7,8 +7,10 @@ class Actions(Enum):
     SEARCH = "search"
 
     ADD = "add_contact"
+    GET = "get_contact"
     DELETE = "delete_contact"
     ALL = "all_contacts"
+    UPDATE = "update_contact"
 
     ADD_ADDRESS = "add_address"
     DELETE_ADDRESS = "delete_address"
@@ -46,10 +48,10 @@ class InfoMessages(Enum):
     BIRTHDAY_ADDED = "Birthday for contact added."
     BIRTHDAY_DELETED = "Birthday for contact deleted."
     BIRTHDAY_UPDATTED = "Birthday for contact updated."
-    CONTACT_CREATED = "Contact created."
-    CONTACT_CHANGED = "Contact changed."
+    CONTACT_ADDED = "Contact added."
+    CONTACT_UPDATED = "Contact updated."
     CONTACT_DELETED = "Contact deleted."
-    CONTACT_NOT_FOUND = "Contact not found."
+    CONTACT_FOUND = "Contact was found."
     CONTACTS_REMOVED = "Contacts were removed from AddressBook."
     NOTE_ADDED = "Note for contact added."
     NOTE_UPDATED = "Note for contact updated."
@@ -62,7 +64,7 @@ class InfoMessages(Enum):
 class ValidationMessages(Enum):
     ADDRESS_BOOK_EMPTY = "There is no contacts in the AddressBook to save."
     BIRTHDAY_NOT_EXIST = "There is no birthday for this contact in the AddressBook."
-    CONTACT_NOT_EXIST = "Contact do not exist."
+    CONTACT_NOT_EXIST = "Contact does not exist."
     EOF_ERROR = "End-of-Line Error."
     DATABASE_FILE_NOT_FOUND = "Database error. Check if path correct."
     INVALID_COMMAND = "Invalid command."

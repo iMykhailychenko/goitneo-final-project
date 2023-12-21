@@ -1,5 +1,6 @@
-from pytest import fixture
 from pathlib import Path
+
+from pytest import fixture
 
 from core import Actions, controller
 from core.database import Database
