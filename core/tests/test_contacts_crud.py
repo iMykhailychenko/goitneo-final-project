@@ -150,10 +150,7 @@ def test_update_contact(setup_db):
 
 
 def test_all_contacts(setup_db):
-    initial = controller(Actions.ALL).value
     controller(Actions.ADD, ContactPayload(name="Joe", phones={"1234567890"}))
+    controller(Actions.ADD, ContactPayload(name="Jane", phones={"09876543210"}))
     final = controller(Actions.ALL).value
-    assert initial != final
-    assert db.select(entity=Entities.CONTACTS, key="Joe") == Contact(
-        id="Joe", phones={"1234567890"}
-    )
+    assert len(final) == 2
