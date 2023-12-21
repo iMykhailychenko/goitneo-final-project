@@ -6,11 +6,7 @@ from core.services.birthday import (
     update_birthday,
 )
 from core.services.contact import add_contact
-from core.services.notes import (
-    add_note,
-    update_note,
-    delete_note
-)
+from core.services.notes import add_note, delete_note, update_note
 from core.services.phones import (
     add_phone_number,
     delete_phone_number,
@@ -30,5 +26,6 @@ __all__ = [
     "delete_phone_number",
     "update_address",
     "update_birthday",
+    "update_note",
     "update_phone_number",
 ]

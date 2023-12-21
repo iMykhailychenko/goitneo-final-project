@@ -16,7 +16,6 @@ def test_get_note(setup_db):
     pass
 
 
-
 def test_delete_note(setup_db):
     result = controller(Actions.ADD_NOTE, NotePayload(value="test note"))
     controller(Actions.DELETE_NOTE, NotePayload(id=result.value.id))

@@ -1,6 +1,6 @@
 from uuid import uuid4
 
-from core.database import Database, Entities, write_data, delete_data
+from core.database import Database, Entities, delete_data, write_data
 from core.misc import InfoMessages
 from core.models import Note, NotePayload, response
 
