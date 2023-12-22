@@ -2,7 +2,7 @@ from uuid import uuid4
 
 from core.database import Database, write_data
 from core.misc import InfoMessages
-from core.models import Note, NotePayload, response, EntitiesType
+from core.models import EntitiesType, Note, NotePayload, response
 
 db = Database()
 
