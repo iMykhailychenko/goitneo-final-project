@@ -13,10 +13,12 @@ def get_row(entity: List[Entity]) -> str:
         if type(value) == date:
             row.append(value.strftime("%A %d %B %Y"))
         elif type(value) == set:
-            value.remove("")
-            row.append(", ".join(value))
+            value_without_empty = {item for item in value if item != ""}
+            row.append(", ".join(value_without_empty))
         else:
             row.append(value)
+
+    row = ["" if value is None else value for value in row]
 
     return (len(row) * "|{: ^20}" + "\n").format(*row)
 

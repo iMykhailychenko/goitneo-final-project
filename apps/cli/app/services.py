@@ -45,7 +45,7 @@ def create_new_contact(*_) -> None:
     )
     payload = ContactPayload(name=name)
     result = controller(Actions.GET, payload)
-
+    console.print(result)
     if result.value:
         console.print("The record already exists 😅️️️️️️\n", end="\n." * 10)
     else:
@@ -59,7 +59,9 @@ def create_new_contact(*_) -> None:
         birthday = prompt(
             "Add birthday", error_message="Invalid birthday", optional=True
         )
-
+        address = prompt(
+            "Add address", error_message="Invalid address", optional=True
+        )
         result = controller(
             Actions.ADD,
             ContactPayload(
@@ -67,6 +69,7 @@ def create_new_contact(*_) -> None:
                 phones=phones,
                 birthday=birthday,
                 email=email,
+                address=address
             ),
         )
 
@@ -88,10 +91,13 @@ def update_contact(prev: Contact) -> None:
     birthday = prompt(
         "Update birthday", error_message="Invalid birthday", optional=True
     )
+    address = prompt(
+        "Add address", error_message="Invalid address", optional=True
+    )
 
     result = controller(
         Actions.UPDATE,
-        ContactPayload(name=prev.id, phones=phones, birthday=birthday, email=email),
+        ContactPayload(name=prev.id, phones=phones, birthday=birthday, email=email, address=address),
     )
 
     if result.type.value == ResponseType.ERROR.value:
@@ -101,14 +107,27 @@ def update_contact(prev: Contact) -> None:
 
 
 @with_confirmation
+def delete_contact(prev: Contact) -> None:
+    result = controller(
+        Actions.DELETE,
+        ContactPayload(name=prev.id),
+    )
+
+    if result == None:
+        console.print("🎉  Contact deleted successfully!\n", end="\n." * 10)
+             
+        
+@with_confirmation
 def get_birthdays_by_duration(*_) -> None:
     day_duration = prompt(
         "Enter days duration from today",
         error_message="Duration should be an Integer",
         optional=True,
     )
-
-    day_amount = day_duration if type(day_duration) == int else 7
+    try:
+        day_amount = int(day_duration)
+    except:    
+        day_amount = 7
     payload = BirthdayPayload(day_amount=day_amount)
     result = controller(Actions.BIRTHDAYS, payload)
 
