@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from core.database import Database, delete_data, write_data
 from core.models import Contact, ContactPayload, EntitiesType, response
@@ -26,24 +27,29 @@ def add_contact(payload: ContactPayload) -> Contact:
 @response()
 @delete_data(entity=EntitiesType.CONTACTS)
 def delete_contact(payload: ContactPayload) -> Contact:
-    print(payload)
     return database.select(entity=EntitiesType.CONTACTS, key=payload.name)
 
 
 @response()
 @write_data(entity=EntitiesType.CONTACTS)
 def update_contact(payload: ContactPayload) -> Contact:
-    record = database.select(entity=EntitiesType.CONTACTS, key=payload.name)
+    record: Optional[Contact] = database.select(
+        entity=EntitiesType.CONTACTS, key=payload.name
+    )
+
+    if payload.new_name:
+        database.delete(entity=EntitiesType.CONTACTS, key=payload.name)
 
     if record:
-        if payload.email:
-            record.email = payload.email
-        if payload.birthday:
-            record.birthday = datetime.strptime(payload.birthday, "%d.%m.%Y").date()
-        if payload.address:
-            record.address = payload.address
-        if payload.phones:
-            record.phones = payload.phones
+        record.id = payload.new_name or record.id
+        record.email = payload.email or record.email
+        record.birthday = (
+            datetime.strptime(payload.birthday, "%d.%m.%Y").date()
+            if payload.birthday
+            else record.birthday
+        )
+        record.address = payload.address or record.address
+        record.phones = payload.phones or record.phones
         return record
 
 
@@ -53,5 +59,5 @@ def get_contact(payload: ContactPayload) -> Contact:
 
 
 @response()
-def get_all_contacts(*args) -> list[Contact]:
-    return list(database.select(entity=EntitiesType.CONTACTS, key="*")) or []
+def get_all_contacts(*_) -> list[Contact]:
+    return database.select(entity=EntitiesType.CONTACTS, key="*") or []

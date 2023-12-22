@@ -47,12 +47,3 @@ def validate_birthday(birthday):
         datetime.strptime(birthday, "%d.%m.%Y")
     except ValueError:
         raise InvalidBirthdayError
-
-
-__all__ = [
-    "validate_birthday",
-    "validate_email",
-    "validate_existing_contact",
-    "validate_name",
-    "validate_phone_number",
-]

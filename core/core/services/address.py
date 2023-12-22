@@ -14,8 +14,8 @@ def add_address(payload: ContactPayload):
 @response(InfoMessages.ADDRESS_DELETED)
 @write_data(entity=EntitiesType.CONTACTS)
 def delete_address(payload: ContactPayload):
-    record = database.select(entity=EntitiesType.CONTACTS, key=payload.name)
-    record.address = ""
+    if record := database.select(entity=EntitiesType.CONTACTS, key=payload.name):
+        record.address = ""
     return record
 
 
@@ -26,9 +26,7 @@ def update_address(payload: ContactPayload):
 
 
 def set_address(payload: ContactPayload) -> Contact:
-    record = database.select(entity=EntitiesType.CONTACTS, key=payload.name)
-
-    if record:
+    if record := database.select(entity=EntitiesType.CONTACTS, key=payload.name):
         record.address = payload.address
         return record
     else:

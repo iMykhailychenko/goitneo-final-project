@@ -33,8 +33,6 @@ def validation(func):
             error_message = ValidationMessages.INVALID_EMAIL
         except InvalidBirthdayError:
             error_message = ValidationMessages.INVALID_BIRTHDAY
-        except EOFError:
-            return ValidationMessages.EOF_ERROR
         except Exception:
             error_message = ValidationMessages.UNKNOWN_ERROR
         return Response(message=error_message, type=ResponseType.ERROR)

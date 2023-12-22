@@ -72,12 +72,13 @@ def test_search_notes(setup_db):
 
 # TODO - uncomment after we add tags
 def test_search_by_tags(setup_db):
-    # id1 = controller(Actions.ADD_NOTE, NotePayload(value="note", tags={"tags", "test"})).value.id
-    # controller(Actions.ADD_NOTE, NotePayload(value="note", tags={"tags"}))
+    id1 = controller(
+        Actions.ADD_NOTE, NotePayload(value="note", tags={"tags", "test"})
+    ).value.id
+    controller(Actions.ADD_NOTE, NotePayload(value="note", tags={"tags"}))
 
-    # result = controller(
-    #    Actions.SEARCH, SearchPayload(entity=EntitiesType.NOTES, query="test")
-    # )
-    # assert len(result.value) == 1
-    # assert result.value[0] == db.select(entity=EntitiesType.NOTES, key=id1)
-    pass
+    result = controller(
+        Actions.SEARCH, SearchPayload(entity=EntitiesType.NOTES, query="tes")
+    )
+    assert len(result.value) == 1
+    assert result.value[0] == db.select(entity=EntitiesType.NOTES, key=id1)

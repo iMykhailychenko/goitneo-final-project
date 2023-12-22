@@ -50,22 +50,3 @@ def test_delete_tags(setup_db):
     controller(Actions.ADD_TAG, NotePayload(id=result.value.id, tags={"test tag"}))
     controller(Actions.DELETE_TAG, NotePayload(id=result.value.id))
     assert db.select(entity=EntitiesType.NOTES, key=result.value.id).tags == set()
-
-
-def test_find_by_tag(setup_db):
-    result = controller(Actions.ADD_NOTE, NotePayload(value="test note"))
-    controller(
-        Actions.ADD_TAG, NotePayload(id=result.value.id, tags={"test find by tag"})
-    )
-    result2 = controller(Actions.ADD_NOTE, NotePayload(value="test note2"))
-    controller(
-        Actions.ADD_TAG, NotePayload(id=result2.value.id, tags={"test find by tag"})
-    )
-    assert (
-        len(
-            controller(
-                Actions.FIND_BY_TAG, NotePayload(tags={"test find by tag"})
-            ).value
-        )
-        == 2
-    )
