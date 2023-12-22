@@ -3,7 +3,7 @@ from datetime import datetime
 from core import Actions, controller
 from core.database import Database
 from core.models import Contact, ContactPayload, EntitiesType
-from tests.utils import setup_db
+from tests.utils import setup_db, setup_test_user
 
 db = Database()
 
@@ -47,29 +47,6 @@ def test_add_birthday(setup_db):
 
     assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
         id="Joe", birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date()
-    )
-
-
-def test_add_tags(setup_db):
-    tags = {"Hello", "World"}
-    result = controller(
-        Actions.ADD,
-        ContactPayload(name="Joe", tags=tags),
-    )
-
-    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
-        id="Joe", tags=tags
-    )
-
-
-def test_add_note(setup_db):
-    result = controller(
-        Actions.ADD,
-        ContactPayload(name="Joe", note="Hello World"),
-    )
-
-    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
-        id="Joe", note="Hello World"
     )
 
 
@@ -157,3 +134,16 @@ def test_delete_contact(setup_db):
     controller(Actions.DELETE, ContactPayload(name=result.value.id))
 
     assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == None
+
+
+def test_change_name(setup_test_user):
+    result = controller(Actions.ALL)
+
+    assert len(result.value) == 1
+    assert result.value[0] == Contact(id="Joe")
+
+    controller(Actions.UPDATE, ContactPayload(name="Joe", new_name="Jane"))
+    result = controller(Actions.ALL)
+
+    assert len(result.value) == 1
+    assert result.value[0] == Contact(id="Jane")

@@ -1,3 +1,4 @@
+from typing import Optional
 from uuid import uuid4
 
 from core.database import Database, delete_data, write_data
@@ -13,13 +14,14 @@ def add_note(payload: NotePayload) -> Note:
     return Note(
         id=str(uuid4()),
         value=payload.value,
+        tags=payload.tags,
     )
 
 
 @response(InfoMessages.NOTE_UPDATED)
 @write_data(entity=EntitiesType.NOTES)
 def update_note(payload: NotePayload) -> Note:
-    record = db.select(entity=EntitiesType.NOTES, key=payload.id)
+    record: Optional[Note] = db.select(entity=EntitiesType.NOTES, key=payload.id)
     if payload.value:
         record.value = payload.value
     if len(payload.tags):

@@ -7,6 +7,7 @@ from core.models.entities import EntitiesType
 
 class ContactPayload(BaseModel):
     name: str
+    new_name: Optional[str] = None
     email: Optional[str] = ""
     birthday: Optional[str] = ""
     address: Optional[str] = ""
@@ -14,14 +15,14 @@ class ContactPayload(BaseModel):
 
 
 class BirthdayPayload(BaseModel):
-    name: Optional[str] = ""
-    birthday: Optional[str] = ""
+    name: Optional[str] = None
+    birthday: Optional[str] = None
     day_amount: Optional[int] = 7
 
 
 class AddressPayload(BaseModel):
     name: str
-    address: Optional[str] = ""
+    address: Optional[str] = None
 
 
 class PhonePayload(BaseModel):

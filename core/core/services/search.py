@@ -14,19 +14,19 @@ def search(payload: SearchPayload) -> Entity:
 
     all: List[Entity] = db.select(entity=payload.entity, key="*")
     for record in all:
-        if search_in_dict(record.model_dump(), query):
+        print(all)
+        if should_include_record(record.model_dump(), query):
             result.append(record)
 
     return result
 
 
-def search_in_dict(obj: Dict, query: str) -> bool:
+def should_include_record(obj: Dict, query: str) -> bool:
     for value in obj.values():
-        if type(value) == str and query in value.lower():
+        if isinstance(value, str) and query in value.lower():
             return True
-        elif type(value) == date and query in value.strftime("%d.%m.%Y"):
+        elif isinstance(value, date) and query in value.strftime("%d.%m.%Y"):
             return True
-        elif type(value) == set:
-            for item in value:
-                if query in item.lower():
-                    return True
+        elif isinstance(value, set) and any(query in item.lower() for item in value):
+            return True
+    return False

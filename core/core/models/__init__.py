@@ -12,22 +12,3 @@ from core.models.payload import (
     TagPayload,
 )
 from core.models.response import Response, ResponseType, response
-
-__all__ = [
-    "Note",
-    "Contact",
-    "Payload",
-    "ContactPayload",
-    "AddressPayload",
-    "BirthdayPayload",
-    "PhonePayload",
-    "TagPayload",
-    "NotePayload",
-    "SearchPayload",
-    "Response",
-    "ResponseType",
-    "response",
-    "EntitiesType",
-    "Entity",
-    "entities",
-]

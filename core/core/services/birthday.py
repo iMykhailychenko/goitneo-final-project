@@ -10,12 +10,12 @@ database = Database()
 
 @response(InfoMessages.BIRTHDAY_ADDED)
 @write_data(entity=EntitiesType.CONTACTS)
-def add_birthday(payload: BirthdayPayload):
+def add_birthday(payload: BirthdayPayload) -> Contact:
     return set_birthday(payload)
 
 
 @response()
-def get_birthdays_by_duration(payload: BirthdayPayload):
+def get_birthdays_by_duration(payload: BirthdayPayload) -> Contact:
     records = database.select(EntitiesType.CONTACTS, key="*")
     today = date.today()
     records_with_this_week_birthday: List[Contact] = []
@@ -34,9 +34,9 @@ def get_birthdays_by_duration(payload: BirthdayPayload):
 
 @response(InfoMessages.BIRTHDAY_DELETED)
 @write_data(entity=EntitiesType.CONTACTS)
-def delete_birthday(payload: BirthdayPayload):
-    record = database.select(EntitiesType.CONTACTS, key=payload.name)
-    record.birthday = None
+def delete_birthday(payload: BirthdayPayload) -> Contact:
+    if record := database.select(EntitiesType.CONTACTS, key=payload.name):
+        record.birthday = None
     return record
 
 
@@ -52,9 +52,7 @@ def get_valid_birthday(birthday: str) -> date:
 
 def set_birthday(payload: BirthdayPayload) -> Contact:
     birthday = get_valid_birthday(payload.birthday)
-    record = database.select(entity=EntitiesType.CONTACTS, key=payload.name)
-
-    if record:
+    if record := database.select(entity=EntitiesType.CONTACTS, key=payload.name):
         record.birthday = birthday
         return record
     else:
