@@ -2,6 +2,8 @@ from typing import Optional, Set, Union
 
 from pydantic import BaseModel
 
+from core.models.entities import EntitiesType
+
 
 class ContactPayload(BaseModel):
     name: str
@@ -41,7 +43,8 @@ class NotePayload(BaseModel):
 
 
 class SearchPayload(BaseModel):
-    value: str
+    query: str
+    entity: EntitiesType = EntitiesType.CONTACTS
 
 
 Payload = Union[

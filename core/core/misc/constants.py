@@ -2,8 +2,6 @@ from enum import Enum
 
 
 class Actions(Enum):
-    EXIT = "exit"
-    CLOSE = "close"
     SEARCH = "search"
 
     ADD = "add_contact"

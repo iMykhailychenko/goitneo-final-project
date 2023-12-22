@@ -9,15 +9,16 @@ from core.services import (
     add_note,
     add_phone_number,
     add_tag,
-    get_all_contacts,
     delete_address,
     delete_birthday,
     delete_note,
     delete_phone_number,
     delete_tag,
     find_notes_by_tag,
+    get_all_contacts,
     get_birthdays_by_duration,
     get_contact,
+    search,
     update_address,
     update_birthday,
     update_contact,
@@ -27,7 +28,7 @@ from core.services import (
 )
 
 services_map = {
-    Actions.SEARCH.value: lambda _: None,
+    Actions.SEARCH.value: search,
     # Contact
     Actions.ADD.value: add_contact,
     Actions.GET.value: get_contact,
