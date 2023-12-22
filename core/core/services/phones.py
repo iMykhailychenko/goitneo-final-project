@@ -8,9 +8,7 @@ database = Database()
 @response(InfoMessages.PHONE_NUMBER_ADDED)
 @write_data(entity=EntitiesType.CONTACTS)
 def add_phone_number(payload: PhonePayload):
-    record = database.select(entity=EntitiesType.CONTACTS, key=payload.name)
-
-    if record:
+    if record := database.select(entity=EntitiesType.CONTACTS, key=payload.name):
         record.phones.add(payload.phone)
         return record
     else:
@@ -20,19 +18,15 @@ def add_phone_number(payload: PhonePayload):
 @response(InfoMessages.PHONE_NUMBER_DELETED)
 @write_data(entity=EntitiesType.CONTACTS)
 def delete_phone_number(payload: PhonePayload):
-    record = database.select(entity=EntitiesType.CONTACTS, key=payload.name)
-
-    if record:
+    if record := database.select(entity=EntitiesType.CONTACTS, key=payload.name):
         record.phones.discard(payload.phone)
-        return record
+    return record
 
 
 @response(InfoMessages.PHONE_NUMBER_UPDATED)
 @write_data(entity=EntitiesType.CONTACTS)
 def update_phone_number(payload: PhonePayload):
-    record = database.select(entity=EntitiesType.CONTACTS, key=payload.name)
-
-    if record:
+    if record := database.select(entity=EntitiesType.CONTACTS, key=payload.name):
         record.phones.discard(payload.old_phone)
         record.phones.add(payload.phone)
         return record

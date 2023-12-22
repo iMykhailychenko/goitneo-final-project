@@ -15,7 +15,6 @@ from core.services import (
     delete_note,
     delete_phone_number,
     delete_tag,
-    find_notes_by_tag,
     get_all_contacts,
     get_birthdays_by_duration,
     get_contact,
@@ -57,7 +56,6 @@ services_map = {
     Actions.ADD_TAG.value: add_tag,
     Actions.DELETE_TAG.value: delete_tag,
     Actions.UPDATE_TAG.value: update_tag,
-    Actions.FIND_BY_TAG.value: find_notes_by_tag,
 }
 
 default_response = Response(
