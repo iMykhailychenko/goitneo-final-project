@@ -2,15 +2,15 @@ from typing import Any
 
 from rich.console import Console
 
-from app.constants import (
+from cli.app.constants import (
     CLOSE,
     GO_BACK,
     BaseActions,
     ContactActions,
     SingleContactActions,
 )
-from app.exeptions import ExitException
-from app.services import (
+from cli.app.exeptions import ExitException
+from cli.app.services import (
     base_action,
     contacts_actions,
     create_new_contact,
@@ -36,7 +36,7 @@ actions_map = {
 }
 
 
-class Controller:
+class App:
     __payload: Any = None
     __current_action: str = None
 

@@ -1,7 +1,7 @@
 import beaupy
 from rich.console import Console
 
-from app.utils.clear_console import clear_console
+from cli.app.utils.clear_console import clear_console
 
 console = Console()
 

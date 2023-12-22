@@ -3,17 +3,18 @@ from time import sleep
 from core.database import Database
 from rich.console import Console
 
-from app.controller import Controller
-from app.exeptions import ExitException
-from app.utils import clear_console
+from cli.app import App
+from cli.app.exeptions import ExitException
+from cli.app.utils import clear_console
 
-controller = Controller()
+controller = App()
 console = Console()
 db = Database()
 
 
 def main():
     with console.status("Welcome!"):
+        print("\n\n")
         db.connect()
         sleep(0.5)
 
