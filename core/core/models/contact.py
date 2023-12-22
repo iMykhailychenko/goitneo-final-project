@@ -10,3 +10,6 @@ class Contact(BaseModel):
     phones: Set[str] = set()
     birthday: Optional[date] = None
     address: str = ""
+
+    def __str__(self) -> str:
+        return self.id

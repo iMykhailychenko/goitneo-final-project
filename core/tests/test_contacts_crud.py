@@ -77,7 +77,6 @@ def test_add_all(setup_db):
     result = controller(
         Actions.ADD,
         ContactPayload(
-            command=Actions.ADD,
             name="Joe",
             phones={"1234567890"},
             email="email@example.com",
@@ -115,7 +114,6 @@ def test_update_contact(setup_db):
     result = controller(
         Actions.ADD,
         ContactPayload(
-            command=Actions.ADD,
             name="Joe",
             phones={"1234567890"},
             email="email@example.com",
@@ -133,7 +131,6 @@ def test_update_contact(setup_db):
     controller(
         Actions.UPDATE,
         ContactPayload(
-            command=Actions.UPDATE,
             name="Joe",
             phones={"234567890", "1234567890"},
             email="joe@example.com",
