@@ -13,4 +13,4 @@ class Contact(BaseModel):
 
     def __str__(self) -> str:
         self.phones.remove("")
-        return f"{self.id} | {", ".join(self.phones)}\n"
+        return f"{self.id} | {", ".join(list(self.phones))}\n"
