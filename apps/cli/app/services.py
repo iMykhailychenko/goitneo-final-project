@@ -59,9 +59,7 @@ def create_new_contact(*_) -> None:
         birthday = prompt(
             "Add birthday", error_message="Invalid birthday", optional=True
         )
-        address = prompt(
-            "Add address", error_message="Invalid address", optional=True
-        )
+        address = prompt("Add address", error_message="Invalid address", optional=True)
         result = controller(
             Actions.ADD,
             ContactPayload(
@@ -69,7 +67,7 @@ def create_new_contact(*_) -> None:
                 phones=phones,
                 birthday=birthday,
                 email=email,
-                address=address
+                address=address,
             ),
         )
 
@@ -91,13 +89,13 @@ def update_contact(prev: Contact) -> None:
     birthday = prompt(
         "Update birthday", error_message="Invalid birthday", optional=True
     )
-    address = prompt(
-        "Add address", error_message="Invalid address", optional=True
-    )
+    address = prompt("Add address", error_message="Invalid address", optional=True)
 
     result = controller(
         Actions.UPDATE,
-        ContactPayload(name=prev.id, phones=phones, birthday=birthday, email=email, address=address),
+        ContactPayload(
+            name=prev.id, phones=phones, birthday=birthday, email=email, address=address
+        ),
     )
 
     if result.type.value == ResponseType.ERROR.value:
@@ -115,8 +113,8 @@ def delete_contact(prev: Contact) -> None:
 
     if result == None:
         console.print("🎉  Contact deleted successfully!\n", end="\n." * 10)
-             
-        
+
+
 @with_confirmation
 def get_birthdays_by_duration(*_) -> None:
     day_duration = prompt(
@@ -126,7 +124,7 @@ def get_birthdays_by_duration(*_) -> None:
     )
     try:
         day_amount = int(day_duration)
-    except:    
+    except:
         day_amount = 7
     payload = BirthdayPayload(day_amount=day_amount)
     result = controller(Actions.BIRTHDAYS, payload)
