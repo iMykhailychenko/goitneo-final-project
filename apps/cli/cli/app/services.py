@@ -13,7 +13,7 @@ from core.models import (
 )
 from rich.console import Console
 
-from app.constants import (
+from cli.app.constants import (
     GO_BACK,
     BaseActions,
     base,
@@ -22,7 +22,7 @@ from app.constants import (
     search_entities,
     single_contact,
 )
-from app.utils import (
+from cli.app.utils import (
     confirm_to_continue,
     has_error,
     make_entyties_list,

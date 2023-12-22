@@ -4,7 +4,7 @@ from typing import Dict, List, Tuple
 from beaupy import select
 from core.models import Entity
 
-from app.constants import GO_BACK
+from cli.app.constants import GO_BACK
 
 
 def make_entyties_map(entyties: List[Entity]) -> Dict[str, Entity]:
