@@ -1,8 +1,10 @@
 from enum import Enum
 from functools import wraps
-from typing import Any, Optional
+from typing import List, Optional, Union
 
 from pydantic import BaseModel
+
+from core.models.entities import Entity
 
 
 class ResponseType(Enum):
@@ -12,7 +14,7 @@ class ResponseType(Enum):
 
 class Response(BaseModel):
     message: Optional[str] = None
-    value: Optional[Any] = None
+    value: Optional[Union[Entity, List[Entity]]] = None
     type: ResponseType = ResponseType.SUCCESS
 
 

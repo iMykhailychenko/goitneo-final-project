@@ -11,7 +11,7 @@ exclude = '''
         \.tox/|
         \.venv/|
         venv/|
-        _build/|
+        build/|
         buck-out/|
         build/|
         dist/

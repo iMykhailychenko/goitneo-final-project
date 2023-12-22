@@ -1,6 +1,14 @@
+from typing import Any
+
 from rich.console import Console
 
-from app.constants import CLOSE, GO_BACK, BaseActions, ContactActions
+from app.constants import (
+    CLOSE,
+    GO_BACK,
+    BaseActions,
+    ContactActions,
+    SingleContactActions,
+)
 from app.exeptions import ExitException
 from app.services import (
     base_action,
@@ -8,27 +16,28 @@ from app.services import (
     create_new_contact,
     get_all_contacts,
     get_birthdays_by_duration,
+    search,
     update_contact,
 )
 
 console = Console()
-current_action = None
 
 
 actions_map = {
     None: base_action,
     BaseActions.CONTACTS.value: contacts_actions,
     BaseActions.BIRTHDAYS.value: get_birthdays_by_duration,
-    BaseActions.SEARCH.value: lambda *_: None,
-    BaseActions.ALL.value: get_all_contacts,
+    BaseActions.SEARCH.value: search,
+    ContactActions.ALL.value: get_all_contacts,
     ContactActions.ADD.value: create_new_contact,
-    ContactActions.DELETE.value: lambda *_: None,
-    ContactActions.UPDATE.value: update_contact,
+    SingleContactActions.DELETE.value: lambda *_: None,
+    SingleContactActions.UPDATE.value: update_contact,
 }
 
 
 class Controller:
-    __current_action = None
+    __payload: Any = None
+    __current_action: str = None
 
     def __call__(self):
         if self.__current_action == CLOSE:
@@ -36,5 +45,12 @@ class Controller:
             raise ExitException()
         elif self.__current_action == GO_BACK:
             self.__current_action = None
+            self.__payload = None
 
-        self.__current_action = actions_map[self.__current_action]()
+        result = actions_map[self.__current_action](self.__payload)
+        if result:
+            self.__current_action = result[0]
+            self.__payload = result[1]
+        else:
+            self.__current_action = None
+            self.__payload = None
