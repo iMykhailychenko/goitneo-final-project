@@ -8,5 +8,3 @@ from cli.app.utils.alert_utils import (
 from cli.app.utils.clear_console import clear_console
 from cli.app.utils.make_entyties_list import make_entyties_list
 from cli.app.utils.prompt import prompt, prompt_set
-
- 

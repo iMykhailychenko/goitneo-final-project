@@ -9,5 +9,5 @@ setup(
     license="MIT",
     packages=packages,
     install_requires=["pydantic"],
-    entry_points={'console_scripts': ['bot = cli.main:main']}
+    entry_points={"console_scripts": ["bot = cli.main:main"]},
 )
