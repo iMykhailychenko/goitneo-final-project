@@ -1,7 +1,7 @@
 import beaupy
 from rich.console import Console
 
-from app.utils.clear import clear
+from app.utils.clear_console import clear_console
 
 console = Console()
 
@@ -27,7 +27,7 @@ def prompt(
             result = beaupy.prompt(message, validator=validator)
         except beaupy.ValidationError:
             console.print(error_message, style="white on red")
-    clear()
+    clear_console()
     return result
 
 

@@ -5,7 +5,7 @@ from rich.console import Console
 
 from app.controller import Controller
 from app.exeptions import ExitException
-from app.utils import clear
+from app.utils import clear_console
 
 controller = Controller()
 console = Console()
@@ -18,12 +18,12 @@ def main():
         sleep(0.5)
 
     while True:
-        clear()
+        clear_console()
 
         try:
             controller()
         except ExitException:
-            clear()
+            clear_console()
             console.print("\nGoodbye!\n", style="white on red")
             break
 

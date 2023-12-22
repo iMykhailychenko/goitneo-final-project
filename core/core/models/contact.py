@@ -10,3 +10,7 @@ class Contact(BaseModel):
     phones: Set[str] = set()
     birthday: Optional[date] = None
     address: str = ""
+
+    def __str__(self) -> str:
+        self.phones.remove("")
+        return f"{self.id} | {", ".join(self.phones)}\n"

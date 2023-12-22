@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Optional, Tuple
 
 from beaupy import select
 from core import Actions, controller
@@ -7,6 +7,7 @@ from core.models import (
     Contact,
     ContactPayload,
     Entity,
+    Response,
     ResponseType,
     SearchPayload,
 )
@@ -21,7 +22,16 @@ from app.constants import (
     search_entities,
     single_contact,
 )
-from app.utils import make_entyties_list, prompt, prompt_set, with_confirmation
+from app.utils import (
+    confirm_to_continue,
+    has_error,
+    make_entyties_list,
+    print_confirmation_message,
+    print_error,
+    prompt,
+    prompt_set,
+    with_confirmation,
+)
 
 console = Console()
 
@@ -36,18 +46,21 @@ def contacts_actions(*_) -> Tuple[str, None]:
     return select(contacts, cursor=">>>", cursor_style="cyan"), None
 
 
-@with_confirmation
-def create_new_contact(*_) -> None:
+def get_contact() -> Tuple[Response, str]:
     name = prompt(
         "Enter contact name",
         error_message="Name is required!",
         validator=lambda value: len(value) > 0,
     )
-    payload = ContactPayload(name=name)
-    result = controller(Actions.GET, payload)
+    return controller(Actions.GET, ContactPayload(name=name)), name
 
-    if result.value:
-        console.print("The record already exists 😅️️️️️️\n", end="\n." * 10)
+
+@with_confirmation
+def create_new_contact(*_) -> None:
+    contact, name = get_contact()
+
+    if has_error(contact):
+        return print_error(contact)
     else:
         email = prompt("Add email", error_message="Invalid email", optional=True)
         phones = prompt_set(
@@ -60,48 +73,47 @@ def create_new_contact(*_) -> None:
             "Add birthday", error_message="Invalid birthday", optional=True
         )
         address = prompt("Add address", error_message="Invalid address", optional=True)
-        result = controller(
-            Actions.ADD,
-            ContactPayload(
-                name=name,
-                phones=phones,
-                birthday=birthday,
-                email=email,
-                address=address,
-            ),
+        payload = ContactPayload(
+            name=name,
+            phones=phones,
+            birthday=birthday,
+            email=email,
+            address=address,
         )
 
-        if result.type.value == ResponseType.ERROR.value:
-            console.print(result.message + "\n", end="\n." * 10)
-        else:
-            console.print("🎉  Contact created successfully!\n", end="\n." * 10)
+        result = controller(Actions.ADD, payload=payload)
+        print_confirmation_message(result, "🎉  Contact created successfully!\n")
 
 
 @with_confirmation
 def update_contact(prev: Contact) -> None:
-    email = prompt("Update email", error_message="Invalid email", optional=True)
-    phones = prompt_set(
-        question="Update phone number",
-        question_next="Add extra phone number",
-        error_message="Invalid phone number",
+    prev_email = prev.email or "n/a"
+    email = prompt(
+        f"Update email [{prev_email}]", error_message="Invalid email", optional=True
+    )
+
+    prev_birthday = prev.birthday.strftime("%d.%m.%Y") if prev.birthday else "n/a"
+    birthday = prompt(
+        f"Update birthday {prev_birthday}",
+        error_message="Invalid birthday",
         optional=True,
     )
-    birthday = prompt(
-        "Update birthday", error_message="Invalid birthday", optional=True
+
+    prev_address = prev.address or "n/a"
+    address = prompt(
+        f"Add address [{prev_address}]", error_message="Invalid address", optional=True
     )
-    address = prompt("Add address", error_message="Invalid address", optional=True)
 
     result = controller(
         Actions.UPDATE,
         ContactPayload(
-            name=prev.id, phones=phones, birthday=birthday, email=email, address=address
+            name=prev.id,
+            birthday=birthday,
+            email=email,
+            address=address,
         ),
     )
-
-    if result.type.value == ResponseType.ERROR.value:
-        console.print(result.message + "\n", end="\n." * 10)
-    else:
-        console.print("🎉  Contact updated successfully!\n", end="\n." * 10)
+    print_confirmation_message(result, "🎉  Contact updated successfully!\n")
 
 
 @with_confirmation
@@ -110,12 +122,9 @@ def delete_contact(prev: Contact) -> None:
         Actions.DELETE,
         ContactPayload(name=prev.id),
     )
-
-    if result == None:
-        console.print("🎉  Contact deleted successfully!\n", end="\n." * 10)
+    print_confirmation_message(result, "🎉  Contact deleted successfully!\n")
 
 
-@with_confirmation
 def get_birthdays_by_duration(*_) -> None:
     day_duration = prompt(
         "Enter days duration from today",
@@ -126,8 +135,8 @@ def get_birthdays_by_duration(*_) -> None:
     payload = BirthdayPayload(day_amount=day_duration)
     result = controller(Actions.BIRTHDAYS, payload)
 
-    if result.type.value == ResponseType.ERROR.value:
-        console.print(f"{result.message} 😅️️️️️️\n", end="\n." * 10)
+    if has_error(result):
+        print_error(result)
     else:
         if result.value:
             console.print(
@@ -142,15 +151,16 @@ def get_birthdays_by_duration(*_) -> None:
                 end="\n" * 3,
                 style="white on red",
             )
+            confirm_to_continue()
 
 
-def get_all_contacts(*_) -> None:
+def get_all_contacts(*_) -> Optional[Tuple[str, Entity]]:
     result = controller(Actions.ALL)
-    if result.type.value == ResponseType.ERROR.value:
-        console.print(f"{result.message} 😅️️️️️️\n", end="\n." * 10)
-        input("\n\nPress Enter to continue...")
-        return
-    return make_entyties_list(result.value, single_contact)
+    if has_error(result):
+        print_error(result)
+        confirm_to_continue()
+    else:
+        return make_entyties_list(result.value, single_contact)
 
 
 def search(*_) -> Tuple[str, Entity]:
@@ -164,9 +174,9 @@ def search(*_) -> Tuple[str, Entity]:
         Actions.SEARCH, SearchPayload(entity=entities_map[entity_key], query=query)
     )
 
-    if result.type.value == ResponseType.ERROR.value:
-        console.print(f"{result.message} 😅️", end="\n." * 10)
-        input("\n\nPress Enter to continue...")
+    if has_error(result):
+        print_error(result)
+        confirm_to_continue()
         return
 
     if not len(result.value):
@@ -175,7 +185,7 @@ def search(*_) -> Tuple[str, Entity]:
             end="\n." * 10,
             style="white on red",
         )
-        input("\n\nPress Enter to continue...")
+        confirm_to_continue()
         return
 
     return make_entyties_list(result.value, single_contact)

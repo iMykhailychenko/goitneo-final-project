@@ -20,6 +20,7 @@ class ContactActions(Enum):
 class SingleContactActions(Enum):
     DELETE = "➖  Delete contact\n"
     UPDATE = "👥  Update contact\n"
+    PHONE = "📱  Update phone number\n"
 
 
 class UpdateContactActions(Enum):
@@ -44,6 +45,7 @@ single_contact = [
     GO_BACK,
     SingleContactActions.DELETE.value,
     SingleContactActions.UPDATE.value,
+    SingleContactActions.PHONE.value,
     CLOSE,
 ]
 
