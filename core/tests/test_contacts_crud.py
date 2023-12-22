@@ -1,10 +1,11 @@
 from datetime import datetime
 
-from core import Actions, ContactPayload, Database, Record, controller
-from core.misc import InfoMessages
-from tests.utils import setup_db
+from core import Actions, controller
+from core.database import Database
+from core.models import Contact, ContactPayload, EntitiesType
+from tests.utils import setup_db, setup_test_user
 
-db = Database().connect()
+db = Database()
 
 
 def test_add_name(setup_db):
@@ -13,8 +14,7 @@ def test_add_name(setup_db):
         ContactPayload(name="Joe"),
     )
 
-    assert result.message == InfoMessages.CONTACT_CREATED.value
-    assert db["Joe"] == Record(name="Joe")
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(id="Joe")
 
 
 def test_add_phone(setup_db):
@@ -23,8 +23,9 @@ def test_add_phone(setup_db):
         ContactPayload(name="Joe", phones={"1234567890"}),
     )
 
-    assert result.message == InfoMessages.CONTACT_CREATED.value
-    assert db["Joe"] == Record(name="Joe", phones={"1234567890"})
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
+        id="Joe", phones={"1234567890"}
+    )
 
 
 def test_add_email(setup_db):
@@ -33,8 +34,9 @@ def test_add_email(setup_db):
         ContactPayload(name="Joe", email="email@example.com"),
     )
 
-    assert result.message == InfoMessages.CONTACT_CREATED.value
-    assert db["Joe"] == Record(name="Joe", email="email@example.com")
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
+        id="Joe", email="email@example.com"
+    )
 
 
 def test_add_birthday(setup_db):
@@ -43,53 +45,27 @@ def test_add_birthday(setup_db):
         ContactPayload(name="Joe", birthday="20.11.1990"),
     )
 
-    assert result.message == InfoMessages.CONTACT_CREATED.value
-    assert db["Joe"] == Record(
-        name="Joe", birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date()
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
+        id="Joe", birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date()
     )
-
-
-def test_add_tags(setup_db):
-    tags = {"Hello", "World"}
-    result = controller(
-        Actions.ADD,
-        ContactPayload(name="Joe", tags=tags),
-    )
-
-    assert result.message == InfoMessages.CONTACT_CREATED.value
-    assert db["Joe"] == Record(name="Joe", tags=tags)
-
-
-def test_add_note(setup_db):
-    result = controller(
-        Actions.ADD,
-        ContactPayload(name="Joe", note="Hello World"),
-    )
-
-    assert result.message == InfoMessages.CONTACT_CREATED.value
-    assert db["Joe"] == Record(name="Joe", note="Hello World")
 
 
 def test_add_all(setup_db):
     result = controller(
         Actions.ADD,
         ContactPayload(
-            command=Actions.ADD,
             name="Joe",
             phones={"1234567890"},
             email="email@example.com",
             birthday="20.11.1990",
-            note="Hello World",
         ),
     )
-    assert result.message == InfoMessages.CONTACT_CREATED.value
 
-    assert db["Joe"] == Record(
-        name="Joe",
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
+        id="Joe",
         phones={"1234567890"},
         email="email@example.com",
         birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date(),
-        note="Hello World",
     )
 
 
@@ -98,14 +74,76 @@ def test_duplicates(setup_db):
         Actions.ADD,
         ContactPayload(name="Joe"),
     )
-    assert result.message == InfoMessages.CONTACT_CREATED.value
 
     result = controller(
         Actions.ADD,
         ContactPayload(name="Joe", phones={"1234567890"}),
     )
-    assert result.message == InfoMessages.CONTACT_CREATED.value
 
-    records = db.all()
-    assert len(records.values()) == 1
-    assert db["Joe"] == Record(name="Joe", phones={"1234567890"})
+    records = db.select(entity=EntitiesType.CONTACTS, key="*")
+    assert len(records) == 1
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
+        id="Joe", phones={"1234567890"}
+    )
+
+
+def test_update_contact(setup_db):
+    result = controller(
+        Actions.ADD,
+        ContactPayload(
+            name="Joe",
+            phones={"1234567890"},
+            email="email@example.com",
+            birthday="20.11.1990",
+        ),
+    )
+
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
+        id="Joe",
+        phones={"1234567890"},
+        email="email@example.com",
+        birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date(),
+    )
+
+    controller(
+        Actions.UPDATE,
+        ContactPayload(
+            name="Joe",
+            phones={"234567890", "1234567890"},
+            email="joe@example.com",
+        ),
+    )
+
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
+        id="Joe",
+        phones={"234567890", "1234567890"},
+        email="joe@example.com",
+        birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date(),
+    )
+
+
+def test_all_contacts(setup_db):
+    controller(Actions.ADD, ContactPayload(name="Joe", phones={"1234567890"}))
+    controller(Actions.ADD, ContactPayload(name="Jane", phones={"09876543210"}))
+    final = controller(Actions.ALL).value
+    assert len(final) == 2
+
+
+def test_delete_contact(setup_db):
+    result = controller(Actions.ADD, ContactPayload(name="Joe", phones={"1234567890"}))
+    controller(Actions.DELETE, ContactPayload(name=result.value.id))
+
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == None
+
+
+def test_change_name(setup_test_user):
+    result = controller(Actions.ALL)
+
+    assert len(result.value) == 1
+    assert result.value[0] == Contact(id="Joe")
+
+    controller(Actions.UPDATE, ContactPayload(name="Joe", new_name="Jane"))
+    result = controller(Actions.ALL)
+
+    assert len(result.value) == 1
+    assert result.value[0] == Contact(id="Jane")

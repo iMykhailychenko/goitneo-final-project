@@ -1,19 +1,20 @@
 from enum import Enum
-from typing import Optional, Union, List
-from pydantic import BaseModel
 from functools import wraps
+from typing import List, Optional, Union
 
-from core.models.record import Record
+from pydantic import BaseModel
+
+from core.models.entities import Entity
 
 
 class ResponseType(Enum):
-    SUCCESS = 'success'
-    ERROR = 'error'
+    SUCCESS = "success"
+    ERROR = "error"
 
 
 class Response(BaseModel):
     message: Optional[str] = None
-    value: Union[List[Record], Record, None] = None
+    value: Optional[Union[Entity, List[Entity]]] = None
     type: ResponseType = ResponseType.SUCCESS
 
 
@@ -21,7 +22,8 @@ def response(message: Optional[str] = None):
     def wrapper(func):
         @wraps(func)
         def inner(*args, **kwargs):
-            result = func(*args, **kwargs)
-            return Response(value=result, message=message)
+            return Response(value=func(*args, **kwargs), message=message)
+
         return inner
+
     return wrapper

@@ -1,8 +1,13 @@
+from pathlib import Path
+
 from pytest import fixture
 
-from core import Actions, ContactPayload, Database, controller
+from core import Actions, controller
+from core.database import Database
+from core.models import ContactPayload
 
-db = Database()
+DB_PATH = Path(__file__).parent / "tmp"
+db = Database().connect(DB_PATH)
 
 
 @fixture

@@ -1,13 +1,13 @@
 from setuptools import find_namespace_packages, setup
 
 packages = find_namespace_packages()
-packages.append("core")
 
 setup(
-    name="core",
+    name="bot",
     version="0.1.0",
-    description="Bot core application",
+    description="Bot cli application",
     license="MIT",
     packages=packages,
     install_requires=["pydantic"],
+    entry_points={"console_scripts": ["bot = cli.main:main"]},
 )

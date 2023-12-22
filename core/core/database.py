@@ -1,125 +1,125 @@
-import csv
-from datetime import datetime
+import json
+import shutil
 from functools import wraps
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict, List, Optional, Union
 
-from core.misc import DatabaseError
-from core.models import FIELDS, Record, Response
+from core.models import EntitiesType, Entity, entities
 
-DB_FOLDER_PATH = Path("/tmp/goit-bot")
+DB_FOLDER_PATH = Path(__file__).resolve().parent.parent.parent / "tmp"
+
+Entity = Dict[str, Entity]
 
 
 class Database:
     __instance = None
-    __filename = "db.csv"
     __path: Optional[Path] = None
-    __records: Dict[str, Record] = {}
+    __entities: Dict[str, Entity] = {}
 
     def __new__(cls, *args, **kwargs):
         if cls.__instance is None:
             cls.__instance = super(Database, cls).__new__(cls, *args, **kwargs)
         return cls.__instance
 
-    def __setitem__(self, key: str, value: Record):
-        self.__records[key] = value
-        self.__write(self.__records)
+    def select(
+        self, entity: EntitiesType, key: str = "*"
+    ) -> Union[Entity, List[Entity]]:
+        self.__read(entity)
+        if key == "*":
+            return self.__entities.get(entity.value, {}).values()
+        return self.__entities.get(entity.value, {}).get(key)
 
-    def __getitem__(self, key: str) -> Record:
-        if not self.__records:
-            self.__read()
-        return self.__records.get(key)
+    def update(self, entity: EntitiesType, key: str, record: Entity) -> None:
+        if self.__entities.get(entity.value):
+            self.__entities[entity.value][key] = record
+        else:
+            self.__entities[entity.value] = {key: record}
+        self.__write(entity)
 
-    def __delete__(self, key: str):
-        if key in self.__records:
-            del self.__records[key]
-            self.__write(self.__records)
+    def delete(self, entity: EntitiesType, key: str):
+        if key in self.__entities[entity.value]:
+            del self.__entities[entity.value][key]
+            self.__write(entity)
 
-    def all(self) -> Dict[str, Record]:
-        return self.__records
+    def __get_file(self, entity: EntitiesType) -> Path:
+        if self.__path is None:
+            self.__path = DB_FOLDER_PATH
 
-    def validate(self) -> Path:
-        if not Database.__path or not Database.__path.exists():
-            raise DatabaseError()
+        file = self.__path / f"{entity.value}.json"
 
-    def __read(self) -> None:
-        self.validate()
+        if not self.__path.exists():
+            self.__path.mkdir()
 
-        try:
-            with open(Database.__path, "r") as f:
-                reader = csv.DictReader(f)
-                for row in reader:
-                    tags = set(row["tags"].split("|")) if row.get("tags") else set()
-                    phones = (
-                        set(row["phones"].split("|")) if row.get("phones") else set()
+        if not file.exists():
+            file.touch()
+
+        return file
+
+    def __read(self, entity: EntitiesType) -> None:
+        file = self.__get_file(entity)
+
+        with open(file, "r") as f:
+            try:
+                data = json.load(f)
+                self.__entities[entity.value] = {}
+                for key, record in data.items():
+                    self.__entities[entity.value][key] = entities[entity.value](
+                        **record
                     )
-                    birthday = (
-                        datetime.strptime(row["birthday"], "%Y-%m-%d").date()
-                        if row.get("birthday")
-                        else None
-                    )
+            except json.JSONDecodeError:
+                pass
 
-                    self.__records[row.get("name")] = Record(
-                        name=row.get("name"),
-                        email=row.get("email"),
-                        birthday=birthday,
-                        phones=phones,
-                        tags=tags,
-                    )
-        except Exception:
-            print(f"Failed to read data from file: {Database.__path}")
+    def __write(self, entity: EntitiesType) -> None:
+        file = self.__get_file(entity)
+        entities = self.__entities.get(entity.value)
 
-    def __write(self, records: Dict[str, Record]) -> None:
-        self.validate()
-        with open(Database.__path, "w") as f:
-            writer = csv.DictWriter(f, fieldnames=FIELDS)
-            writer.writeheader()
-
-            for record in records.values():
-                writer.writerow(
-                    {
-                        "name": record.name,
-                        "email": record.email,
-                        "phones": "|".join(record.phones),
-                        "birthday": record.birthday,
-                        "tags": "|".join(record.tags),
-                    }
-                )
+        json_data = {}
+        with open(file, "w") as f:
+            for key, record in entities.items():
+                json_data[key] = record.model_dump(mode="json")
+            json.dump(json_data, f, indent=2)
 
     def drop(self) -> "Database":
-        self.validate()
-        self.__write({})
-        self.__records.clear()
+        self.__entities.clear()
+        if self.__path and self.__path.exists():
+            shutil.rmtree(self.__path)
         return self
 
     def connect(self, path: Path = DB_FOLDER_PATH) -> "Database":
-        Database.__path = path / Database.__filename
-        if not path.exists():
-            path.mkdir()
-            Database.__path.touch()
-        print(f"Connected to database: {Database.__path}")
+        if not self.__path:
+            self.__path = path
+
+        if not self.__path.exists():
+            self.__path.mkdir()
+
         return self
 
 
-def write_data(func):
+def write_data(entity: EntitiesType = EntitiesType.CONTACTS):
     bd = Database()
 
-    @wraps(func)
-    def inner(*args, **kwargs):
-        result = func(*args, **kwargs)
-        bd[result.name] = result
-        return result
+    def wrapper(func):
+        @wraps(func)
+        def inner(*args, **kwargs):
+            result: Entity = func(*args, **kwargs)
+            bd.update(entity=entity, key=result.id, record=result)
+            return result
 
-    return inner
+        return inner
+
+    return wrapper
 
 
-def delete_data(func):
+def delete_data(entity: EntitiesType = EntitiesType.CONTACTS):
     bd = Database()
 
-    @wraps(func)
-    def inner(*args, **kwargs):
-        result = func(*args, **kwargs)
-        del bd[result.name]
-        return result
+    def wrapper(func):
+        @wraps(func)
+        def inner(*args, **kwargs):
+            result: Entity = func(*args, **kwargs)
+            bd.delete(entity=entity, key=result.id)
+            return result
 
-    return inner
+        return inner
+
+    return wrapper
