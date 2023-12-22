@@ -45,7 +45,7 @@ def create_new_contact(*_) -> None:
     )
     payload = ContactPayload(name=name)
     result = controller(Actions.GET, payload)
-    console.print(result)
+
     if result.value:
         console.print("The record already exists 😅️️️️️️\n", end="\n." * 10)
     else:
@@ -122,11 +122,8 @@ def get_birthdays_by_duration(*_) -> None:
         error_message="Duration should be an Integer",
         optional=True,
     )
-    try:
-        day_amount = int(day_duration)
-    except:
-        day_amount = 7
-    payload = BirthdayPayload(day_amount=day_amount)
+    day_amount = day_duration if type(day_duration) == int else 7
+    payload = BirthdayPayload(day_amount=day_duration)
     result = controller(Actions.BIRTHDAYS, payload)
 
     if result.type.value == ResponseType.ERROR.value:
