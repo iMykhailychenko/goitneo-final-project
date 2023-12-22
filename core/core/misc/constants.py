@@ -31,6 +31,7 @@ class Actions(Enum):
     ADD_TAG = "add_tag"
     DELETE_TAG = "delete_tag"
     UPDATE_TAG = "update_tag"
+    FIND_BY_TAG = "find_notes_by_tag"
 
 
 class CommandMessages(Enum):
@@ -58,6 +59,9 @@ class InfoMessages(Enum):
     PHONE_NUMBER_FOUND = "Phone number found."
     PHONE_NUMBER_UPDATED = '"Phone number for contact updated.'
     NOTE_DELETED = "Note for contact deleted."
+    TAG_ADDED = "Tag for contact added."
+    TAG_DELETED = "Tag for contact deleted."
+    TAG_UPDATED = "Tag for contact updated."
 
 
 class ValidationMessages(Enum):

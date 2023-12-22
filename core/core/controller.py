@@ -8,10 +8,13 @@ from core.services import (
     add_contact,
     add_note,
     add_phone_number,
+    add_tag,
     delete_address,
     delete_birthday,
     delete_note,
     delete_phone_number,
+    delete_tag,
+    find_notes_by_tag,
     get_all_contacts,
     get_birthdays_by_duration,
     get_contact,
@@ -21,6 +24,7 @@ from core.services import (
     update_contact,
     update_note,
     update_phone_number,
+    update_tag,
 )
 
 services_map = {
@@ -49,9 +53,10 @@ services_map = {
     Actions.DELETE_NOTE.value: delete_note,
     Actions.UPDATE_NOTE.value: update_note,
     # Tags
-    Actions.ADD_TAG.value: lambda _: None,
-    Actions.DELETE_TAG.value: lambda _: None,
-    Actions.UPDATE_TAG.value: lambda _: None,
+    Actions.ADD_TAG.value: add_tag,
+    Actions.DELETE_TAG.value: delete_tag,
+    Actions.UPDATE_TAG.value: update_tag,
+    Actions.FIND_BY_TAG.value: find_notes_by_tag,
 }
 
 default_response = Response(
