@@ -7,6 +7,7 @@ from core.services.birthday import (
 )
 from core.services.contact import (
     add_contact,
+    delete_contact,
     get_all_contacts,
     get_contact,
     update_contact,
@@ -30,6 +31,7 @@ __all__ = [
     "get_all_contacts",
     "delete_address",
     "delete_birthday",
+    "delete_contact",
     "delete_note",
     "delete_phone_number",
     "delete_tag",

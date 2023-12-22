@@ -14,6 +14,7 @@ from app.services import (
     base_action,
     contacts_actions,
     create_new_contact,
+    delete_contact,
     get_all_contacts,
     get_birthdays_by_duration,
     search,
@@ -30,7 +31,7 @@ actions_map = {
     BaseActions.SEARCH.value: search,
     ContactActions.ALL.value: get_all_contacts,
     ContactActions.ADD.value: create_new_contact,
-    SingleContactActions.DELETE.value: lambda *_: None,
+    SingleContactActions.DELETE.value: delete_contact,
     SingleContactActions.UPDATE.value: update_contact,
 }
 

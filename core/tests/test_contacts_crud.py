@@ -153,3 +153,10 @@ def test_all_contacts(setup_db):
     controller(Actions.ADD, ContactPayload(name="Jane", phones={"09876543210"}))
     final = controller(Actions.ALL).value
     assert len(final) == 2
+
+
+def test_delete_contact(setup_db):
+    result = controller(Actions.ADD, ContactPayload(name="Joe", phones={"1234567890"}))
+    controller(Actions.DELETE, ContactPayload(name=result.value.id))
+
+    assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == None

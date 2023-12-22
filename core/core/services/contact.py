@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from core.database import Database, write_data
+from core.database import Database, write_data, delete_data
 from core.models import Contact, ContactPayload, EntitiesType, response
 
 database = Database()
@@ -21,6 +21,12 @@ def add_contact(payload: ContactPayload) -> Contact:
         birthday=birthday,
         address=payload.address,
     )
+
+
+@response()
+@delete_data(entity=EntitiesType.CONTACTS)
+def delete_contact(payload: ContactPayload) -> Contact:
+    return database.select(entity=EntitiesType.CONTACTS, key=payload.name)
 
 
 @response()
