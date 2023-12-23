@@ -1,6 +1,6 @@
 from core import Actions, controller
 from core.database import Database
-from core.models import EntitiesType, NotePayload
+from core.models import EntitiesType, NotePayload, TagPayload
 from tests.utils import setup_db
 
 db = Database()
@@ -14,8 +14,12 @@ def test_add_note(setup_db):
     )
 
 
-def test_get_note(setup_db):
-    pass
+def test_get_all_notes(setup_db):
+    controller(Actions.ADD_NOTE, NotePayload(value="test note"))
+    controller(Actions.ADD_NOTE, NotePayload(value="test note2"))
+
+    result = controller(Actions.ALL_NOTES)
+    assert len(result.value) == 2
 
 
 def test_delete_note(setup_db):
@@ -24,14 +28,10 @@ def test_delete_note(setup_db):
     assert db.select(entity=EntitiesType.NOTES, key=result.value.id) == None
 
 
-def test_update_note(setup_db):
-    pass  # TODO implement after test_get_note
-
-
 def test_add_tags(setup_db):
     result = controller(Actions.ADD_NOTE, NotePayload(value="test note"))
-    controller(Actions.ADD_TAG, NotePayload(id=result.value.id, tags={"test tag"}))
-    controller(Actions.ADD_TAG, NotePayload(id=result.value.id, tags={"test tag2"}))
+    controller(Actions.ADD_TAG, TagPayload(id=result.value.id, tag="test tag"))
+    controller(Actions.ADD_TAG, TagPayload(id=result.value.id, tag="test tag2"))
     assert db.select(entity=EntitiesType.NOTES, key=result.value.id).tags == {
         "test tag",
         "test tag2",
@@ -39,14 +39,16 @@ def test_add_tags(setup_db):
 
 
 def test_update_tag(setup_db):
-    result = controller(Actions.ADD_NOTE, NotePayload(value="test note"))
-    controller(Actions.ADD_TAG, NotePayload(id=result.value.id, tags={"test tag"}))
-    controller(Actions.UPDATE_TAG, NotePayload(id=result.value.id, tags={"new tag"}))
+    result = controller(
+        Actions.ADD_NOTE, NotePayload(value="test note", tags={"test tag"})
+    )
+    controller(Actions.UPDATE_TAG, TagPayload(id=result.value.id, tag="new tag", old_tag="test tag"))
     assert db.select(entity=EntitiesType.NOTES, key=result.value.id).tags == {"new tag"}
 
 
 def test_delete_tags(setup_db):
-    result = controller(Actions.ADD_NOTE, NotePayload(value="test note"))
-    controller(Actions.ADD_TAG, NotePayload(id=result.value.id, tags={"test tag"}))
-    controller(Actions.DELETE_TAG, NotePayload(id=result.value.id))
+    result = controller(
+        Actions.ADD_NOTE, NotePayload(value="test note", tags={"test tag"})
+    )
+    controller(Actions.DELETE_TAG, TagPayload(id=result.value.id, tag="test tag"))
     assert db.select(entity=EntitiesType.NOTES, key=result.value.id).tags == set()

@@ -1,4 +1,3 @@
-from datetime import date
 from typing import Dict, List, Tuple
 
 from beaupy import select
@@ -23,5 +22,9 @@ def make_entyties_list(
     )
     if key == GO_BACK:
         return GO_BACK, None
+
+    entity = entyties_map[key]
+    entity.print()
+
     next_action = select(actions, cursor=">>>", cursor_style="cyan")
-    return next_action, entyties_map[key]
+    return next_action, entity

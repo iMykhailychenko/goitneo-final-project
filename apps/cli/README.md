@@ -18,7 +18,7 @@ source ./venv/bin/activate
 Install the application
 
 ```bash
-pip install .
+pip install -r requirements.txt
 ```
 
 And then run **bot** command in your terminal

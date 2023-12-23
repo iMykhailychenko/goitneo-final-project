@@ -1,4 +1,4 @@
-from time import sleep
+from pathlib import Path
 
 from core.database import Database
 from rich.console import Console
@@ -7,22 +7,21 @@ from cli.app import App
 from cli.app.exeptions import ExitException
 from cli.app.utils import clear_console
 
-controller = App()
+app = App()
 console = Console()
 db = Database()
+DB_PATH = Path(__file__).parent.parent.parent.parent / "tmp"
 
 
 def main():
     with console.status("Welcome!"):
-        print("\n\n")
-        db.connect()
-        sleep(0.5)
+        clear_console()
+        db.connect(DB_PATH)
 
     while True:
         clear_console()
-
         try:
-            controller()
+            app()
         except ExitException:
             clear_console()
             console.print("\nGoodbye!\n", style="white on red")

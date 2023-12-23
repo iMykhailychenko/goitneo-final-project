@@ -24,6 +24,7 @@ class Actions(Enum):
     UPDATE_BIRTHDAY = "update_birthday"
     BIRTHDAYS = "all_birthdays"
 
+    ALL_NOTES = "all_notes"
     ADD_NOTE = "add_note"
     DELETE_NOTE = "delete_note"
     UPDATE_NOTE = "update_note"

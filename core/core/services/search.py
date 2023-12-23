@@ -14,7 +14,6 @@ def search(payload: SearchPayload) -> Entity:
 
     all: List[Entity] = db.select(entity=payload.entity, key="*")
     for record in all:
-        print(all)
         if should_include_record(record.model_dump(), query):
             result.append(record)
 
