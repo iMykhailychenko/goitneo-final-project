@@ -27,6 +27,8 @@ And then run **bot** command in your terminal
 bot
 ```
 
+## Development
+
 ### Getting Started
 
 Checkout to **core** directory
