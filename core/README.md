@@ -16,11 +16,11 @@ python -m  venv venv
 source ./venv/bin/activate
 ```
 
-After that instal all the packages from requirements.txt
+Then instal all the packages from requirements.txt
 
 ```bash
 pip install -r requirements.txt
-```
+
 
 ### Tests
 

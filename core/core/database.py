@@ -66,7 +66,7 @@ class Database:
                     self.__entities[entity.value][key] = entities[entity.value](
                         **record
                     )
-            except json.JSONDecodeError:
+            except Exception as e:
                 pass
 
     def __write(self, entity: EntitiesType) -> None:

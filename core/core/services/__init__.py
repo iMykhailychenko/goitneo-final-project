@@ -12,7 +12,7 @@ from core.services.contact import (
     get_contact,
     update_contact,
 )
-from core.services.notes import add_note, delete_note, update_note
+from core.services.notes import add_note, delete_note, get_all_notes, update_note
 from core.services.phones import (
     add_phone_number,
     delete_phone_number,

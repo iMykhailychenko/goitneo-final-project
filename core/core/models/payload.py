@@ -32,7 +32,7 @@ class PhonePayload(BaseModel):
 
 
 class TagPayload(BaseModel):
-    name: str
+    id: str
     tag: str
     old_tag: Optional[str] = None
 
