@@ -42,7 +42,10 @@ def test_update_tag(setup_db):
     result = controller(
         Actions.ADD_NOTE, NotePayload(value="test note", tags={"test tag"})
     )
-    controller(Actions.UPDATE_TAG, TagPayload(id=result.value.id, tag="new tag", old_tag="test tag"))
+    controller(
+        Actions.UPDATE_TAG,
+        TagPayload(id=result.value.id, tag="new tag", old_tag="test tag"),
+    )
     assert db.select(entity=EntitiesType.NOTES, key=result.value.id).tags == {"new tag"}
 
 
