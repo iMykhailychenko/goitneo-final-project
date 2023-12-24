@@ -1,14 +1,18 @@
+from typing import Optional, Tuple
+
 from core import Actions, controller
-from core.models import BirthdayPayload
+from core.models import BirthdayPayload, Contact, ContactPayload, Entity
 from rich.console import Console
 
-from cli.app.constants import single_contact
+from cli.app.constants import GO_BACK, ContactActions, single_contact
 from cli.app.utils import (
     confirm_to_continue,
     has_error,
     make_entyties_list,
+    print_confirmation_message,
     print_error,
     prompt,
+    with_confirmation,
 )
 
 console = Console()
@@ -42,3 +46,18 @@ def get_birthdays_by_duration(*_) -> None:
                 style="white on red",
             )
             confirm_to_continue()
+
+
+@with_confirmation
+def change_birthday(paylaod: Contact) -> Optional[Tuple[str, Entity]]:
+    old_birthday = paylaod.birthday or "n/a"
+    message = f"Change birthday for {paylaod.id}, current value: {old_birthday}"
+    birthday = prompt(message, error_message="Invalid birthday", optional=True)
+    if not birthday:
+        return GO_BACK
+
+    result = controller(
+        Actions.UPDATE, ContactPayload(name=paylaod.id, birthday=birthday)
+    )
+    print_confirmation_message(result, "🎉  Birthday changed successfully!\n")
+    return ContactActions.ALL.value, paylaod

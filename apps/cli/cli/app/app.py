@@ -35,6 +35,7 @@ from cli.app.services import (
     search,
     search_contacts,
     search_notes,
+    thanks,
     update_note,
 )
 
@@ -47,6 +48,7 @@ actions_map = {
     BaseActions.BIRTHDAYS.value: get_birthdays_by_duration,
     BaseActions.NOTES.value: notes_actions,
     BaseActions.SEARCH.value: search,
+    BaseActions.THANKS.value: thanks,
     SearchActions.CONTACTS.value: search_contacts,
     SearchActions.NOTES.value: search_notes,
     ContactActions.ALL.value: get_all_contacts,
