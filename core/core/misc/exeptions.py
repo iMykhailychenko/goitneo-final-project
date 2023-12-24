@@ -16,3 +16,8 @@ class InvalidBirthdayError(Exception):
 
 class InvalidEmailError(Exception):
     pass
+
+
+class ValidationErrors(Exception):
+    def __init__(self, errors):
+        self.errors = errors
