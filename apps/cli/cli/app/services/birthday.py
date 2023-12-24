@@ -1,18 +1,18 @@
 from typing import Optional, Tuple
 
 from core import Actions, controller
-from core.models import BirthdayPayload, ContactPayload, Contact, Entity
+from core.models import BirthdayPayload, Contact, ContactPayload, Entity
 from rich.console import Console
 
-from cli.app.constants import ContactActions, GO_BACK, single_contact
+from cli.app.constants import GO_BACK, ContactActions, single_contact
 from cli.app.utils import (
     confirm_to_continue,
     has_error,
     make_entyties_list,
+    print_confirmation_message,
     print_error,
     prompt,
     with_confirmation,
-    print_confirmation_message
 )
 
 console = Console()

@@ -2,7 +2,7 @@ from typing import Optional, Tuple
 
 from beaupy import select
 from core import Actions, controller
-from core.models import Contact, PhonePayload, Entity
+from core.models import Contact, Entity, PhonePayload
 from rich.console import Console
 
 from cli.app.constants import GO_BACK, ContactActions

@@ -135,5 +135,3 @@ def change_addresa(paylaod: Contact) -> Tuple[str, Entity]:
     )
     print_confirmation_message(result, "🎉  Address changed successfully!\n")
     return ContactActions.ALL.value, paylaod
-
-
