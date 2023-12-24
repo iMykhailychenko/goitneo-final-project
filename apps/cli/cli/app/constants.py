@@ -11,6 +11,7 @@ class BaseActions(Enum):
     NOTES = "🗒️   Manage notes\n"
     BIRTHDAYS = "🎉  Upcoming birthdays\n"
     SEARCH = "🔎  Search\n"
+    THANKS = "❓  Thanks\n"
 
 
 class ContactActions(Enum):
@@ -50,6 +51,7 @@ base = [
     BaseActions.NOTES.value,
     BaseActions.BIRTHDAYS.value,
     BaseActions.SEARCH.value,
+    BaseActions.THANKS.value,
     CLOSE,
 ]
 

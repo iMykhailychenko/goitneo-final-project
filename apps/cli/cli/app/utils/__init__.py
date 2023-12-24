@@ -6,5 +6,6 @@ from cli.app.utils.alert_utils import (
     with_confirmation,
 )
 from cli.app.utils.clear_console import clear_console
+from cli.app.utils.image import render_image
 from cli.app.utils.make_entyties_list import make_entyties_list
 from cli.app.utils.prompt import prompt, prompt_set
