@@ -2,7 +2,7 @@ from typing import Optional, Tuple
 
 from beaupy import select
 from core import Actions, controller
-from core.models import BirthdayPayload, Contact, ContactPayload, Entity, Response
+from core.models import Contact, ContactPayload, Entity, Response
 from rich.console import Console
 
 from cli.app.constants import (
@@ -137,16 +137,3 @@ def change_addresa(paylaod: Contact) -> Tuple[str, Entity]:
     return ContactActions.ALL.value, paylaod
 
 
-@with_confirmation
-def change_birthday(paylaod: Contact) -> Tuple[str, Entity]:
-    old_birthday = paylaod.birthday or "n/a"
-    message = f"Change birthday for {paylaod.id}, current value: {old_birthday}"
-    birthday = prompt(message, error_message="Invalid birthday", optional=True)
-    if not birthday:
-        return GO_BACK
-
-    result = controller(
-        Actions.UPDATE, ContactPayload(name=paylaod.id, birthday=birthday)
-    )
-    print_confirmation_message(result, "🎉  Birthday changed successfully!\n")
-    return ContactActions.ALL.value, paylaod

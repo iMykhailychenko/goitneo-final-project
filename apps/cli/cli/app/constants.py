@@ -68,6 +68,7 @@ single_contact = [
     SingleContactActions.CHANGE_NAME.value,
     SingleContactActions.CHANGE_EMAIL.value,
     SingleContactActions.CHANGE_ADDRES.value,
+    SingleContactActions.CHANGE_BIRTHDAY.value,
     SingleContactActions.ADD_PHONE.value,
     SingleContactActions.DELETE_PHONE.value,
 ]

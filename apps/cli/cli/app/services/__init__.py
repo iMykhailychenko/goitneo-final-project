@@ -1,8 +1,7 @@
 from cli.app.services.base import base_action
-from cli.app.services.birthday import get_birthdays_by_duration
+from cli.app.services.birthday import get_birthdays_by_duration, change_birthday
 from cli.app.services.contacts import (
     change_addresa,
-    change_birthday,
     change_email,
     change_name,
     contacts_actions,

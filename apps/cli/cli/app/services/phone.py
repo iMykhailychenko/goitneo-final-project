@@ -2,7 +2,7 @@ from typing import Optional, Tuple
 
 from beaupy import select
 from core import Actions, controller
-from core.models import Contact, PhonePayload
+from core.models import Contact, PhonePayload, Entity
 from rich.console import Console
 
 from cli.app.constants import GO_BACK, ContactActions
@@ -12,7 +12,7 @@ console = Console()
 
 
 @with_confirmation
-def add_phone(paylaod: Contact) -> None:
+def add_phone(paylaod: Contact) -> Optional[Tuple[str, Entity]]:
     phones = ", ".join(paylaod.phones) or "n/a"
     message = f"Enter phone number for {paylaod.id}, current phones: {phones}"
     phone = prompt(message, error_message="Invalid phone number", optional=True)
@@ -33,7 +33,7 @@ def add_phone(paylaod: Contact) -> None:
 
 
 @with_confirmation
-def delete_phone(paylaod: Contact) -> None:
+def delete_phone(paylaod: Contact) -> Optional[Tuple[str, Entity]]:
     if not len(paylaod.phones):
         console.print("There are no phones in this record\n", style="white on red")
         return

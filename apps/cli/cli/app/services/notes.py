@@ -2,7 +2,7 @@ from typing import Optional, Tuple
 
 from beaupy import select
 from core import Actions, controller
-from core.models import Entity, Note, NotePayload, TagPayload
+from core.models import Entity, Note, NotePayload
 from rich.console import Console
 
 from cli.app.constants import GO_BACK, BaseActions, NoteActions, notes, single_note
