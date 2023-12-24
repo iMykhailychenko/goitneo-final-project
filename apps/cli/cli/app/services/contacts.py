@@ -74,7 +74,9 @@ def create_new_contact(*_) -> None:
             optional=True,
             validator=lambda value: Validator.validate_birthday(value),
         )
-        address = prompt("Add address", error_message="Invalid address 😅", optional=True)
+        address = prompt(
+            "Add address", error_message="Invalid address 😅", optional=True
+        )
         payload = ContactPayload(
             name=name,
             phones=phones,
