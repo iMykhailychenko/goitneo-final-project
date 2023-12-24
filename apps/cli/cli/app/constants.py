@@ -22,7 +22,7 @@ class SingleContactActions(Enum):
     DELETE = "⛔️  Delete contact\n"
     CHANGE_NAME = "👥  Change name\n"
     CHANGE_EMAIL = "📧  Change email\n"
-    CHANGE_ADDRES = "🏠  Change addres\n"
+    CHANGE_ADDRES = "🏠  Change address\n"
     CHANGE_BIRTHDAY = "📆  Change birthday\n"
     ADD_PHONE = "📱  Add phone number\n"
     DELETE_PHONE = "📲  Delete phone number\n"

@@ -2,48 +2,41 @@ import re
 from datetime import datetime
 
 from core.database import Database
-from core.misc import (
-    InvalidBirthdayError,
-    InvalidEmailError,
-    InvalidNameError,
-    InvalidPhoneError,
-    InvalidPhoneLengthError,
-)
+
+class Validator:
+    def validate_existing_contact(name):
+        database = Database()
+        record = database[name]
+
+        if record:
+            return record
+        else:
+            raise KeyError
 
 
-def validate_existing_contact(name):
-    database = Database()
-    record = database[name]
+    def validate_phone_number(phone_number):
+        phone_number_pattern = re.compile(r"^[0-9+-]+$")
 
-    if record:
-        return record
-    else:
-        raise KeyError
-
-
-def validate_phone_number(phone_number):
-    phone_number_pattern = re.compile(r"^[0-9+-]+$")
-
-    if len(phone_number) != 10:
-        raise InvalidPhoneLengthError()
-    elif not phone_number_pattern.match(phone_number):
-        raise InvalidPhoneError()
+        if phone_number and len(phone_number) != 10:
+            return True
+        elif phone_number and not phone_number_pattern.match(phone_number):
+            return True
 
 
-def validate_name(name):
-    if len(name) == 0 or name is None:
-        raise InvalidNameError
+    def validate_name(name):
+        if len(name) == 0 or name is None:
+            return True
 
 
-def validate_email(email):
-    email_pattern = re.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$")
+    def validate_email(email):
+        email_pattern = re.compile("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,3}$")
 
-    if not email_pattern.match(email):
-        raise InvalidEmailError
+        if email and not email_pattern.match(email):
+            return True
 
-
-def validate_birthday(birthday):
-    try:
-        datetime.strptime(birthday, "%d.%m.%Y")
-    except ValueError:
-        raise InvalidBirthdayError
+    def validate_birthday(birthday):
+        if birthday:
+            try:
+                datetime.strptime(birthday, "%d.%m.%Y")
+            except ValueError:
+                return True
