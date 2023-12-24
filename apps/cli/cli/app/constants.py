@@ -27,7 +27,7 @@ class SingleContactActions(Enum):
     CHANGE_BIRTHDAY = "📆  Change birthday\n"
     ADD_PHONE = "📱  Add phone number\n"
     DELETE_PHONE = "📲  Delete phone number\n"
-    UPDATE_PHONE = "☎️ Update phone number \n"
+    UPDATE_PHONE = "📞 Update phone number\n"
 
 
 class NoteActions(Enum):
