@@ -10,7 +10,7 @@ def make_entyties_map(entyties: List[Entity]) -> Dict[str, Entity]:
     result = {}
     for entity in entyties:
         result[str(entity)] = entity
-    return result
+    return dict(sorted(result.items()))
 
 
 def make_entyties_list(

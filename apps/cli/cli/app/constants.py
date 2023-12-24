@@ -23,10 +23,11 @@ class SingleContactActions(Enum):
     DELETE = "⛔️  Delete contact\n"
     CHANGE_NAME = "👥  Change name\n"
     CHANGE_EMAIL = "📧  Change email\n"
-    CHANGE_ADDRES = "🏠  Change addres\n"
+    CHANGE_ADDRES = "🏠  Change address\n"
     CHANGE_BIRTHDAY = "📆  Change birthday\n"
     ADD_PHONE = "📱  Add phone number\n"
     DELETE_PHONE = "📲  Delete phone number\n"
+    UPDATE_PHONE = "📞 Update phone number\n"
 
 
 class NoteActions(Enum):
@@ -71,6 +72,7 @@ single_contact = [
     SingleContactActions.CHANGE_BIRTHDAY.value,
     SingleContactActions.ADD_PHONE.value,
     SingleContactActions.DELETE_PHONE.value,
+    SingleContactActions.UPDATE_PHONE.value,
 ]
 
 notes = [

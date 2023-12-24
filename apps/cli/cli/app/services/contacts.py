@@ -1,7 +1,7 @@
 from typing import Optional, Tuple
 
 from beaupy import select
-from core import Actions, controller
+from core import Actions, Validator, controller
 from core.models import Contact, ContactPayload, Entity, Response
 from rich.console import Console
 
@@ -53,17 +53,30 @@ def create_new_contact(*_) -> None:
         confirm_to_continue()
         return
     else:
-        email = prompt("Add email", error_message="Invalid email", optional=True)
+        email = prompt(
+            "Add email",
+            error_message="Invalid email 😅",
+            optional=True,
+            validator=lambda value: Validator.validate_email(value),
+        )
         phones = prompt_set(
             question="Add phone number",
+            validator=lambda value: Validator.validate_phone_number({value})
+            if value
+            else True,
             question_next="Add extra phone number",
-            error_message="Invalid phone number",
+            error_message="Invalid phone number 😅",
             optional=True,
         )
         birthday = prompt(
-            "Add birthday", error_message="Invalid birthday", optional=True
+            "Add birthday",
+            error_message="Invalid birthday 😅",
+            optional=True,
+            validator=lambda value: Validator.validate_birthday(value),
         )
-        address = prompt("Add address", error_message="Invalid address", optional=True)
+        address = prompt(
+            "Add address", error_message="Invalid address 😅", optional=True
+        )
         payload = ContactPayload(
             name=name,
             phones=phones,
@@ -96,24 +109,30 @@ def delete_contact(paylaod: Contact) -> Tuple[str, Entity]:
 
 
 @with_confirmation
-def change_name(paylaod: Contact) -> Tuple[str, Entity]:
-    message = f"Enter new name for {paylaod.id}"
+def change_name(payload: Contact) -> Tuple[str, Entity]:
+    message = f"Enter new name for {payload.id}"
     new_name = prompt(message)
     if not new_name:
         return GO_BACK
 
-    result = controller(
-        Actions.UPDATE, ContactPayload(name=paylaod.id, new_name=new_name)
-    )
-    print_confirmation_message(result, "🎉  Name changed successfully!\n")
-    return ContactActions.ALL.value, paylaod
+    else:
+        result = controller(
+            Actions.UPDATE, ContactPayload(name=payload.id, new_name=new_name)
+        )
+        print_confirmation_message(result, "🎉  Name changed successfully!\n")
+        return ContactActions.ALL.value, payload
 
 
 @with_confirmation
 def change_email(paylaod: Contact) -> Tuple[str, Entity]:
     old_email = paylaod.email or "n/a"
     message = f"Change email for {paylaod.id}, current value: {old_email}"
-    email = prompt(message, error_message="Invalid email", optional=True)
+    email = prompt(
+        message,
+        error_message="Invalid email 😅",
+        optional=True,
+        validator=lambda value: Validator.validate_email(value),
+    )
     if not email:
         return GO_BACK
 
@@ -126,7 +145,11 @@ def change_email(paylaod: Contact) -> Tuple[str, Entity]:
 def change_addresa(paylaod: Contact) -> Tuple[str, Entity]:
     old_address = paylaod.address or "n/a"
     message = f"Change address for {paylaod.id}, current value: {old_address}"
-    address = prompt(message, error_message="Invalid address", optional=True)
+    address = prompt(
+        message,
+        error_message="Invalid address 😅",
+        optional=True,
+    )
     if not address:
         return GO_BACK
 
