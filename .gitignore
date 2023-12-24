@@ -161,7 +161,6 @@ cython_debug/
 
 
 .vscode/
-assets/
 tmp/
 
 .DS_Store
