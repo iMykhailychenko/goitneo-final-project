@@ -37,6 +37,7 @@ from cli.app.services import (
     search_notes,
     thanks,
     update_note,
+    update_phone,
 )
 
 console = Console()
@@ -60,6 +61,7 @@ actions_map = {
     SingleContactActions.CHANGE_ADDRES.value: change_addresa,
     SingleContactActions.ADD_PHONE.value: add_phone,
     SingleContactActions.DELETE_PHONE.value: delete_phone,
+    SingleContactActions.UPDATE_PHONE.value: update_phone,
     NoteActions.ADD.value: add_note,
     NoteActions.ALL.value: get_all_notes,
     SingleNoteActions.DELETE.value: delete_note,
@@ -82,9 +84,11 @@ class App:
             raise ExitException()
         elif self.__current_action == GO_BACK:
             self.__reset()
-
-        if result := actions_map[self.__current_action](self.__payload):
-            self.__current_action = result[0]
-            self.__payload = result[1]
-        else:
-            self.__reset()
+        try:
+            if result := actions_map[self.__current_action](self.__payload):
+                self.__current_action = result[0]
+                self.__payload = result[1]
+            else:
+                self.__reset()
+        except:
+            self.__current_action = GO_BACK

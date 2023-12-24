@@ -15,14 +15,7 @@ class Validator:
             return True
 
         phone_number_pattern = re.compile(r"^[0-9+-]{10}$")
-
-        for phone_number in phone_numbers:
-            if len(phone_number) > 0 and (
-                len(phone_number) != 10 or not phone_number_pattern.match(phone_number)
-            ):
-                return False
-
-        return True
+        return all(phone_number_pattern.match(number) for number in phone_numbers)
 
     def validate_name(name):
         return bool(name and name.strip())

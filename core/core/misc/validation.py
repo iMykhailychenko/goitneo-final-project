@@ -27,7 +27,7 @@ def validation(func):
         except InvalidPhoneLengthError:
             error_message = ValidationMessages.PHONE_NUMBER_LENGTH
         except InvalidPhoneError:
-            return ValidationMessages.PHONE_NUMBER_VALUE
+            error_message = ValidationMessages.PHONE_NUMBER_VALUE
         except InvalidNameError:
             error_message = ValidationMessages.INVALID_NAME
         except InvalidEmailError:

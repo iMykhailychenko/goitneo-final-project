@@ -1,6 +1,6 @@
 from typing import Optional, Tuple
 
-from core import Actions, controller
+from core import Actions, Validator, controller
 from core.models import BirthdayPayload, Contact, ContactPayload, Entity
 from rich.console import Console
 
@@ -52,7 +52,12 @@ def get_birthdays_by_duration(*_) -> None:
 def change_birthday(paylaod: Contact) -> Optional[Tuple[str, Entity]]:
     old_birthday = paylaod.birthday or "n/a"
     message = f"Change birthday for {paylaod.id}, current value: {old_birthday}"
-    birthday = prompt(message, error_message="Invalid birthday", optional=True)
+    birthday = prompt(
+        message,
+        error_message="Invalid birthday 😅",
+        optional=True,
+        validator=lambda value: Validator.validate_birthday(value),
+    )
     if not birthday:
         return GO_BACK
 

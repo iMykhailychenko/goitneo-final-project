@@ -20,9 +20,9 @@ def add_contact(payload: ContactPayload) -> Contact:
         )
         return Contact(
             id=payload.name,
+            birthday=birthday,
             email=payload.email,
             phones=payload.phones,
-            birthday=birthday,
             address=payload.address,
         )
 
