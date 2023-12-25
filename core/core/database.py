@@ -1,5 +1,6 @@
 import json
 import shutil
+from datetime import datetime
 from functools import wraps
 from pathlib import Path
 from typing import Dict, List, Optional, Union
@@ -67,6 +68,7 @@ class Database:
                         **record
                     )
             except Exception as e:
+                print(e)
                 pass
 
     def __write(self, entity: EntitiesType) -> None:

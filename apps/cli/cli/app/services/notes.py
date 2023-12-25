@@ -67,7 +67,7 @@ def delete_note(paylaod: Note) -> Optional[Tuple[str, Entity]]:
 @with_confirmation
 def update_note(paylaod: Note) -> Optional[Tuple[str, Entity]]:
     paylaod.print()
-    value = prompt("Enter new note text")
+    value = prompt("Enter new note text", initial_value=paylaod.value)
     if not value:
         return GO_BACK
 

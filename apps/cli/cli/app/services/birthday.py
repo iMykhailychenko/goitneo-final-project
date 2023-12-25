@@ -24,6 +24,7 @@ def get_birthdays_by_duration(*_) -> None:
         error_message="Duration should be a positive Integer",
         validator=lambda value: int(value) > 0,
         target_type=int,
+        initial_value="7",
         optional=True,
     )
     payload = BirthdayPayload(day_amount=day_amount)
@@ -56,7 +57,7 @@ def change_birthday(paylaod: Contact) -> Optional[Tuple[str, Entity]]:
         message,
         error_message="Invalid birthday 😅",
         optional=True,
-        validator=lambda value: Validator.validate_birthday(value),
+        validator=Validator.validate_birthday_str,
     )
     if not birthday:
         return GO_BACK
