@@ -2,7 +2,7 @@
 
 ### Getting Started
 
-Checkout to **core** directory
+Checkout to the **core** directory
 
 ```bash
 cd ./core
@@ -20,7 +20,7 @@ Then instal all the packages from requirements.txt
 
 ```bash
 pip install -r requirements.txt
-
+```
 
 ### Tests
 
