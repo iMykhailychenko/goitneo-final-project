@@ -109,14 +109,14 @@ def test_update_contact(setup_db):
         Actions.UPDATE,
         ContactPayload(
             name="Joe",
-            phones={"234567890", "1234567890"},
+            phones={"2345678901", "1234567890"},
             email="joe@example.com",
         ),
     )
 
     assert db.select(entity=EntitiesType.CONTACTS, key="Joe") == Contact(
         id="Joe",
-        phones={"234567890", "1234567890"},
+        phones={"2345678901", "1234567890"},
         email="joe@example.com",
         birthday=datetime.strptime("20.11.1990", "%d.%m.%Y").date(),
     )
@@ -124,7 +124,7 @@ def test_update_contact(setup_db):
 
 def test_all_contacts(setup_db):
     controller(Actions.ADD, ContactPayload(name="Joe", phones={"1234567890"}))
-    controller(Actions.ADD, ContactPayload(name="Jane", phones={"09876543210"}))
+    controller(Actions.ADD, ContactPayload(name="Jane", phones={"0987654321"}))
     final = controller(Actions.ALL).value
     assert len(final) == 2
 

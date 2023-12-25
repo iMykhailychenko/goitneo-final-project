@@ -15,10 +15,10 @@ python -m  venv venv
 source ./venv/bin/activate
 ```
 
-Install the application
+Install the external packages
 
 ```bash
-pip install .
+pip install -r requirements.txt
 ```
 
 And then run **bot** command in your terminal
@@ -27,9 +27,11 @@ And then run **bot** command in your terminal
 bot
 ```
 
+## Development
+
 ### Getting Started
 
-Checkout to **core** directory
+Checkout to **cli** directory
 
 ```bash
 cd ./cli

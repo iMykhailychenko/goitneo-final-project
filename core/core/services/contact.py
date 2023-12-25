@@ -17,9 +17,9 @@ def add_contact(payload: ContactPayload) -> Contact:
     )
     return Contact(
         id=payload.name,
+        birthday=birthday,
         email=payload.email,
         phones=payload.phones,
-        birthday=birthday,
         address=payload.address,
     )
 
@@ -32,7 +32,7 @@ def delete_contact(payload: ContactPayload) -> Contact:
 
 @response()
 @write_data(entity=EntitiesType.CONTACTS)
-def update_contact(payload: ContactPayload) -> Contact:
+def update_contact(payload: ContactPayload) -> Optional[Contact]:
     record: Optional[Contact] = database.select(
         entity=EntitiesType.CONTACTS, key=payload.name
     )

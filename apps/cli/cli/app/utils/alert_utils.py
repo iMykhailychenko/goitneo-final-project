@@ -3,6 +3,8 @@ from functools import wraps
 from core.models import Response, ResponseType
 from rich.console import Console
 
+from cli.app.constants import GO_BACK
+
 console = Console()
 
 
@@ -29,6 +31,8 @@ def with_confirmation(func):
     @wraps(func)
     def inner(*args, **kwargs):
         result = func(*args, **kwargs)
+        if result == GO_BACK:
+            return result
         confirm_to_continue()
         return result
 

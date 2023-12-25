@@ -1,6 +1,6 @@
 from typing import Optional
 
-from core.misc import Actions, ValidationMessages, validation
+from core.misc import Actions, ValidationMessages, validation_pipe
 from core.models import Payload, Response, ResponseType
 from core.services import (
     add_address,
@@ -16,6 +16,7 @@ from core.services import (
     delete_phone_number,
     delete_tag,
     get_all_contacts,
+    get_all_notes,
     get_birthdays_by_duration,
     get_contact,
     search,
@@ -49,6 +50,7 @@ services_map = {
     Actions.UPDATE_BIRTHDAY.value: update_birthday,
     Actions.BIRTHDAYS.value: get_birthdays_by_duration,
     # Notes
+    Actions.ALL_NOTES.value: get_all_notes,
     Actions.ADD_NOTE.value: add_note,
     Actions.DELETE_NOTE.value: delete_note,
     Actions.UPDATE_NOTE.value: update_note,
@@ -63,6 +65,6 @@ default_response = Response(
 )
 
 
-@validation
+@validation_pipe
 def controller(cmd: Actions, payload: Optional[Payload] = None) -> Optional[Response]:
     return services_map.get(cmd.value, lambda *_: default_response)(payload)

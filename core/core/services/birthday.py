@@ -1,5 +1,5 @@
 from datetime import date, datetime, timedelta
-from typing import List
+from typing import List, Optional
 
 from core.database import Database, write_data
 from core.misc import InfoMessages
@@ -34,15 +34,15 @@ def get_birthdays_by_duration(payload: BirthdayPayload) -> Contact:
 
 @response(InfoMessages.BIRTHDAY_DELETED)
 @write_data(entity=EntitiesType.CONTACTS)
-def delete_birthday(payload: BirthdayPayload) -> Contact:
+def delete_birthday(payload: BirthdayPayload) -> Optional[Contact]:
     if record := database.select(EntitiesType.CONTACTS, key=payload.name):
         record.birthday = None
-    return record
+        return record
 
 
 @response(InfoMessages.BIRTHDAY_UPDATTED)
 @write_data(entity=EntitiesType.CONTACTS)
-def update_birthday(payload: BirthdayPayload):
+def update_birthday(payload: BirthdayPayload) -> Contact:
     return set_birthday(payload)
 
 

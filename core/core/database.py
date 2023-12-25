@@ -1,5 +1,6 @@
 import json
 import shutil
+from datetime import datetime
 from functools import wraps
 from pathlib import Path
 from typing import Dict, List, Optional, Union
@@ -66,7 +67,8 @@ class Database:
                     self.__entities[entity.value][key] = entities[entity.value](
                         **record
                     )
-            except json.JSONDecodeError:
+            except Exception as e:
+                print(e)
                 pass
 
     def __write(self, entity: EntitiesType) -> None:
