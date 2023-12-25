@@ -15,7 +15,7 @@ python -m  venv venv
 source ./venv/bin/activate
 ```
 
-Install the application
+Install the external packages
 
 ```bash
 pip install -r requirements.txt
@@ -31,7 +31,7 @@ bot
 
 ### Getting Started
 
-Checkout to **core** directory
+Checkout to **cli** directory
 
 ```bash
 cd ./cli
