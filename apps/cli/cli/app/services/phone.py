@@ -1,7 +1,7 @@
 from typing import Optional, Tuple
 
 from beaupy import select
-from core import Actions, controller, Validator
+from core import Actions, Validator, controller
 from core.models import Contact, Entity, PhonePayload
 from rich.console import Console
 
@@ -73,10 +73,9 @@ def update_phone(paylaod: Contact) -> Optional[Tuple[str, Entity]]:
     new_phone = prompt(
         message,
         error_message="Invalid phone number 😅️️️️",
+        initial_value=value,
+        validator=Validator.validate_phone_number,
         optional=True,
-        validator=lambda value: Validator.validate_phone_number({value})
-        if value
-        else True,
     )
 
     if not new_phone:

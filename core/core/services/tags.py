@@ -9,24 +9,24 @@ db = Database()
 
 @response(InfoMessages.TAG_ADDED)
 @write_data(entity=EntitiesType.NOTES)
-def add_tag(payload: TagPayload) -> Note:
-    record: Optional[Note] = db.select(entity=EntitiesType.NOTES, key=payload.id)
-    record.tags.add(payload.tag)
-    return record
+def add_tag(payload: TagPayload) -> Optional[Note]:
+    if record := db.select(entity=EntitiesType.NOTES, key=payload.id):
+        record.tags.add(payload.tag)
+        return record
 
 
 @response(InfoMessages.TAG_UPDATED)
 @write_data(entity=EntitiesType.NOTES)
-def update_tag(payload: TagPayload) -> Note:
-    record: Optional[Note] = db.select(entity=EntitiesType.NOTES, key=payload.id)
-    record.tags.discard(payload.old_tag)
-    record.tags.add(payload.tag)
-    return record
+def update_tag(payload: TagPayload) -> Optional[Note]:
+    if record := db.select(entity=EntitiesType.NOTES, key=payload.id):
+        record.tags.discard(payload.old_tag)
+        record.tags.add(payload.tag)
+        return record
 
 
 @response(InfoMessages.TAG_DELETED)
 @write_data(entity=EntitiesType.NOTES)
-def delete_tag(payload: TagPayload) -> Note:
-    record: Optional[Note] = db.select(entity=EntitiesType.NOTES, key=payload.id)
-    record.tags.discard(payload.tag)
-    return record
+def delete_tag(payload: TagPayload) -> Optional[Note]:
+    if record := db.select(entity=EntitiesType.NOTES, key=payload.id):
+        record.tags.discard(payload.tag)
+        return record

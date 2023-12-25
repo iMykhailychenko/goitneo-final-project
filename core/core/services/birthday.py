@@ -1,10 +1,9 @@
 from datetime import date, datetime, timedelta
-from typing import List
+from typing import List, Optional
 
 from core.database import Database, write_data
-from core.misc import InfoMessages, exeptions
+from core.misc import InfoMessages
 from core.models import BirthdayPayload, Contact, EntitiesType, response
-from core.validators import Validator
 
 database = Database()
 
@@ -12,8 +11,7 @@ database = Database()
 @response(InfoMessages.BIRTHDAY_ADDED)
 @write_data(entity=EntitiesType.CONTACTS)
 def add_birthday(payload: BirthdayPayload) -> Contact:
-    if validate_birthday(payload.birthday):
-        return set_birthday(payload)
+    return set_birthday(payload)
 
 
 @response()
@@ -36,17 +34,16 @@ def get_birthdays_by_duration(payload: BirthdayPayload) -> Contact:
 
 @response(InfoMessages.BIRTHDAY_DELETED)
 @write_data(entity=EntitiesType.CONTACTS)
-def delete_birthday(payload: BirthdayPayload) -> Contact:
+def delete_birthday(payload: BirthdayPayload) -> Optional[Contact]:
     if record := database.select(EntitiesType.CONTACTS, key=payload.name):
         record.birthday = None
-    return record
+        return record
 
 
 @response(InfoMessages.BIRTHDAY_UPDATTED)
 @write_data(entity=EntitiesType.CONTACTS)
-def update_birthday(payload: BirthdayPayload):
-    if validate_birthday(payload.birthday):
-        return set_birthday(payload)
+def update_birthday(payload: BirthdayPayload) -> Contact:
+    return set_birthday(payload)
 
 
 def get_valid_birthday(birthday: str) -> date:
@@ -60,10 +57,3 @@ def set_birthday(payload: BirthdayPayload) -> Contact:
         return record
     else:
         return Contact(id=payload.name, birthday=birthday)
-
-
-def validate_birthday(birthday):
-    if not Validator.validate_birthday(birthday):
-        raise exeptions.InvalidBirthdayError
-    else:
-        return True

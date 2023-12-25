@@ -1,6 +1,6 @@
 from typing import Optional
 
-from core.misc import Actions, ValidationMessages, validation
+from core.misc import Actions, ValidationMessages, validation_pipe
 from core.models import Payload, Response, ResponseType
 from core.services import (
     add_address,
@@ -65,6 +65,6 @@ default_response = Response(
 )
 
 
-@validation
+@validation_pipe
 def controller(cmd: Actions, payload: Optional[Payload] = None) -> Optional[Response]:
     return services_map.get(cmd.value, lambda *_: default_response)(payload)

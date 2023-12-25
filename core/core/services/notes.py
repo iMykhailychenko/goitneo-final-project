@@ -20,7 +20,7 @@ def add_note(payload: NotePayload) -> Note:
 
 @response(InfoMessages.NOTE_UPDATED)
 @write_data(entity=EntitiesType.NOTES)
-def update_note(payload: NotePayload) -> Note:
+def update_note(payload: NotePayload) -> Optional[Note]:
     if record := db.select(entity=EntitiesType.NOTES, key=payload.id):
         if payload.value:
             record.value = payload.value
@@ -31,7 +31,7 @@ def update_note(payload: NotePayload) -> Note:
 
 @response(InfoMessages.NOTE_DELETED)
 @delete_data(entity=EntitiesType.NOTES)
-def delete_note(payload: NotePayload) -> Note:
+def delete_note(payload: NotePayload) -> Optional[Note]:
     return db.select(entity=EntitiesType.NOTES, key=payload.id)
 
 

@@ -50,20 +50,17 @@ def create_new_contact(*_) -> None:
         console.print(
             f"Contact with name {name} already exists!\n", style="white on red"
         )
-        confirm_to_continue()
         return
     else:
         email = prompt(
             "Add email",
             error_message="Invalid email 😅",
             optional=True,
-            validator=lambda value: Validator.validate_email(value),
+            validator=Validator.validate_email,
         )
         phones = prompt_set(
             question="Add phone number",
-            validator=lambda value: Validator.validate_phone_number({value})
-            if value
-            else True,
+            validator=Validator.validate_phone_number,
             question_next="Add extra phone number",
             error_message="Invalid phone number 😅",
             optional=True,
@@ -72,7 +69,7 @@ def create_new_contact(*_) -> None:
             "Add birthday",
             error_message="Invalid birthday 😅",
             optional=True,
-            validator=lambda value: Validator.validate_birthday(value),
+            validator=Validator.validate_birthday_str,
         )
         address = prompt(
             "Add address", error_message="Invalid address 😅", optional=True
@@ -111,7 +108,7 @@ def delete_contact(paylaod: Contact) -> Tuple[str, Entity]:
 @with_confirmation
 def change_name(payload: Contact) -> Tuple[str, Entity]:
     message = f"Enter new name for {payload.id}"
-    new_name = prompt(message)
+    new_name = prompt(message, initial_value=payload.id)
     if not new_name:
         return GO_BACK
 
@@ -130,8 +127,9 @@ def change_email(paylaod: Contact) -> Tuple[str, Entity]:
     email = prompt(
         message,
         error_message="Invalid email 😅",
+        validator=Validator.validate_email,
+        initial_value=old_email,
         optional=True,
-        validator=lambda value: Validator.validate_email(value),
     )
     if not email:
         return GO_BACK
@@ -147,6 +145,7 @@ def change_addresa(paylaod: Contact) -> Tuple[str, Entity]:
     message = f"Change address for {paylaod.id}, current value: {old_address}"
     address = prompt(
         message,
+        initial_value=old_address,
         error_message="Invalid address 😅",
         optional=True,
     )
